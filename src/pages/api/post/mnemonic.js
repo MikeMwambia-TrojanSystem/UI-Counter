@@ -1,29 +1,22 @@
 //Create asset API
-const { validCreate } = require("./schema/treasurySchema.js");
+const { validCreate } = require("./schema/mnemonicSchema.js");
 
 const axios =require('axios');
 
-exports.createTreasury = async function(_url,_data) {
+exports.genAddress = async function(_url,_data) {
 
   const valid = await validCreate(_data);
 
   if(valid === true){
 
-    const baseURL="http://127.0.0.1:3500/atthemoment/v1/counter";
+    const baseURL="http://127.0.0.1:3700/gen/v1/wallet";
 
     let _response = false;
 
     await axios({
       method:'post',
       url:`${baseURL}/${_url}`,
-      data :{
-        r_i:_data.r_i,
-        r_t:_data.r_t,
-        origin_Address:_data.origin_Address,
-        treasury:_data.treasury,
-        asset_balance:_data.asset_balance,
-        asset_id:_data.asset_id
-      }
+      data :_data
     })
     .then((response)=>{
       _response = response.data;
@@ -39,3 +32,4 @@ exports.createTreasury = async function(_url,_data) {
   return false;
 
 }
+

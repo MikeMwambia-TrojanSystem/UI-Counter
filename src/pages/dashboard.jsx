@@ -49,7 +49,7 @@ export default function Dashboard(props) {
 
   const vendors = 1;
 
-  const assets = 4;
+  const assets = 2;
 
 
   return (
@@ -63,7 +63,7 @@ export default function Dashboard(props) {
       >
         <CssBaseline />
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
-          <HeaderComponent vendors={vendors} assets={assets} />
+          <HeaderComponent />
            <MainDashboard data={data} />
         </Container>
         <Box

@@ -1,4 +1,5 @@
 const axios =require('axios');
+const bip39 = require('bip39');
 
 exports.getData = async function(_url=null) {
 
@@ -19,6 +20,13 @@ exports.getData = async function(_url=null) {
 
     return _response;
 
-}
+};
+
+
+exports.getMnemonic = async function(){
+
+  return bip39.generateMnemonic();
+
+};
 
 

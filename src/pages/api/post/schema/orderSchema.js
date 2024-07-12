@@ -9,6 +9,7 @@ const schemaCreate = {
   crypto_address:{type:"string",nullable:true,default:'0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875'},
   paybill:{type:"number",nullable:true,default:0,integer:true},
   pay_code:{type:"string",nullable:true,default:'No code'},
+  crypto_amnt:{type:"string",default:'0'},//Big Int -- Add this
   status:{type:"boolean"},
   $$strict: true 
 };

@@ -17,6 +17,9 @@ export default function Order(props) {
 
   const searchParams = useSearchParams();
 
+  //Instead of having a default value 
+  //check if they are null and return 
+  //an error instead of default value
   const dollar_rate = searchParams.get('dollar_rate')??150;
 
   const dollar_price = searchParams.get('dollar_price')??1500;
@@ -29,8 +32,9 @@ export default function Order(props) {
 
     const data = {
       status:props.status,
-      dollar_rate:dollar_rate,
-      asset_price_usd:dollar_price
+      dollar_rate:Number(dollar_rate),
+      asset_price_usd:Number(dollar_price),
+      crypto_amnt:'0'//Default start value
     };
 
     const response = await createOrder('createOrder',data);

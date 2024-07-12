@@ -30,17 +30,10 @@ function ListComponent({dashboard}) {
   let srcImage = null;
   let Kshs_price = null;
 
-  if(dashboard.asset_id === "BNB"){
-    srcImage = "/images/CoinIcons/BNB.png";
-  };
-
   if(dashboard.asset_id === "ETH"){
     srcImage = "/images/CoinIcons/eth.png";
   };
 
-  if(dashboard.asset_id === "MATIC"){
-    srcImage = "/images/CoinIcons/Matic.png";
-  };
 
   if(dashboard.asset_id === "POKT"){
     srcImage = "/images/CoinIcons/black-logo.png";
@@ -54,6 +47,9 @@ function ListComponent({dashboard}) {
         <LinearProgress color="inherit" />
       </div>
   );
+
+  //Testing purposes remove once bots are up
+  data.dollar_price = 1500;
 
   Kshs_price = data.dollar_price*dashboard.dollar_rate;
 

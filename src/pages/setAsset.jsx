@@ -79,16 +79,11 @@ export default function Asset() {
       </Typography>
       <form onSubmit={handleSubmit}>
       <input type="radio" id="ETH" name="support_crypto" value="ETH" onChange={handleChange}/>
-      <label>Ethereum on Ethereum Blockchain</label>
-      <br/>
-      <input type="radio" id="MATIC" name="support_crypto" value="MATIC" onChange={handleChange}/>
-      <label>Matic on Polygon Blockchain</label>
+      <label>Ethereum token on Ethereum Blockchain</label>
       <br/>
       <input type="radio" id="POKT" name="support_crypto" value="POKT" onChange={handleChange}/>
       <label>Pocket token on Pocket Network</label>
       <br/>
-      <input type="radio" id="BNB" name="support_crypto" value="BNB" onChange={handleChange}/>
-      <label>BNB token on Binance Smart Chain</label>
       <div sx={{ "& button": { m: 2 } }}>
       <Button
         disabled={isDisabled}

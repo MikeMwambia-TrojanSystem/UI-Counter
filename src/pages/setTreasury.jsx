@@ -18,6 +18,9 @@ import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
 
 
+//Changes on this split the 
+//function to have a way of someone storing the mnemonic phrase
+
 const theme = createTheme();
 
 export default function Treasury(props) {
@@ -98,7 +101,7 @@ export default function Treasury(props) {
           <Button size="small"
           onClick={generateAddress}
           disabled={_addressB}>
-          Generate Address
+          Generate Wallet Address
           </Button>
         </div>
 

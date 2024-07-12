@@ -54,7 +54,7 @@ const status = ()=>{
           the freedom to price your crypto in Kenyan shillings.
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "left", m: 1 }}>
-          We however need you to agree to the terms of usage below :-
+          By continuing you agree to the following terms :-
         </Typography>
       </div>
 
@@ -62,27 +62,27 @@ const status = ()=>{
         <form>
         <label>
         <input type="checkbox" name="taxes" checked={isTaxes} onChange={handleChange}/>
-          It is your responsibility to file tax returns.
+          It is my responsibility to file tax returns.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="prices" checked={isPrices} onChange={handleChange}/>
-          It is your responsibility to price your assets.
+          It is my responsibility to price my assets.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="safety" checked={isSafe} onChange={handleChange}/>
-          It is your responsibility to ensure safety of your paybill.
+          It is my responsibility to ensure safety of my paybill.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="withdrawalA" checked={iswithdrawalA} onChange={handleChange}/>
-          The safety and control of withdrawal address is your responsibility.
+          The safety and control of withdrawal address is my responsibility.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="trades" checked={isTrade} onChange={handleChange}/>
-          You are responsible for any loss or profits realised from your trades.
+          I am responsible for any loss or profits realised from my trades.
         </label>
         <br/>
         <Button

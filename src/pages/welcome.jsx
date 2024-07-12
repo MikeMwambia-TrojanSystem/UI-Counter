@@ -71,9 +71,7 @@ export async function getStaticProps() {
   const amountKshs = parseInt(150000);
 
   const _assets = [
-    "BNB on Binance Smart Chain",
-    "Ethereum on Ethereum Network", 
-    "Matic on Polygon Network", 
+    "Ethereum Token on Ethereum Network", 
     "Pocket Token on Pocket Network"];
 
   return {
