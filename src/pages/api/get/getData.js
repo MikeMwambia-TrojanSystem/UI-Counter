@@ -3,7 +3,7 @@ const bip39 = require('bip39');
 
 exports.getData = async function(_url=null) {
 
-    const baseURL="http://127.0.0.1:3500/atthemoment/v1/counter";
+    const baseURL="http://34.172.249.132/atthemoment/v1/counter/";
 
     let _response = false;
 

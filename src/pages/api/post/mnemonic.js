@@ -3,13 +3,13 @@ const { validCreate } = require("./schema/mnemonicSchema.js");
 
 const axios =require('axios');
 
+const baseURL="http://34.172.249.132/atthemoment/v1/counter/";
+
 exports.genAddress = async function(_url,_data) {
 
   const valid = await validCreate(_data);
 
   if(valid === true){
-
-    const baseURL="http://127.0.0.1:3700/gen/v1/wallet";
 
     let _response = false;
 
