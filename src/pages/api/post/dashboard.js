@@ -2,7 +2,7 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-const baseURL="http://34.172.249.132/atthemoment/v1/counter/";
+const baseURL="http://34.172.249.132/atthemoment/v1/counter";
 
 exports.createDashboard = async function(_url,_data) {
 
