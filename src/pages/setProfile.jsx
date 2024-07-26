@@ -22,6 +22,8 @@ export default function Profile(props) {
 
   const timestamp = new Date().getTime();
 
+  //Add timeout to this function
+
   const handleSubmit = async (event) => {
 
     event.preventDefault()

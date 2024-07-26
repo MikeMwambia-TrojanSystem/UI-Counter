@@ -62,7 +62,8 @@ export default function Asset() {
       setDisabled(false);
       alert('Error refresh page and try again or try a different asset');
     }else{
-      router.replace({pathname:"/setTreasury",query:{x:id,y:selectedV,z:timestamp}},"/setTreasury");
+      //router.replace({pathname:"/setTreasury",query:{x:id,y:selectedV,z:timestamp}},"/setTreasury");
+      router.replace({pathname:"/genMne",query:{x:id,y:selectedV,z:timestamp}},"/genMne");
     }
 
   };

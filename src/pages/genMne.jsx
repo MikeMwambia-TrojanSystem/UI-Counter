@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useRouter } from 'next/navigation'
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
@@ -8,20 +7,30 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
-import { useSearchParams } from 'next/navigation'
 import { getMnemonic } from "./api/get/getData.js";
 import { genAddress }  from "./api/post/mnemonic.js";
+import { useRouter,useSearchParams } from 'next/navigation';
 
 const theme = createTheme();
 
 export default function Treasury(props) {
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  //Get params from URL
+  const id = searchParams.get('x');
+  const asset_id = searchParams.get('y');
+  const timestamp = searchParams.get('z');
 
   //Activate or deactivate depending on this state
   const [status, setStatus] = useState(false);
   const [phrase, setPhrase] = useState(null);
   const [recovery,isRecovery] = useState(false);
+
+  //Address and Private_Key
+  const [address,setAddress] = useState(null);
+  const [privKey,setPrivKey] = useState(null);
 
   const handleSubmit = async (event) => {
 
@@ -30,17 +39,21 @@ export default function Treasury(props) {
     if(recovery){
 
       if(null ===phrase){
-        alert('Generate mnemonic');
+        alert('Generate mnemonic phrase');
       }
 
       const data = { phrase };
 
-      const response = await genAddress('generateAddress',data);
+      const response = await genAddress('getAddress',data);
+
+      setAddress(response._address.address);
+      setPrivKey(response._key);
 
       console.log(response);
+
     }
 
-    alert('Accept terms and conditions');
+    alert('Generate mnemonic phrase');
 
   };
 
@@ -82,6 +95,9 @@ export default function Treasury(props) {
       form the foundation of your wallet keep this phrase
       safe,whoever knows this phrase has control of your treasury wallet. 
       </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      KEEP THE PHRASE SAFE. 
+      </Typography>
       <div>
       <Button
         type="submit"
@@ -116,6 +132,28 @@ export default function Treasury(props) {
           Generate Address
         </Button>
       </div>
+      </Box>
+      <Box sx={{ m: 1,textAlign:"center"}}> 
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      Your Ethereum Treasury is :-  {address}
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      Your Private Key is :-  {privKey} 
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      KEEP THE PRIVATE KEY SAFE. 
+      </Typography>
+      <label>
+        <input type="checkbox" name="recovery"
+        checked={recovery} onChange={handleChange}/>
+          I understand that mzynga.com or it's developer
+          cannot recover the private key
+      </label>
+      <div>
+      <Button>
+        Set Treasury
+      </Button>
+      </div> 
       </Box>
       </Paper>
       </Container>

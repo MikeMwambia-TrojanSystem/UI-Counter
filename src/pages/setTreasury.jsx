@@ -97,6 +97,7 @@ export default function Treasury(props) {
         {address}
         </Typography>
 
+
         <div sx={{ "& button": { m: 2 } }}>
           <Button size="small"
           onClick={generateAddress}
