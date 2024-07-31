@@ -16,12 +16,17 @@ import { getData } from "./api/get/getData.js";
 
 const theme = createTheme();
 
+// Split this page into 3 different 
+// pages each confirming different info 
+//and place this page in between the forms 
+//bringing in this infomation
+
 export default function Dashboard() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const id = searchParams.get('y');
+  let id = searchParams.get('y');
   const timestamp = searchParams.get('z');
 
   const [data, setData] = React.useState(null);
@@ -30,6 +35,10 @@ export default function Dashboard() {
   useEffect(() => {
 
   async function fetchData() {
+
+  if(!id){
+    id = searchParams.get('y');
+  };
 
   const balanceData  = await getData(`getbalance?_id=${id}`);
 

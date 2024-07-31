@@ -18,9 +18,6 @@ import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
 
 
-//Changes on this split the 
-//function to have a way of someone storing the mnemonic phrase
-
 const theme = createTheme();
 
 export default function Treasury(props) {
@@ -29,7 +26,7 @@ export default function Treasury(props) {
 
   //Activate or deactivate depending on this state
   const [status, setStatus] = useState(true);
-  const [address, setAddress] = useState(null);
+  //const [address, setAddress] = useState(null);
 
   //There's a bug here that sets this as false on refresh of page
   //Fix this
@@ -40,6 +37,7 @@ export default function Treasury(props) {
   const id = searchParams.get('x');
   const asset_id = searchParams.get('y');
   const timestamp = searchParams.get('z');
+  const address = searchParams.get('a');
   const displayTime = dayjs(timestamp).fromNow();
 
   const handleSubmit = async (event) => {
@@ -68,11 +66,6 @@ export default function Treasury(props) {
 
   };
 
-  const generateAddress = async (event) => {
-        const address = await getData('getTreasury');
-        setAddress(address);
-        set_addressB(true);
-  };
 
   const handleChange = async (event) => {
       const setStatu = await isAddress(event.target.value);
@@ -86,28 +79,12 @@ export default function Treasury(props) {
       <AppHeader/>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>  
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-      Generate Ethereum Treasury Address :- 
-      </Typography>    
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
 
       <form onSubmit={handleSubmit}>
         <Typography variant="body2" color="text.primary" sx={{ m: 1,display: 'inline'}}>
-        {address}
-        </Typography>
-
-
-        <div sx={{ "& button": { m: 2 } }}>
-          <Button size="small"
-          onClick={generateAddress}
-          disabled={_addressB}>
-          Generate Wallet Address
-          </Button>
-        </div>
-
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Expiry date is { displayTime}
+        Treasury Address :- {address}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Treasury address balance : - 0 {asset_id} 
@@ -127,6 +104,11 @@ export default function Treasury(props) {
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ensure you are the owner of the address entered above to avoid loss of your assets.
+        </Typography>
+
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Treasury expiry date :- { displayTime}
+        {/*Think abt dropiing this altogether*/}
         </Typography>
 
         <div sx={{ "& button": { m: 2 } }}>
