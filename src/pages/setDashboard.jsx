@@ -18,8 +18,8 @@ const theme = createTheme();
 
 // Split this page into 3 different 
 // pages each confirming different info 
-//and place this page in between the forms 
-//bringing in this infomation
+// and place this page in between the forms 
+// bringing in this infomation
 
 export default function Dashboard() {
 
@@ -31,6 +31,7 @@ export default function Dashboard() {
 
   const [data, setData] = React.useState(null);
   const [status, setStatus] = React.useState(true);
+  //Use different component don't engage different forms
 
   useEffect(() => {
 
@@ -110,6 +111,10 @@ export default function Dashboard() {
       <form onSubmit={handleSubmit}>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Confirm dashboard information
+          Dahsboards are made up of 3 parts 
+          Treasury information. 
+          Profile information.
+          Asset information.
       </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Name

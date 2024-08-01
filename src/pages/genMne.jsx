@@ -89,14 +89,6 @@ export default function GenMnemonic() {
 
 
 
-  //Address Gen Template
-  const submitA = ()=>{
-    if(address && phrase && private_key){
-      return false;
-    }
-    return true;
-  }
-
   const saveAddress = async (event) => {
 
     event.preventDefault();

@@ -70,9 +70,7 @@ export async function getStaticProps() {
 
   const amountKshs = parseInt(150000);
 
-  const _assets = [
-    "Ethereum Token on Ethereum Network", 
-    "Pocket Token on Pocket Network"];
+  const _assets = ["Ethereum Token on Ethereum Network"];
 
   return {
     props: {

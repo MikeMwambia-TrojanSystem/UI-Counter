@@ -76,15 +76,15 @@ export default function Asset() {
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Select asset to generate treasury :-
+        See asset information 
       </Typography>
       <form onSubmit={handleSubmit}>
       <input type="radio" id="ETH" name="support_crypto" value="ETH" onChange={handleChange}/>
       <label>Ethereum token on Ethereum Blockchain</label>
       <br/>
-      <input type="radio" id="POKT" name="support_crypto" value="POKT" onChange={handleChange}/>
-      <label>Pocket token on Pocket Network</label>
-      <br/>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        The price source for this dashboard is coingecko.
+      </Typography>
       <div sx={{ "& button": { m: 2 } }}>
       <Button
         disabled={isDisabled}
@@ -94,10 +94,6 @@ export default function Asset() {
       </Button>
       </div>
       </form>
-      <hr/>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        The price source for this dashboard is coingecko.
-      </Typography>
       </Box>
       </Paper>
       </Container>

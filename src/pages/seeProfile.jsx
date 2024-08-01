@@ -1,76 +1,35 @@
-import { useState } from "react";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useRouter } from 'next/navigation'
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
-import { createProfile }   from "./api/post/profile.js";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 
-//URL Bug
+// Consider dropiing the unique link 
+// untill after prod of current version
 
 const theme = createTheme();
 
-export default function Profile(props) {
 
-  const router = useRouter();
+export default function ProfileInfo() {
+	return (
 
-  const [ isDisabled , setDisabled ] = useState(false);
-
-  const timestamp = new Date().getTime();
-
-  //Add timeout to this function
-
-  const handleSubmit = async (event) => {
-
-    event.preventDefault()
-
-    setDisabled(true);
- 
-    const data = {
-      name: event.target.name.value,
-      unique_link: event.target.unique_link.value,
-      dollar_rate:Number(event.target.dollar_rate.value),
-      minimum_buy_kshs:Number(event.target.minimum_buy_kshs.value),
-      paybill:Number(event.target.paybill.value),
-      maximum_buy_kshs:Number(event.target.maximum_buy_kshs.value),
-      status:false,
-      r_t : Number(timestamp)
-    };
-
-    const response = await createProfile('profile',data);
-
-    if(response === false){
-      setDisabled(false);
-      alert('Retry there was an erorr saving profile');
-    }else{
-      router.replace({pathname:"/setAsset",query:{x:response._id,y:timestamp}},"/setAsset");
-    }
-
-  }
-
-  return (
-     <ThemeProvider theme={theme}>
+<ThemeProvider theme={theme}>
       <CssBaseline />
       <AppHeader/>
-
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>   
-
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
-
+      <form>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Create dashboard profile
+          Confirm Profile information
       </Typography>
 
-      <form onSubmit={handleSubmit}>
-
-        <TextField
+          <TextField
           required
           id="name"
           name="name"
@@ -96,7 +55,7 @@ export default function Profile(props) {
           fullWidth
           type="number"
           variant="standard"
-          defaultValue={props.paybill}
+          defaultValue="4107329"
           InputProps={{
             readOnly: true,
             startAdornment: (
@@ -117,7 +76,7 @@ export default function Profile(props) {
             fullWidth
             type="string"
             variant="standard"
-            defaultValue={props.unique_link}
+            defaultValue="kanyumbani.com"
             InputProps={{
               readOnly:true,
               startAdornment: (
@@ -138,7 +97,7 @@ export default function Profile(props) {
             fullWidth
             type="string"
             variant="standard"
-            defaultValue={timestamp}
+            defaultValue="1722411074177"
             InputProps={{
               readOnly:true,
               startAdornment: (
@@ -159,7 +118,7 @@ export default function Profile(props) {
             fullWidth
             type="number"
             variant="standard"
-            defaultValue={props.maximum_buy_kshs}
+            defaultValue="150000"
             InputProps={{
               readOnly:true,
               startAdornment: (
@@ -182,6 +141,8 @@ export default function Profile(props) {
             fullWidth
             type="number"
             variant="standard"
+            // This is the dollar rate
+            defaultValue="150"
             InputProps={{
               startAdornment: (
                 <InputAdornment position="end" sx={{ m: 1 }}>
@@ -204,7 +165,7 @@ export default function Profile(props) {
           InputProps={{
             startAdornment: (
               <InputAdornment position="end" sx={{ m: 1 }}>
-                Rate.{" "}
+                $.{" "}
               </InputAdornment>
             ),
           }}
@@ -213,37 +174,25 @@ export default function Profile(props) {
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            size="small"
-            disabled={isDisabled}>
-            Submit
+            size="small">
+            Confirm
+          </Button>
+          <Button
+            type="submit"
+            size="small">
+            Edit
+          </Button>
+          <Button
+            type="submit"
+            size="small">
+            Delete
           </Button>
         </div>
 
-        </form>
-
+      </form>
       </Box>
-
         </Paper>
       </Container>
     </ThemeProvider>
-  );
-}
-
-
-export async function getStaticProps() {
-
-  const paybill = process.env.PAYBILL || null;
-
-  const unique_link = process.env.UNIQUE_URL || null; 
-
-  const maximum_buy_kshs = "150000";
-
-  return {
-    props: {
-      maximum_buy_kshs: maximum_buy_kshs,
-      unique_link: unique_link,
-      paybill:paybill
-    },
-  };
-  
+	)
 }

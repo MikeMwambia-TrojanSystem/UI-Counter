@@ -22,7 +22,8 @@ export default function Instructions() {
       <form>
       <div>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          To start selling you need to set up dashboards,you can have upto 20 active dashboards,across all assets at once.
+          To start selling you need to set up dashboards
+          ,you can have upto 20 active dashboards.
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Dashboards contain 3 vital pieces of information :- 

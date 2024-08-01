@@ -114,9 +114,18 @@ export default function Treasury(props) {
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            size="small"
-            disabled={status}>
-            Save Treasury
+            size="small">
+            Confirm
+          </Button>
+          <Button
+            type="submit"
+            size="small">
+            Edit
+          </Button>
+          <Button
+            type="submit"
+            size="small">
+            Delete
           </Button>
         </div>
         </form>
