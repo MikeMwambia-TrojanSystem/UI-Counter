@@ -20,23 +20,42 @@ export default function Order1() {
 
   const order_id = searchParams.get('x');
 
+  const minimum_buy = searchParams.get('y');
+
   const handleSubmit = async (event) => {
 
-  event.preventDefault();
+    event.preventDefault();
 
-  const data = {
-    _id:order_id,
-    ksh_amnt:event.target.ksh_amnt.value
-  };
+    if(order_id && minimum_buy){
 
-  const response = await updateOrder('updateOrder',data);
+      const amnt = Number(event.target.ksh_amnt.value);
 
-  if(response === false){
-    alert('Error refresh page and try again');
-  }else{
-    router.replace({pathname:"/order2",query:{x:response}});
-  };
+      if((amnt>Number(minimum_buy))&&(150000>amnt)) {
 
+        const data = {
+          _id:order_id,
+          ksh_amnt:event.target.ksh_amnt.value //Update this greater than minimum
+        };
+
+        const response = await updateOrder('updateOrder',data);
+
+        if(response === false){
+          alert('Error refresh page and try again');
+        }else{
+          router.replace({pathname:"/order2",query:{x:response}});
+        };
+
+      } else {
+
+        alert(`Amount must be greater than ${minimum_buy} 
+          and less than Kshs 150000`);
+      }
+
+    }else {
+
+      alert('Parameter Error');
+
+    };
   };
 
   return (

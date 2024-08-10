@@ -4,7 +4,7 @@ const v = new Validator({haltOnFirstError: true});
 
 const schemaCreate = {
   dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},
-  asset_price_usd:{type:"number",positive:true,min:0,integer:true},
+  asset_price_usd:{type:"number",positive:true,min:0},
   ksh_amnt:{type:"number",nullable:true,default:0,integer:true,max:150000},
   crypto_address:{type:"string",nullable:true,default:'0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875'},
   paybill:{type:"number",nullable:true,default:0,integer:true},

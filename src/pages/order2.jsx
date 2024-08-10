@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { updateOrder }  from "./api/post/order.js";
+import isAddress  from "../utils/isAddress";
 
 const theme = createTheme();
 
@@ -24,17 +25,28 @@ export default function Order2() {
 
   event.preventDefault();
 
-  const data = {
-    _id:order_id,
-    crypto_address:event.target.crypto_address.value
-  };
+  const isAddressS = await isAddress(event.target.crypto_address.value);
 
-  const response = await updateOrder('updateOrder',data);
+  if(order_id && isAddressS){
 
-  if(response === false){
-    alert('Error refresh page and try again');
+    const data = {
+      _id:order_id,
+      crypto_address:event.target.crypto_address.value //Update should check if address
+    };
+
+    const response = await updateOrder('updateOrder',data);
+
+    if(response === false){
+      alert('Error refresh page and try again');
+    }else{
+      router.replace({pathname:"/order3",query:{x:response}});
+    };
+
+
   }else{
-    router.replace({pathname:"/order3",query:{x:response}});
+
+    alert('Not a valid address');
+
   };
 
   };

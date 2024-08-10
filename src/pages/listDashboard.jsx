@@ -39,7 +39,7 @@ import copy from "../utils/copy.js";
 import useSWR from "swr";
 import { deleteDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
-
+import {BN} from 'bn.js';
 
 function getAllDashboards () {
 
@@ -322,6 +322,12 @@ function DrawDashboard({data}) {
 
   const creationDate = new Date(Number(dashboard.creationTime)).toLocaleString();
 
+    //Add one week here
+  const oneWeek = new BN(604800000);
+  const creationTime = new BN(dashboard.creationTime)
+  const expiryTime = creationTime.add(oneWeek).toNumber();
+  const displayTime = new Date(expiryTime).toLocaleString();
+
   const timestamp = new Date().getTime();
 
   const difference = (Number(timestamp) - Number(new Date(Number(dashboard.creationTime))));
@@ -350,7 +356,7 @@ function DrawDashboard({data}) {
 
       //Bug
       //User has to refresh to get fresh data
-      router.reload();
+      window.location.reload()
     }
 
   }
@@ -365,6 +371,7 @@ function DrawDashboard({data}) {
           Asset : {dashboard.asset_id}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
           Creation time : {creationDate}<br/>
+          Expiry time : {displayTime}<br/>
           Status : {status}
       </Typography>
 

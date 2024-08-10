@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
@@ -9,6 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import {createAsset}  from "./api/post/asset.js";
 import { useRouter,useSearchParams } from 'next/navigation';
+import { getPrice } from "./api/get/getPrice.js";
 
 
 // The getting dollar price logic has been moved to
@@ -27,6 +30,8 @@ const theme = createTheme();
 export default function Asset() {
 
   const [ isDisabled , setDisabled ] = useState(true);
+  const [ isUpdate , setUpdate] = useState(false);
+  const [price , setPrice] = useState(0);
 
   const router = useRouter();
 
@@ -40,18 +45,29 @@ export default function Asset() {
     setDisabled(false);
   };
 
+  const getPriceF = async (event) => {
+    try{
+
+      const price = await getPrice('api/v3/ticker/price?symbol=ETHUSDT');
+      setPrice(price.price);
+      setUpdate(true);
+      setDisabled(false);
+
+    }catch(err){
+      //Keep the price at 0 still
+    }
+  };
+
   const handleSubmit = async (event) => {
 
     setDisabled(true);
 
     event.preventDefault()
 
-    const selectedV = document.querySelector("input[type='radio'][name=support_crypto]:checked").value;
-
     const data = {
-      _id:selectedV,
+      _id:'ETH',
       status:false,
-      dollar_price:Number(0),
+      dollar_price:Number(price),
       min_buy_dollar:Number(1),
       r_t:Number(timestamp)
     };
@@ -62,8 +78,8 @@ export default function Asset() {
       setDisabled(false);
       alert('Error refresh page and try again or try a different asset');
     }else{
-      //router.replace({pathname:"/setTreasury",query:{x:id,y:selectedV,z:timestamp}},"/setTreasury");
-      router.replace({pathname:"/genMne",query:{x:id,y:selectedV,z:timestamp}},"/genMne");
+      
+      router.replace({pathname:"/genMne",query:{x:id,y:'ETH',z:timestamp}},"/genMne");
     }
 
   };
@@ -74,26 +90,59 @@ export default function Asset() {
       <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
+      
       <Box sx={{ m: 1,textAlign:"center" }}>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        See asset information 
+        Asset Information
       </Typography>
-      <form onSubmit={handleSubmit}>
-      <input type="radio" id="ETH" name="support_crypto" value="ETH" onChange={handleChange}/>
-      <label>Ethereum token on Ethereum Blockchain</label>
-      <br/>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        The price source for this dashboard is coingecko.
+          Supported asset : - Ethereum (ETH)
       </Typography>
-      <div sx={{ "& button": { m: 2 } }}>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Supported chains : - Ethereum Mainnet
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Select Price Oracle :-
+      </Typography>
+      <input type="radio" id="ETH" name="support_crypto" 
+      value="binance" selected="selected"/>
+      <label>Binance</label>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Dollar Price ($) :- {price}
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Price update frequency is every 5 seconds.
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        The selected price oracle will update 
+        the price during the life of the dashboard
+      </Typography>
       <Button
-        disabled={isDisabled}
         type="submit"
+        disabled={isUpdate}
+        onClick={getPriceF}
         size="small">
-        Generate address
+        Update Price
+      </Button>
+      </Typography>
+
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Minimum Sell Amnt : $1
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Maximum Sell Amnt (Kshs) : 150000 
+      </Typography>
+
+      <div sx={{ "& button": { m: 2 } }}>
+      <Button 
+      type="submit"
+      disabled={isDisabled}
+      onClick={handleSubmit} 
+      size="small">
+        Save
       </Button>
       </div>
-      </form>
       </Box>
       </Paper>
       </Container>

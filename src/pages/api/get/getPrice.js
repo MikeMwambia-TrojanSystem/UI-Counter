@@ -1,9 +1,8 @@
 const axios =require('axios');
-const bip39 = require('bip39');
 
-exports.getData = async function(_url=null) {
+exports.getPrice = async function(_url=null) {
 
-    const baseURL="http://34.172.249.132/atthemoment/v1/counter";
+    const baseURL="https://data-api.binance.vision";
 
     let _response = false;
 
@@ -21,12 +20,3 @@ exports.getData = async function(_url=null) {
     return _response;
 
 };
-
-
-exports.getMnemonic = async function(){
-
-  return bip39.generateMnemonic();
-
-};
-
-

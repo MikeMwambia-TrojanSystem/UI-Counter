@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
-import isAddress  from "../utils/isAddress";
+import {isAddress}  from "../utils/isAddress";
 import  dayjs  from 'dayjs';
 import  relativeTime  from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -16,7 +16,7 @@ import AppHeader from "../components/header";
 import { useSearchParams } from 'next/navigation'
 import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
-
+import {BN} from 'bn.js';
 
 const theme = createTheme();
 
@@ -26,10 +26,6 @@ export default function Treasury(props) {
 
   //Activate or deactivate depending on this state
   const [status, setStatus] = useState(true);
-  //const [address, setAddress] = useState(null);
-
-  //There's a bug here that sets this as false on refresh of page
-  //Fix this
   const [_addressB, set_addressB] = useState(false);
 
   const searchParams = useSearchParams();
@@ -38,7 +34,11 @@ export default function Treasury(props) {
   const asset_id = searchParams.get('y');
   const timestamp = searchParams.get('z');
   const address = searchParams.get('a');
-  const displayTime = dayjs(timestamp).fromNow();
+  //Add one week here
+  const oneWeek = new BN(604800000);
+  const creationTime = new BN(timestamp)
+  const expiryTime = creationTime.add(oneWeek).toNumber();
+  const displayTime = new Date(expiryTime).toLocaleString();
 
   const handleSubmit = async (event) => {
 
@@ -55,13 +55,16 @@ export default function Treasury(props) {
 
     if(data.origin_Address.toString() === data.treasury.toString()) return alert('Address should not match');
 
+    if(!isAddress(data.origin_Address)) return alert('Invalid address');
+
     const response = await createTreasury('balances',data);
 
     if(response === false){
       set_addressB(true);
       alert('Retry or confirm withdrawal address');
     }else{
-      router.replace({pathname:"/setDashboard",query:{y:response,z:timestamp}},"/setDashboard");
+  
+      router.replace({pathname:"/seeDashboard",query:{y:response,z:timestamp}},"/seeDashboard");
     }
 
   };
@@ -79,7 +82,8 @@ export default function Treasury(props) {
       <AppHeader/>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
+      <Paper variant="outlined" 
+      sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
 
       <form onSubmit={handleSubmit}>
@@ -107,25 +111,15 @@ export default function Treasury(props) {
         </Typography>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Treasury expiry date :- { displayTime}
-        {/*Think abt dropiing this altogether*/}
+        Treasury expiry date :- { timestamp}
         </Typography>
 
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            size="small">
-            Confirm
-          </Button>
-          <Button
-            type="submit"
-            size="small">
-            Edit
-          </Button>
-          <Button
-            type="submit"
-            size="small">
-            Delete
+            size="small"
+            disabled={status}>
+            Save Treasury
           </Button>
         </div>
         </form>

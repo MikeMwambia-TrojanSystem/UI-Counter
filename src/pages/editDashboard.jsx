@@ -79,9 +79,9 @@ function DashboardForm({dashboard}){
 
     const asset_treasury = event.target.asset_treasury.value;
 
-    const _isaddress = isAddress(origin_Address);
+    const _isaddress =await isAddress.isAddress(origin_Address);
 
-    if(!_isaddress) return <div>origin_Address not address...</div>;
+    if(!_isaddress) return alert('Asset withdrawal address is not correct');
 
     if(origin_Address.toString() === asset_treasury.toString()) return alert('Address should not match');
 

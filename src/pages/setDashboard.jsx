@@ -117,7 +117,7 @@ export default function Dashboard() {
           Asset information.
       </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Name
+        Name D
         </Typography>
         <TextField
           required
@@ -130,7 +130,7 @@ export default function Dashboard() {
         />
         
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Paybill
+          Paybill D
         </Typography>
         <TextField
         required
@@ -146,7 +146,7 @@ export default function Dashboard() {
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Dollar rate
+          Dollar rate D
         </Typography>
         <TextField
         required
@@ -159,7 +159,7 @@ export default function Dashboard() {
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Expiry time
+          Expiry time D
         </Typography>
         <TextField
         required
@@ -176,7 +176,7 @@ export default function Dashboard() {
 
       
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Asset supported
+          Asset supported D
         </Typography>
         <TextField
         required
@@ -192,7 +192,7 @@ export default function Dashboard() {
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Asset treasury
+          Asset treasury D
         </Typography>
         <TextField
         required
@@ -209,7 +209,7 @@ export default function Dashboard() {
 
         {/*Since this is an address test it once again and ensure it's valid*/}
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Asset withdrawal address
+          Asset withdrawal address D
         </Typography>
         <TextField
         required

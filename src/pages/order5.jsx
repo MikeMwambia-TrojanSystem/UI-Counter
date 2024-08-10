@@ -87,6 +87,9 @@ export default function Order5() {
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Transaction 3
       </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Order counter today and enjoy the freedom to price.
+      </Typography>
       </div>
       </Box>
       </Paper>

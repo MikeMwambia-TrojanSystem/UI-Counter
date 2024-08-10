@@ -36,7 +36,7 @@ export default function Order3() {
 
   const order_id = searchParams.get('x');
 
-  let { data, isLoading, isError }  = getSingleOrder(order_id)
+  let { data, isLoading, isError }  = getSingleOrder(order_id);
 
   if (isError) return <div>Failed to load refresh page...</div>;
 

@@ -130,28 +130,18 @@ export default function AssetInfo() {
             ),
           }}
         />
-
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Dollar Price
+          Select Price Oracle :-
         </Typography>
-        <TextField
-          required
-          id="price"
-          name="price"
-          fullWidth
-          type="number"
-          variant="standard"
-          defaultValue="0"
-          InputProps={{
-            readOnly: true,
-            startAdornment: (
-              <InputAdornment position="end" sx={{ m: 1 }}>
-                $.{" "}
-              </InputAdornment>
-            ),
-          }}
-        />
-
+        <input type="radio" id="ETH" name="support_crypto" 
+        value="ETH"/>
+        <label>Coin Gecko</label>
+        <input type="radio" id="ETH" name="support_crypto" 
+        value="ETH"/>
+        <label>Binance</label>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Dollar Price ($) :- 0
+        </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         <Button
           type="submit"
@@ -228,10 +218,7 @@ export default function AssetInfo() {
         />
       <div sx={{ "& button": { m: 2 } }}>
       <Button type="submit" size="small">
-        Save treasury
-      </Button>
-      <Button type="submit" size="small">
-        Delete
+        Save
       </Button>
       </div>
       </form>

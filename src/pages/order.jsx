@@ -17,18 +17,19 @@ export default function Order(props) {
 
   const searchParams = useSearchParams();
 
-  //Instead of having a default value 
-  //check if they are null and return 
-  //an error instead of default value
-  const dollar_rate = searchParams.get('dollar_rate')??150;
+  const dollar_rate = searchParams.get('dollar_rate');
 
-  const dollar_price = searchParams.get('dollar_price')??1500;
+  const dollar_price = searchParams.get('dollar_price');
 
-  const asset_type = searchParams.get('asset_type')??'Ethereum';
+  const asset_type = searchParams.get('asset_type');
+
+  const minimum_buy = searchParams.get('minimum_buy');
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
+
+    if(dollar_price && dollar_rate && asset_type){
 
     const data = {
       status:props.status,
@@ -36,13 +37,17 @@ export default function Order(props) {
       asset_price_usd:Number(dollar_price),
       crypto_amnt:'0'//Default start value
     };
-
+    
     const response = await createOrder('createOrder',data);
 
     if(response === false){
       alert('Error refresh page and try again');
     }else{
-      router.replace({pathname:"/order1",query:{x:response}});
+      router.replace({pathname:"/order1",query:{x:response,y:minimum_buy}});
+    }
+
+    }else {
+      alert('Parameter Errors');
     }
 
   };
@@ -65,6 +70,9 @@ export default function Order(props) {
   
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Asset price in dollars :- {dollar_price}
+        </Typography>
+        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          Minimum purchase :- {minimum_buy}
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Status :- {(props.status).toString()}
