@@ -1,22 +1,20 @@
-import { useState } from "react";
-import { useRouter } from 'next/navigation'
-import {isAddress}  from "../utils/isAddress";
-import  dayjs  from 'dayjs';
-import  relativeTime  from 'dayjs/plugin/relativeTime';
-dayjs.extend(relativeTime);
+import React, { useEffect ,useState} from "react"
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
+import useSWR from "swr";
+import { useRouter } from 'next/navigation'
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
+import {isAddress}  from "../utils/addressUtills";
 import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
-import {BN} from 'bn.js';
+import { expiryTime }  from "../utils/ui_utills.js";
 
 const theme = createTheme();
 
@@ -27,6 +25,7 @@ export default function Treasury(props) {
   //Activate or deactivate depending on this state
   const [status, setStatus] = useState(true);
   const [_addressB, set_addressB] = useState(false);
+  const [displayTime, setdisplayTime] = useState(null);
 
   const searchParams = useSearchParams();
 
@@ -34,12 +33,17 @@ export default function Treasury(props) {
   const asset_id = searchParams.get('y');
   const timestamp = searchParams.get('z');
   const address = searchParams.get('a');
-  //Add one week here
-  const oneWeek = new BN(604800000);
-  const creationTime = new BN(timestamp)
-  const expiryTime = creationTime.add(oneWeek).toNumber();
-  const displayTime = new Date(expiryTime).toLocaleString();
+  
+  useEffect(() => {
+    async function getTime(timestamp){
+      const _current = await expiryTime(timestamp);
+      setdisplayTime(_current);
+    }
 
+    getTime(timestamp);
+
+  }, []);
+  
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -111,7 +115,7 @@ export default function Treasury(props) {
         </Typography>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Treasury expiry date :- { timestamp}
+        Treasury expiry date :- { displayTime }
         </Typography>
 
         <div sx={{ "& button": { m: 2 } }}>
@@ -122,7 +126,7 @@ export default function Treasury(props) {
             Save Treasury
           </Button>
         </div>
-        </form>
+      </form>
 
       </Box>
         </Paper>

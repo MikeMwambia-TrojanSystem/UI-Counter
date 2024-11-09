@@ -1,5 +1,6 @@
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState,useEffect } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -11,6 +12,7 @@ import useSWR from "swr";
 import Error from 'next/error';
 import { getData } from "./api/get/getData.js";
 import { getPrice } from "./api/get/getPrice.js";
+import { priceInKshs } from "../utils/ui_utills.js";
 
 //Theme
 const theme = createTheme({
@@ -38,10 +40,12 @@ export default function Dashboard(props) {
   const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice
     ,{ refreshInterval: 5000 });
 
+  const [Kshs_price, setKshs_price] = useState(null);
+
   if (!dashboards)
     return (
       <div>
-        Generating dashboard refresh page.
+        Generating dashboard if there's an error refresh page.
       </div>
     );
 
@@ -55,7 +59,6 @@ export default function Dashboard(props) {
   if(!props){
     return <Error statusCode={404}/>
   }
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -71,7 +74,7 @@ export default function Dashboard(props) {
           <HeaderComponent />
            {dashboards.map((dashboard) => {
               return (<MainDashboard dashboard={dashboard}
-                price={price}/>);
+                price={price} Kshs_price={Kshs_price}/>);
             })}
         </Container>
         <Box

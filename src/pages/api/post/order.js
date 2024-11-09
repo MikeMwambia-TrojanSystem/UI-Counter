@@ -1,5 +1,5 @@
 //Create asset API
-const { validCreate,updateCheck } = require("./schema/orderSchema.js");
+const { validCreate,updateCheck,codeCheck } = require("./schema/orderSchema.js");
 
 const axios =require('axios');
 
@@ -39,7 +39,7 @@ exports.updateOrder = async function(_url,_data) {
 let data = {};
 
 const fields = ["_id","ksh_amnt",
-  "crypto_address","paybill","pay_code","status"];
+  "crypto_address","paybill","pay_code","status","crypto_amnt"];
 
 
 for(item of fields) {
@@ -49,7 +49,7 @@ for(item of fields) {
 }
 
 const valid = await updateCheck(data);
-
+console.log(valid);
 if(valid === true){
 
   const baseURL="http://34.172.249.132/atthemoment/v1/counter";
@@ -75,4 +75,34 @@ if(valid === true){
 return false;
 
 }
+
+exports.verifyCode = async function(_url,data) {
+
+  const valid = await codeCheck(data);
+
+  if(valid === true){
+
+  const baseURL="http://34.172.249.132/atthemoment/v1/counter";
+
+  let _response = false;
+
+  await axios({
+    method:'post',
+    url:`${baseURL}/${_url}`,
+    data :data
+  })
+  .then((response)=>{
+    _response = response.data;
+  })
+  .catch((err)=>{
+    _response = false;
+  });
+
+  return _response
+
+  }
+
+  return false;
+
+};
 

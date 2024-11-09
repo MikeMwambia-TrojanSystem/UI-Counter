@@ -5,8 +5,10 @@ const v = new Validator({haltOnFirstError: true});
 const schemaCreate = {
   dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},
   asset_price_usd:{type:"number",positive:true,min:0},
+  Kshs_price:{type:"string",default:'0'},
   ksh_amnt:{type:"number",nullable:true,default:0,integer:true,max:150000},
   crypto_address:{type:"string",nullable:true,default:'0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875'},
+  order_treasury:{type:"string",nullable:true,default:null},
   paybill:{type:"number",nullable:true,default:0,integer:true},
   pay_code:{type:"string",nullable:true,default:'No code'},
   crypto_amnt:{type:"string",default:'0'},//Big Int -- Add this
@@ -28,4 +30,15 @@ const _updateCheck = v.compile(schemaUpdate);
 
 exports.updateCheck = async function(data){
   return _updateCheck(data);
+};
+
+
+const schemaPayCode = {
+  pay_code:{type:"string"}
+};
+
+const _codeCheck = v.compile(schemaPayCode);
+
+exports.codeCheck = async function(data){
+  return _codeCheck(data);
 };

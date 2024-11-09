@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
+import { priceInKshs } from "../utils/ui_utills.js";
 
 const theme = createTheme();
 
@@ -25,17 +26,29 @@ export default function Order(props) {
 
   const minimum_buy = searchParams.get('minimum_buy');
 
+  const order_treasury = searchParams.get('order_treasury');
+
+  //Display purposes only
+  let Kshs_price = Math.round(dollar_price*dollar_rate)|| null;
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
 
-    if(dollar_price && dollar_rate && asset_type){
+    if(dollar_price && dollar_rate && 
+      asset_type && order_treasury && Kshs_price){
+
+    const _Kshs_price = await priceInKshs(dollar_price,dollar_rate);
+
+      if(!_Kshs_price) return alert('Error creating order');
 
     const data = {
       status:props.status,
       dollar_rate:Number(dollar_rate),
       asset_price_usd:Number(dollar_price),
-      crypto_amnt:'0'//Default start value
+      crypto_amnt:'0',//Default start value
+      order_treasury:order_treasury,
+      Kshs_price:_Kshs_price
     };
     
     const response = await createOrder('createOrder',data);
@@ -70,6 +83,9 @@ export default function Order(props) {
   
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Asset price in dollars :- {dollar_price}
+        </Typography>
+        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          Asset price in Kshs :- {Kshs_price}
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Minimum purchase :- {minimum_buy}

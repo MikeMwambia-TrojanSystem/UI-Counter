@@ -12,7 +12,11 @@ import AppHeader from "../components/header";
 import {createAsset}  from "./api/post/asset.js";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { getPrice } from "./api/get/getPrice.js";
-
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 // The getting dollar price logic has been moved to
 // couch DB service and at this stage of asset creation
@@ -55,6 +59,7 @@ export default function Asset() {
 
     }catch(err){
       //Keep the price at 0 still
+      console.log(err);
     }
   };
 
@@ -89,35 +94,51 @@ export default function Asset() {
       <CssBaseline />
       <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
-      
+      <Paper variant="outlined" 
+      sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
       <Box sx={{ m: 1,textAlign:"center" }}>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Asset Information
       </Typography>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Supported asset : - Ethereum (ETH)
       </Typography>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Supported chains : - Ethereum Mainnet
       </Typography>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Select Price Oracle :-
       </Typography>
-      <input type="radio" id="ETH" name="support_crypto" 
-      value="binance" selected="selected"/>
+
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        <Radio
+        checked={true}
+        value="Binance"
+        name="price-source"
+      />
       <label>Binance</label>
+
+      </Typography>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Dollar Price ($) :- {price}
       </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+
+      
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Price update frequency is every 5 seconds.
       </Typography>
+
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         The selected price oracle will update 
         the price during the life of the dashboard
       </Typography>
+
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
       <Button
         type="submit"
         disabled={isUpdate}
@@ -130,9 +151,6 @@ export default function Asset() {
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Minimum Sell Amnt : $1
       </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Maximum Sell Amnt (Kshs) : 150000 
-      </Typography>
 
       <div sx={{ "& button": { m: 2 } }}>
       <Button 
@@ -143,6 +161,7 @@ export default function Asset() {
         Save
       </Button>
       </div>
+
       </Box>
       </Paper>
       </Container>

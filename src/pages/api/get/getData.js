@@ -1,5 +1,6 @@
 const axios =require('axios');
 const bip39 = require('bip39');
+const Moralis = require('moralis');
 
 exports.getData = async function(_url=null) {
 
@@ -29,4 +30,36 @@ exports.getMnemonic = async function(){
 
 };
 
+exports.getWalletHistory = async function(_address){
+
+  console.log(_address);
+  
+  const timeNowInSeconds = Math.round(Date.now()/1000);
+  const oneWeekAgo = Math.round(timeNowInSeconds - 604800);
+
+try {
+
+  await Moralis.start({
+    apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjUwODdmODE3LThmNTAtNDAyOC05NTk5LWQxYTNiMzk5NTFmNiIsIm9yZ0lkIjoiNDE1MzY4IiwidXNlcklkIjoiNDI2ODcwIiwidHlwZUlkIjoiODExYjEwMDYtMjk0MS00NTU5LWFhMGUtODE2ODNmNmE0MzE0IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MzEwNjIyNzMsImV4cCI6NDg4NjgyMjI3M30.CzMRCTDQjWXePCaLiGUfghA25V9B2L6hK9vvKq68cb0"
+  });
+
+  const response = await Moralis.EvmApi.wallets.getWalletHistory({
+    "chain": "0x1",
+    "order": "DESC",
+    "limit": 10,
+    "fromDate": `${oneWeekAgo}`,
+    "toDate": `${timeNowInSeconds}`,
+    "address": `${_address}`
+  });
+
+  console.log(response);
+  return response;
+
+} catch (e) {
+
+  console.error(e);
+
+};
+
+};
 

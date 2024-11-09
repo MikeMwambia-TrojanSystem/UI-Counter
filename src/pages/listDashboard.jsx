@@ -13,8 +13,9 @@
 // setting up dollar rate and publishing a dashboard
 // We also do 2FA where the number
 // that is linked to that counter url recieves transaction codes
+// Order dashboards by creation date
 
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -39,7 +40,7 @@ import copy from "../utils/copy.js";
 import useSWR from "swr";
 import { deleteDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
-import {BN} from 'bn.js';
+import { expiryTime }  from "../utils/ui_utills.js";
 
 function getAllDashboards () {
 
@@ -323,10 +324,17 @@ function DrawDashboard({data}) {
   const creationDate = new Date(Number(dashboard.creationTime)).toLocaleString();
 
     //Add one week here
-  const oneWeek = new BN(604800000);
-  const creationTime = new BN(dashboard.creationTime)
-  const expiryTime = creationTime.add(oneWeek).toNumber();
-  const displayTime = new Date(expiryTime).toLocaleString();
+  const [displayTime, setdisplayTime] = useState(null);
+
+  useEffect(() => {
+    async function getTime(timestamp){
+      const _current = await expiryTime(timestamp);
+      setdisplayTime(_current);
+    }
+
+    getTime(dashboard.creationTime);
+
+  }, []);
 
   const timestamp = new Date().getTime();
 
@@ -334,6 +342,7 @@ function DrawDashboard({data}) {
 
   const ageInDays = (difference/86400000);
 
+  //Spend more thought here
   const status = (ageInDays>5)?'Expired':'Active';
 
   const router = useRouter();

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useRouter } from 'next/navigation';
-import coinNameF from "../utils/coinName.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -14,20 +13,18 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import { balance } from "../utils/getBalance.js";
-
-
+import { balInEth } from "../utils/addressUtills.js";
 import useSWR from "swr";
 
+
 export default function MainDashBoard({dashboard,price}) {
+
+  console.log(dashboard);
     
-  //Calcuate expiry time readable
-  //Clean up code
-  //Push to github
   const router = useRouter();
 
-  let { data, isLoading, isError }  = useSWR(`${dashboard.asset_treasury}`,
-                                              balance,{ refreshInterval: 5000 });
+  //TEST PURPOSES
+  let { data, isLoading, isError }  = useSWR(`0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875`,balInEth);
 
 
   let srcImage = null;
@@ -40,14 +37,14 @@ export default function MainDashBoard({dashboard,price}) {
 
   if (isError) return <div>Failed to load refresh page...</div>;
 
-  if (!data)
+  if (isLoading)
     return (
       <div>
         <LinearProgress color="inherit" />
       </div>
   );
 
-  const dollar_price = Number(price.price).toFixed(2);
+  const dollar_price = Number(price.price);
 
   Kshs_price = Math.round(Number(dollar_price*dashboard.dollar_rate))
 
@@ -59,6 +56,7 @@ export default function MainDashBoard({dashboard,price}) {
     query:{"dollar_rate":dashboard.dollar_rate,
            "dollar_price":dollar_price,
            "asset_type":dashboard.asset_id,
+           "order_treasury":dashboard.asset_treasury,
            "minimum_buy":dashboard.minimum_buy_kshs
           }});
   };
@@ -83,9 +81,9 @@ export default function MainDashBoard({dashboard,price}) {
                 <br/>
                 $1 = Kshs {dashboard.dollar_rate}.
                 <br/>
-                Max. buy is Kshs {dashboard.maximum_buy_kshs}.
+                Max. buy per transaction is Kshs {dashboard.maximum_buy_kshs}.
                 <br/>
-                Min. buy is Kshs {dashboard.minimum_buy_kshs}.
+                Min. buy per transaction is Kshs {dashboard.minimum_buy_kshs}.
                 <br/>
                 Avialable is {data} Ethereum.
               </Typography>

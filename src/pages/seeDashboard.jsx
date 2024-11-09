@@ -15,6 +15,8 @@ import { useRouter,useSearchParams } from 'next/navigation';
 import { createDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
 import { getPrice } from "./api/get/getPrice.js";
+import { priceInKshs } from "../utils/ui_utills.js";
+
 
 const theme = createTheme();
 
@@ -30,7 +32,6 @@ export default function Dashboard() {
   const [profileSt, setprofileSt] = useState(true); 
   const [priceInfoSt, setpriceInfoSt] = useState(true);
   const [dashboardSt, setdashboardSt] = useState(true);
-
 
   //Treasury Data
   const [assetId,setassetId] = useState(null);
@@ -48,41 +49,60 @@ export default function Dashboard() {
 
   //Price Info
   const [dollar_price,setdollar_price] = useState(null);
+  const [kshs_price,setKshs_price] = useState(null);
+
 
   const id = searchParams.get('y');
 
   const [profileId, setprofileId] = useState(null);
+  
+  //@Bug here activate the button even if the server returns a 502
+  //it should not
 
   const genTreasuryInfo = async (event) => {
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const treasuryInfo  = await getData(`getbalance?_id=${id}`);
-    setassetId(treasuryInfo["asset_id"]);
-    settreasuryA(treasuryInfo["treasury"]);
-    setwithdrawalA(treasuryInfo["origin_Address"]);
-    setbalanceT(treasuryInfo["asset_balance"]);
-    //Profile Id
-    setprofileId(treasuryInfo["r_i"]);
-    //Disable treasury button
-    settreasurySt(true);
-    //Enable profile info button
-    setprofileSt(false);
+      //Check the required parameter across all api endpoints
+
+      if(!id){
+        return;
+      };
+
+      const treasuryInfo  = await getData(`getbalance?_id=${id}`);
+
+      setassetId(treasuryInfo["asset_id"]);
+      settreasuryA(treasuryInfo["treasury"]);
+      setwithdrawalA(treasuryInfo["origin_Address"]);
+      setbalanceT(treasuryInfo["asset_balance"]);
+
+      //Profile Id
+      setprofileId(treasuryInfo["r_i"]);
+
+      //Disable treasury button
+      settreasurySt(true);
+
+      //Enable profile info button
+      setprofileSt(false);
   };
 
   const genProfileInfo = async (event) => {
 
     event.preventDefault();
 
-    if(profileId){
-      const profileData = await getData(`getprofile?_id=${profileId}`);
-      setdollar_rate(profileData["dollar_rate"]);
-      setname(profileData["name"]);
-      setpaybill(profileData["paybill"]);
-      setr_t(profileData["r_t"]);
-      setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
-      setmaximum_buy_kshs(profileData["maximum_buy_kshs"]);
+    if(!profileId){
+      return;
     };
+
+    const profileData = await getData(`getprofile?_id=${profileId}`);
+
+    setdollar_rate(profileData["dollar_rate"]);
+    setname(profileData["name"]);
+    setpaybill(profileData["paybill"]);
+    setr_t(profileData["r_t"]);
+
+    setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
+    setmaximum_buy_kshs(profileData["maximum_buy_kshs"]);
 
     setprofileSt(true);
     setpriceInfoSt(false);
@@ -98,13 +118,21 @@ export default function Dashboard() {
 
       const price = await getPrice('api/v3/ticker/price?symbol=ETHUSDT');
       setdollar_price(price.price);
-      setpriceInfoSt(true);
-      setdashboardSt(false);
-    } catch(err) {
 
-      alert('Error try again')
+    }catch(err){
+
+      alert('Could not fetch price');
 
     }
+
+    if(!dollar_price){
+      return;
+    }
+
+    const _Kshs_price = await priceInKshs(price.price,dollar_rate);
+    setKshs_price(_Kshs_price)
+    setpriceInfoSt(true);
+    setdashboardSt(false);
 
   };
 
@@ -248,6 +276,9 @@ export default function Dashboard() {
           <form>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Current price in dollars : - {dollar_price}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+            Current price in Kshs : - {kshs_price}
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Update frequency : - 5 Seconds

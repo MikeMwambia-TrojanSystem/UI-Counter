@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import {updateDashboard} from "./api/post/dashboard.js";
-import isAddress  from "../utils/isAddress";
+import {isAddress}  from "../utils/addressUtills";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 
@@ -79,7 +79,7 @@ function DashboardForm({dashboard}){
 
     const asset_treasury = event.target.asset_treasury.value;
 
-    const _isaddress =await isAddress.isAddress(origin_Address);
+    const _isaddress =await isAddress(origin_Address);
 
     if(!_isaddress) return alert('Asset withdrawal address is not correct');
 
