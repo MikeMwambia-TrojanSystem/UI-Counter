@@ -3,7 +3,7 @@ const { validCreate } = require("./schema/treasurySchema.js");
 
 const axios =require('axios');
 
-const baseURL="http://34.172.249.132/atthemoment/v1/counter";
+const baseURL="https://api.counter.co.ke";
 
 exports.createTreasury = async function(_url,_data) {
 

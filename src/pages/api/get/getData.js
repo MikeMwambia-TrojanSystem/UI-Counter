@@ -4,7 +4,7 @@ const Moralis = require('moralis');
 
 exports.getData = async function(_url=null) {
 
-    const baseURL="http://34.172.249.132/atthemoment/v1/counter";
+    const baseURL="https://api.counter.co.ke";
 
     let _response = false;
 
@@ -40,7 +40,7 @@ exports.getWalletHistory = async function(_address){
 try {
 
   await Moralis.start({
-    apiKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjUwODdmODE3LThmNTAtNDAyOC05NTk5LWQxYTNiMzk5NTFmNiIsIm9yZ0lkIjoiNDE1MzY4IiwidXNlcklkIjoiNDI2ODcwIiwidHlwZUlkIjoiODExYjEwMDYtMjk0MS00NTU5LWFhMGUtODE2ODNmNmE0MzE0IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MzEwNjIyNzMsImV4cCI6NDg4NjgyMjI3M30.CzMRCTDQjWXePCaLiGUfghA25V9B2L6hK9vvKq68cb0"
+    apiKey: process.env.moralis_api_key
   });
 
   const response = await Moralis.EvmApi.wallets.getWalletHistory({
