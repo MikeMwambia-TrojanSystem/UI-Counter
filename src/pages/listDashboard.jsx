@@ -347,7 +347,7 @@ function DrawDashboard({data}) {
 
   const router = useRouter();
 
-  const auth = () => alert('Withdrawal logic here');
+  const auth = () => alert('Withdrawal logic here Only withdraws to dashboards withdrawal address');
 
   const edit = (id) => router.replace({pathname:"/editDashboard",query:{x:id}},"/editDashboard");
 

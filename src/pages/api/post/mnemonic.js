@@ -22,6 +22,8 @@ exports.genAddress = async function(_url,_data) {
       _response = response.data;
     })
     .catch((err)=>{
+      console.log(err);
+
       _response = false;
     });//Update error
 

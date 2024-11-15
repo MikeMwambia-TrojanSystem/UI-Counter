@@ -11,7 +11,7 @@ const theme = createTheme();
 
 export default function _Intro(props) {
 
-  const unique_link = 'Confirm URL is https://'+props.unique_link+'.mzynga.com';
+  const unique_link = 'Confirm URL is https://'+props.unique_link+'.counter.co.ke';
   const _assets = props._assets;
 
 //Add foundation layout
