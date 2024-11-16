@@ -13,7 +13,7 @@ import { useRouter,useSearchParams } from 'next/navigation';
 
 const theme = createTheme();
 
-export default function GenMnemonic() {
+export default function GenMnemonic(props) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -160,7 +160,7 @@ export default function GenMnemonic() {
           <input type="checkbox" name="subStatus"
           checked={subStatus} onChange={handleChange}
           />
-            I understand that unique_link or it's developer
+            I understand that {props.unique_link}.counter.co.ke or it's developer
             cannot recover this phrase
           </label>
         </form>
@@ -176,7 +176,7 @@ export default function GenMnemonic() {
       <Box sx={{ display: disAddress }}>
       {/*Put address in url and to redirect /setTreasury page*/}
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-       Your treasury address is : - 
+       Your Ethereum treasury address is : - 
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
        {address} 
@@ -201,4 +201,18 @@ export default function GenMnemonic() {
       </Container>
     </ThemeProvider> 
   );
+}
+
+
+
+export async function getStaticProps() {
+
+  const unique_link = process.env.UNIQUE_URL || null; 
+
+  return {
+    props: {
+      unique_link: unique_link
+    },
+  };
+  
 }

@@ -3,7 +3,7 @@ const { validCreate } = require("./schema/mnemonicSchema.js");
 
 const axios =require('axios');
 
-const baseURL="http://34.172.249.132/gen/v1/wallet";
+const baseURL="https://ethereum.counter.co.ke";
 
 exports.genAddress = async function(_url,_data) {
 
@@ -22,6 +22,8 @@ exports.genAddress = async function(_url,_data) {
       _response = response.data;
     })
     .catch((err)=>{
+      console.log(err);
+
       _response = false;
     });//Update error
 

@@ -24,14 +24,13 @@ export default function Dashboard() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [assetInfoD, setassetInfoD] = useState('block');
-  const [profileInfoD, setprofileInfoD] = useState('block');
-  const [priceInfoD, setpriceInfoD] = useState('block');
 
   const [treasurySt, settreasurySt] = useState(false);
   const [profileSt, setprofileSt] = useState(true); 
   const [priceInfoSt, setpriceInfoSt] = useState(true);
+  const [priceInfoStKshs,setpriceInfoStKshs] =useState(true);
   const [dashboardSt, setdashboardSt] = useState(true);
+
 
   //Treasury Data
   const [assetId,setassetId] = useState(null);
@@ -117,22 +116,36 @@ export default function Dashboard() {
     try {
 
       const price = await getPrice('api/v3/ticker/price?symbol=ETHUSDT');
+
       setdollar_price(price.price);
+      setpriceInfoSt(true);
+      setpriceInfoStKshs(false);
 
     }catch(err){
 
       alert('Could not fetch price');
 
     }
+  };
 
-    if(!dollar_price){
-      return;
+
+  const getKshsPrice = async(event) => {
+
+    event.preventDefault();
+
+    try{
+
+      const _Kshs_price = await priceInKshs(dollar_price,dollar_rate);
+
+      setKshs_price(_Kshs_price)
+      setpriceInfoStKshs(true);
+      setdashboardSt(false);
+
+    }catch(err){
+
+      alert('Could not fetch Kshs price');
+
     }
-
-    const _Kshs_price = await priceInKshs(price.price,dollar_rate);
-    setKshs_price(_Kshs_price)
-    setpriceInfoSt(true);
-    setdashboardSt(false);
 
   };
 
@@ -190,7 +203,7 @@ export default function Dashboard() {
           </Button>
         </div>
 
-          <Box sx={{ display: assetInfoD }}>
+          <Box>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
               Treasury Information.
             </Typography>
@@ -226,7 +239,7 @@ export default function Dashboard() {
 
       </Box>
 
-      <Box sx={{ m: 1,textAlign:"center",display: profileInfoD }}>
+      <Box sx={{m: 1,textAlign:"center"}}>
         <div sx={{ "& button": { m: 2 } }}>
           <Button size="small" 
           disabled={profileSt}
@@ -262,13 +275,13 @@ export default function Dashboard() {
           </div>
       </Box>
 
-      <Box sx={{ m: 1,textAlign:"center",display: priceInfoD }}>
+      <Box sx={{ m: 1,textAlign:"center" }}>
 
         <div sx={{ "& button": { m: 2 } }}>
           <Button size="small" 
           disabled={priceInfoSt}
           onClick={getAssetInfo}>
-            Generate Price Info.
+            Generate $ Price.
           </Button>
         </div>
 
@@ -278,13 +291,31 @@ export default function Dashboard() {
             Current price in dollars : - {dollar_price}
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-            Current price in Kshs : - {kshs_price}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Update frequency : - 5 Seconds
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Price oracle : - Binance
+            </Typography>
+          </form>
+        </div>
+
+      </Box>
+
+
+      <Box sx={{ m: 1,textAlign:"center" }}>
+
+        <div sx={{ "& button": { m: 2 } }}>
+          <Button size="small" 
+          disabled={priceInfoStKshs}
+          onClick={getKshsPrice}>
+            Generate Kshs Price.
+          </Button>
+        </div>
+
+        <div>
+          <form>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+            Current price in Kshs : - {kshs_price}
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Orders : - 0
@@ -309,5 +340,5 @@ export default function Dashboard() {
       </Container>
     </ThemeProvider>
   );
-}
+};
 
