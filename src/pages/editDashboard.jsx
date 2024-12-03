@@ -100,11 +100,14 @@ function DashboardForm({dashboard}){
     const response = await updateDashboard('updateDashboard',dashboard);
 
     if(response === false){
-       setDisabled(false);
+
       alert('Retry there was an erorr saving dashboard');
+
     }else{
+
       router.replace({pathname:"/listDashboard"},"/listDashboard");
-    }
+
+    };
 
   }
 
