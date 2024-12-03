@@ -2,7 +2,8 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+//const baseURL="https://api.counter.co.ke";
+const baseURL="https://couchservice.loca.lt/atthemoment/v1/counter";
 
 exports.createDashboard = async function(_url,_data) {
 
@@ -16,11 +17,12 @@ exports.createDashboard = async function(_url,_data) {
       method:'post',
       url:`${baseURL}/${_url}`,
       data :{
+        _id:_data._id,
         dashboardname:_data.dashboardname,
         paybill:_data.paybill,
         dollar_rate:_data.dollar_rate,
         r_t:_data.r_t,
-        asset_id:_data.asset_id,
+        asset_name:_data.asset_id,
         asset_treasury:_data.asset_treasury,
         origin_Address:_data.origin_Address,
         maximum_buy_kshs:_data.maximum_buy_kshs,

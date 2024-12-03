@@ -25,8 +25,8 @@ export default function Dashboard() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const [treasurySt, settreasurySt] = useState(false);
-  const [profileSt, setprofileSt] = useState(true); 
+  const [treasurySt, settreasurySt] = useState(true);
+  const [profileSt, setprofileSt] = useState(false); 
   const [priceInfoSt, setpriceInfoSt] = useState(true);
   const [priceInfoStKshs,setpriceInfoStKshs] =useState(true);
   const [dashboardSt, setdashboardSt] = useState(true);
@@ -62,32 +62,33 @@ export default function Dashboard() {
 
       event.preventDefault();
 
-      //Check the required parameter across all api endpoints
-
       if(!id){
         return;
       };
 
       const treasuryInfo  = await getData(`getbalance?_id=${id}`);
 
-      setassetId(treasuryInfo["asset_id"]);
+      setassetId('ETH');
       settreasuryA(treasuryInfo["treasury"]);
       setwithdrawalA(treasuryInfo["origin_Address"]);
       setbalanceT(treasuryInfo["asset_balance"]);
 
-      //Profile Id
-      setprofileId(treasuryInfo["r_i"]);
+      if(false != treasuryInfo){
 
       //Disable treasury button
       settreasurySt(true);
 
-      //Enable profile info button
-      setprofileSt(false);
+      //Enable price info button
+      setpriceInfoSt(false);
+
+      };
   };
 
   const genProfileInfo = async (event) => {
 
     event.preventDefault();
+
+    setprofileId(id);
 
     if(!profileId){
       return;
@@ -103,8 +104,10 @@ export default function Dashboard() {
     setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
     setmaximum_buy_kshs(profileData["maximum_buy_kshs"]);
 
+    if(Number(profileData["dollar_rate"])>1){
     setprofileSt(true);
-    setpriceInfoSt(false);
+    settreasurySt(false);
+    };
 
   };
 
@@ -118,14 +121,17 @@ export default function Dashboard() {
       const price = await getPrice('api/v3/ticker/price?symbol=ETHUSDT');
 
       setdollar_price(price.price);
+
+      if(price.price >Number(100)){
       setpriceInfoSt(true);
       setpriceInfoStKshs(false);
+      };
 
     }catch(err){
 
       alert('Could not fetch price');
 
-    }
+    };
   };
 
 
@@ -137,15 +143,17 @@ export default function Dashboard() {
 
       const _Kshs_price = await priceInKshs(dollar_price,dollar_rate);
 
-      setKshs_price(_Kshs_price)
+      if(_Kshs_price >Number(10000)){
+      setKshs_price(_Kshs_price);
       setpriceInfoStKshs(true);
       setdashboardSt(false);
+      };
 
     }catch(err){
 
       alert('Could not fetch Kshs price');
 
-    }
+    };
 
   };
 
@@ -156,6 +164,7 @@ export default function Dashboard() {
     event.preventDefault();
 
     const dashboard = {
+      _id:id,
       dashboardname:name,
       paybill:Number(paybill),
       dollar_rate:Number(dollar_rate),
@@ -169,6 +178,7 @@ export default function Dashboard() {
     };
 
     const response = await createDashboard('createDashboard',dashboard);
+
 
     if(response === false){
       setdashboardSt(false);
@@ -188,12 +198,50 @@ export default function Dashboard() {
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
 
-      <Box sx={{ m: 1,textAlign:"center" }}>
+      <Box sx={{m: 1,textAlign:"center"}}>
 
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          To create a dashboard generate Treasury,
-          Profile and Price Information.
-        </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          To create a dashboard generate Profile,
+          Treasury and Price Information.
+      </Typography>
+
+
+        <div sx={{ "& button": { m: 2 } }}>
+          <Button size="small" 
+          disabled={profileSt}
+          onClick={genProfileInfo}>
+            Generate Profile Info.
+          </Button>
+        </div>
+
+        <div>
+          <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Profile Information.
+          </Typography>
+          <form>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Profile Name : - {name}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Paybill Number :- {paybill}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Dollar to Kshs rate :- {dollar_rate}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Expiry time :- {r_t}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Maximum buy Kshs :- {maximum_buy_kshs}
+            </Typography>
+            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+              Minimum buy Kshs :- {minimum_buy_kshs}
+            </Typography>
+          </form>
+          </div>
+      </Box>
+
+      <Box sx={{ m: 1,textAlign:"center" }}>
 
         <div sx={{ "& button": { m: 2 } }}>
           <Button size="small" 
@@ -239,41 +287,6 @@ export default function Dashboard() {
 
       </Box>
 
-      <Box sx={{m: 1,textAlign:"center"}}>
-        <div sx={{ "& button": { m: 2 } }}>
-          <Button size="small" 
-          disabled={profileSt}
-          onClick={genProfileInfo}>
-            Generate Profile Info.
-          </Button>
-        </div>
-
-        <div>
-          <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Profile Information.
-          </Typography>
-          <form>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Profile Name : - {name}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Paybill Number :- {paybill}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Dollar to Kshs rate :- {dollar_rate}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Expiry time :- {r_t}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Maximum buy Kshs :- {maximum_buy_kshs}
-            </Typography>
-            <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Minimum buy Kshs :- {minimum_buy_kshs}
-            </Typography>
-          </form>
-          </div>
-      </Box>
 
       <Box sx={{ m: 1,textAlign:"center" }}>
 

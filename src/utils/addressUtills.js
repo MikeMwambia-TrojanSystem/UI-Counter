@@ -46,14 +46,18 @@ exports.valInEth = async function (number) {
 };
 
 
+//let isSmartContract = await provider.eth.getCode(`${address}`);
+//console.log(isSmartContract);
+//Add code to detect wheter the address entered is a smart contract
 exports.isAddress = async function (address){
 
     try{
+
         let isAdd = await provider.utils.isAddress(`${address}`);
         return isAdd;
 
     }catch(err){
-        
+
         return false;
     };
 

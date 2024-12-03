@@ -18,16 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-// The getting dollar price logic has been moved to
-// couch DB service and at this stage of asset creation
-// the price will be set to the default 0
-// the status will be set to the default false
-// If on couch service the bots pick up the asset and update
-// the price from picking in coingecko the status updates to true
-// The status is a field on the asset that is used to know whether the asset
-// is updating
-//NB:- This function does not need an update on front or backend/couch service
-
 
 const theme = createTheme();
 
@@ -43,8 +33,6 @@ export default function Asset() {
 
   const id = searchParams.get('x');
 
-  const timestamp = searchParams.get('y');
-
   const handleChange = (event) => {
     setDisabled(false);
   };
@@ -59,7 +47,7 @@ export default function Asset() {
 
     }catch(err){
       //Keep the price at 0 still
-      console.log(err);
+      alert('Refresh page and try again');
     }
   };
 
@@ -70,21 +58,18 @@ export default function Asset() {
     event.preventDefault()
 
     const data = {
-      _id:'ETH',
-      status:false,
-      dollar_price:Number(price),
-      min_buy_dollar:Number(1),
-      r_t:Number(timestamp)
+      _id:id,
+      name:'ETH'
     };
 
     const response = await createAsset('assets',data);
 
     if(response === false){
       setDisabled(false);
-      alert('Error refresh page and try again or try a different asset');
+      alert('Error refresh page and try again');
     }else{
       
-      router.replace({pathname:"/genMne",query:{x:id,y:'ETH',z:timestamp}},"/genMne");
+      router.replace({pathname:"/genMne",query:{x:response}},"/genMne");
     }
 
   };

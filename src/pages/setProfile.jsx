@@ -49,7 +49,7 @@ export default function Profile(props) {
       setDisabled(false);
       alert('Retry there was an erorr saving profile');
     }else{
-      router.replace({pathname:"/setAsset",query:{x:response._id,y:timestamp}},"/setAsset");
+      router.replace({pathname:"/setAsset",query:{x:response._id}},"/setAsset");
     }
 
   }

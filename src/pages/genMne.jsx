@@ -97,16 +97,10 @@ export default function GenMnemonic(props) {
 
       const id = searchParams.get('x');
 
-      const asset_id = searchParams.get('y')
-
-      const timestamp = searchParams.get('z');
-
       router.replace({
         pathname:"/setTreasury",
         query:{
           x:id,
-          y:asset_id,
-          z:timestamp,
           a:address
         }},
         "/setTreasury");
