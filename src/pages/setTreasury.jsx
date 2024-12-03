@@ -25,39 +25,24 @@ export default function Treasury(props) {
   //Activate or deactivate depending on this state
   const [status, setStatus] = useState(true);
   const [_addressB, set_addressB] = useState(false);
-  const [displayTime, setdisplayTime] = useState(null);
 
   const searchParams = useSearchParams();
 
   const id = searchParams.get('x');
-  const asset_id = searchParams.get('y');
-  const timestamp = searchParams.get('z');
   const address = searchParams.get('a');
-  
-  useEffect(() => {
-    async function getTime(timestamp){
-      const _current = await expiryTime(timestamp);
-      setdisplayTime(_current);
-    }
-
-    getTime(timestamp);
-
-  }, []);
   
   const handleSubmit = async (event) => {
 
     event.preventDefault();
 
     const data = {
-      r_i:id,
-      r_t:Number(timestamp),
+      _id:id,
       origin_Address:event.target.origin_Address.value,
       treasury:address,
-      asset_balance:0,
-      asset_id:asset_id
+      asset_balance:Number(0)
     };
 
-    if(data.origin_Address.toString() === data.treasury.toString()) return alert('Address should not match');
+    if(data.origin_Address.toString() === data.treasury.toString()) return alert('Address should not match treasury');
 
     if(!isAddress(data.origin_Address)) return alert('Invalid address');
 
@@ -68,7 +53,7 @@ export default function Treasury(props) {
       alert('Retry or confirm withdrawal address');
     }else{
   
-      router.replace({pathname:"/seeDashboard",query:{y:response,z:timestamp}},"/seeDashboard");
+      router.replace({pathname:"/seeDashboard",query:{y:response}},"/seeDashboard");
     }
 
   };
@@ -95,7 +80,7 @@ export default function Treasury(props) {
         Treasury Address :- {address}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Treasury address balance : - 0 {asset_id} 
+        Treasury address balance : - 0 ETH 
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         If the treasury address above expires and there are assets balances on that addrress,
@@ -115,7 +100,7 @@ export default function Treasury(props) {
         </Typography>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Treasury expiry date :- { displayTime }
+        Treasury address expires after 7 days.
         </Typography>
 
         <div sx={{ "& button": { m: 2 } }}>

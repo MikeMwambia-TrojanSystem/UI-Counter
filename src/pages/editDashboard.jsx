@@ -54,7 +54,7 @@ export default function EditDashboard() {
   );
 
 
-  if(dashboard === false) return <div>Failed to load refresh page...</div>;
+  if(dashboard === false) return <div>Dashboard unavailable...</div>;
 
   return <DashboardForm dashboard={dashboard}/>;
 
@@ -80,8 +80,12 @@ function DashboardForm({dashboard}){
     const asset_treasury = event.target.asset_treasury.value;
 
     const _isaddress =await isAddress(origin_Address);
-
+    
     if(!_isaddress) return alert('Asset withdrawal address is not correct');
+
+    const _isaddressT =await isAddress(asset_treasury);
+
+    if(!_isaddressT) return alert('Treasury address is not correct');
 
     if(origin_Address.toString() === asset_treasury.toString()) return alert('Address should not match');
 
@@ -96,10 +100,10 @@ function DashboardForm({dashboard}){
     const response = await updateDashboard('updateDashboard',dashboard);
 
     if(response === false){
-      // setDisabled(false);
+       setDisabled(false);
       alert('Retry there was an erorr saving dashboard');
     }else{
-      router.replace({pathname:"/listDashboard",query:{x:id}},"/listDashboard");
+      router.replace({pathname:"/listDashboard"},"/listDashboard");
     }
 
   }
@@ -184,7 +188,7 @@ function DashboardForm({dashboard}){
         fullWidth
         type="string"
         variant="standard"
-        defaultValue={dashboard.asset_id}
+        defaultValue={dashboard.asset_name}
         InputProps={{
           readOnly: true
         }}

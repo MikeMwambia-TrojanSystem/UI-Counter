@@ -3,6 +3,7 @@ const Validator = require("fastest-validator");
 const v = new Validator({haltOnFirstError: true});
 
 const schemaCreate = {
+  _id:{type:"string"},
   dashboardname:{type:"string",min:3,max:30},
   paybill:{type:"number",positive:true,min:0,integer:true},
   dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},

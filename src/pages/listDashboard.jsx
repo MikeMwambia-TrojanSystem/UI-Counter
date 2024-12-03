@@ -233,6 +233,7 @@ const _remove = async (id) =>{
   if(response === false){
 
     alert('Retry there was an erorr deleting dashboard');
+    
   }else{
 
     router.replace({pathname:"/listDashboard"},"/listDashboard");
@@ -321,7 +322,7 @@ function DrawDashboard({data}) {
 
   const dashboard = data;
 
-  const creationDate = new Date(Number(dashboard.creationTime)).toLocaleString();
+  const creationDate = new Date(Number(dashboard.r_t)).toLocaleString();
 
     //Add one week here
   const [displayTime, setdisplayTime] = useState(null);
@@ -332,18 +333,18 @@ function DrawDashboard({data}) {
       setdisplayTime(_current);
     }
 
-    getTime(dashboard.creationTime);
+    getTime(dashboard.r_t);
 
   }, []);
 
   const timestamp = new Date().getTime();
 
-  const difference = (Number(timestamp) - Number(new Date(Number(dashboard.creationTime))));
+  const difference = (Number(timestamp) - Number(new Date(Number(dashboard.r_t))));
 
   const ageInDays = (difference/86400000);
 
   //Spend more thought here
-  const status = (ageInDays>5)?'Expired':'Active';
+  const status = (ageInDays>7)?'Expired':'Active';
 
   const router = useRouter();
 
@@ -377,7 +378,7 @@ function DrawDashboard({data}) {
           Dollar Rate : {dashboard.dollar_rate}<br/>
           Minimum Buy : {dashboard.minimum_buy_kshs}<br/>
           Paybill : {dashboard.paybill}<br/>
-          Asset : {dashboard.asset_id}<br/>
+          Asset : {dashboard.asset_name}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
           Creation time : {creationDate}<br/>
           Expiry time : {displayTime}<br/>
@@ -396,7 +397,7 @@ function DrawDashboard({data}) {
       aria-label="copy" 
       size="small"
       disabled={(status === "Expired")?true:false}
-      onClick={()=>auth(dashboard.id)}
+      onClick={()=>auth(dashboard._id)}
       >
       <RemoveIcon fontSize="inherit"/>Withdraw
       </IconButton>
@@ -404,7 +405,7 @@ function DrawDashboard({data}) {
       <IconButton 
       aria-label="copy" 
       size="small"
-      onClick={()=>edit(dashboard.id)}
+      onClick={()=>edit(dashboard._id)}
       >
       <ModeEditIcon fontSize="inherit" />Edit
       </IconButton>
@@ -412,7 +413,7 @@ function DrawDashboard({data}) {
       <IconButton
       aria-label="copy" 
       size="small"
-      onClick={()=>_remove(dashboard.id)}
+      onClick={()=>_remove(dashboard._id)}
       >
       <DeleteIcon fontSize="inherit" />Delete
       </IconButton>
