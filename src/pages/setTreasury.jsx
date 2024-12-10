@@ -60,8 +60,7 @@ export default function Treasury(props) {
 
   const validateAddress = async (addressw) => {
 
-      const searchParams = useSearchParams();
-      const addressT = searchParams.get('a');
+      const addressT = address;
       const addressW = addressw;
    
       try{
