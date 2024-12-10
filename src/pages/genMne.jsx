@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import { useState } from "react";
-import { getMnemonic } from "../pages/api/get/getData.js";
+import { getMnemonic } from "../pages/api/get/addressUtils.js";
 import { genAddress }  from "../pages/api/post/mnemonic.js";
 import { useRouter,useSearchParams } from 'next/navigation';
 
@@ -60,17 +60,25 @@ export default function GenMnemonic(props) {
 
     if(false === response) return alert("Error occured refresh page and retry");
 
+    let addType = typeof response._address.address;
+    let keyType = typeof response._key;
+
+    if(addType === 'string' && keyType === 'string') {
+
       setaddress(response._address.address);
       setprivate_key(response._key);
       setdisAddress('block');
       setdisSubmitA(true);
 
-    }else{
+    } else {
 
-      return alert("Ensure correct parameters");
+      return alert("Error generating wallet");
 
-    }
-  }
+    };
+
+  };
+
+};
 
   const handleChange = (event) => {
 
@@ -152,8 +160,7 @@ export default function GenMnemonic(props) {
           </Typography>
           <label>
           <input type="checkbox" name="subStatus"
-          checked={subStatus} onChange={handleChange}
-          />
+          checked={subStatus} onChange={handleChange}/>
             I understand that {props.unique_link}.counter.co.ke or it's developer
             cannot recover this phrase
           </label>

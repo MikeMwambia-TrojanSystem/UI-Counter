@@ -35,6 +35,7 @@ export default function Dashboard(props) {
   //instead we use design document that takes url 
   //and returns all  ACTIVE dashboards
   //The below getAllDashboards is for settings page alone
+  //MOVE THIS LOGIC TO COUCH SERVICE
 
   const { data : dashboards } = useSWR(`getAllDashboards`,getData);
   const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice

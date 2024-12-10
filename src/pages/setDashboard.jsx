@@ -96,7 +96,7 @@ export default function Dashboard() {
       // setDisabled(false);
       alert('Retry there was an erorr saving dashboard');
     }else{
-      router.replace({pathname:"/listDashboard",query:{x:response}},"/listDashboard");
+      router.replace({pathname:"/listDashboard"},"/listDashboard");
     }
 
   }

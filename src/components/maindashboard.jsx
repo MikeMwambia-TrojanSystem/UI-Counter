@@ -19,8 +19,6 @@ import useSWR from "swr";
 
 export default function MainDashBoard({dashboard,price}) {
 
-  console.log(dashboard);
-    
   const router = useRouter();
 
   //TEST PURPOSES
@@ -86,12 +84,15 @@ export default function MainDashBoard({dashboard,price}) {
                 Max. buy per transaction is Kshs {dashboard.maximum_buy_kshs}.
                 <br/>
                 Min. buy per transaction is Kshs {dashboard.minimum_buy_kshs}.
-                <br/>
+                <br/>asset_id
                 Avialable is {data} Ethereum.
+                <br/>
+                Valued at : -
+                <br/>
+                Insufficient balance if no bal. 
               </Typography>
               <div sx={{ "& button": { m: 1 } }}>
-             {/* Disabled/Active if the amnt of eth in wallet is greater 
-              than equivalent in Kshs of minimum buy plug gas fee.*/}
+             {/* Disable if valued at value is less than Kshs 150*/}
                 <Button
                   prefetch={false}
                   replace={true}

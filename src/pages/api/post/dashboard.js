@@ -2,8 +2,7 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-//const baseURL="https://api.counter.co.ke";
-const baseURL="https://couchservice.loca.lt/atthemoment/v1/counter";
+const baseURL="https://api.counter.co.ke";
 
 exports.createDashboard = async function(_url,_data) {
 
@@ -39,12 +38,12 @@ exports.createDashboard = async function(_url,_data) {
 
     return _response
     
-  }
+  };
 
 
   return false;
 
-}
+};
 
 
 exports.updateDashboard = async function(_url,_data){
@@ -70,6 +69,7 @@ exports.updateDashboard = async function(_url,_data){
       _response = response.data;
     })
     .catch((err)=>{
+
       _response = false;
     });//Update error
 

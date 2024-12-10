@@ -11,7 +11,7 @@ import useSWR from "swr";
 import { useRouter } from 'next/navigation'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
-import {isAddress}  from "../utils/addressUtills";
+import {isAddress}  from "./api/get/addressUtils.js";
 import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
 import { expiryTime }  from "../utils/ui_utills.js";
@@ -22,9 +22,8 @@ export default function Treasury(props) {
 
   const router = useRouter();
 
-  //Activate or deactivate depending on this state
-  const [status, setStatus] = useState(true);
   const [_addressB, set_addressB] = useState(false);
+  const [_errAlert, set_errAlert] = useState(null);
 
   const searchParams = useSearchParams();
 
@@ -42,9 +41,9 @@ export default function Treasury(props) {
       asset_balance:Number(0)
     };
 
-    if(data.origin_Address.toString() === data.treasury.toString()) return alert('Address should not match treasury');
+    const isValid = await validateAddress(event.target.origin_Address.value) || false;
 
-    if(!isAddress(data.origin_Address)) return alert('Invalid address');
+    if(!isValid) return;
 
     const response = await createTreasury('balances',data);
 
@@ -54,14 +53,36 @@ export default function Treasury(props) {
     }else{
   
       router.replace({pathname:"/seeDashboard",query:{y:response}},"/seeDashboard");
-    }
+    };
 
   };
 
 
-  const handleChange = async (event) => {
-      const setStatu = await isAddress(event.target.value);
-      setStatus((setStatu)?false:true);
+  const validateAddress = async (addressw) => {
+
+      const searchParams = useSearchParams();
+      const addressT = searchParams.get('a');
+      const addressW = addressw;
+   
+      try{
+
+      const _isaddressT = await isAddress(`validate?address=${addressT}`);
+
+      const _isaddressW = await isAddress(`validate?address=${addressW}`);
+
+      if(_isaddressT && _isaddressW){
+        if(addressT.toString() != addressW.toString()){
+          return true;
+        };
+        return false;
+      };
+
+      }catch(err){
+
+        set_errAlert('Address error');
+        return false;
+
+      };
   };
 
 
@@ -93,10 +114,14 @@ export default function Treasury(props) {
         </Typography>
 
         <TextField required id="origin_Address" name="origin_Address" 
-        fullWidth type="string" variant="standard" onChange={handleChange}/>
+        fullWidth type="string" variant="standard"/>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ensure you are the owner of the address entered above to avoid loss of your assets.
+        </Typography>
+
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        {_errAlert}
         </Typography>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
@@ -106,8 +131,7 @@ export default function Treasury(props) {
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            size="small"
-            disabled={status}>
+            size="small">
             Save Treasury
           </Button>
         </div>
@@ -119,3 +143,4 @@ export default function Treasury(props) {
     </ThemeProvider>
   );
 }
+

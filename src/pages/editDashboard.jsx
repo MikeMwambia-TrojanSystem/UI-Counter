@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import {updateDashboard} from "./api/post/dashboard.js";
-import {isAddress}  from "../utils/addressUtills";
+import {isAddress}  from "./api/get/addressUtils.js";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 
@@ -71,35 +71,61 @@ function DashboardForm({dashboard}){
 
     const id = searchParams.get('x');
 
-    const editForm = async (event) => {
+    const [validated,setValidated] = React.useState(false);
 
-    event.preventDefault()
+    const dashboard_ = {
+      id:id,
+      dashboardname:dashboard.dashboardname,
+      dollar_rate:Number(dashboard.dollar_rate),
+      origin_Address:dashboard.origin_Address,
+      minimum_buy_kshs:Number(dashboard.minimum_buy_kshs)
+    };
+
+    const validate = async (event) => {
+
+    event.preventDefault();
 
     const origin_Address = event.target.origin_Address.value;
 
-    const asset_treasury = event.target.asset_treasury.value;
+    const _isaddress =await isAddress(`validate?address=${origin_Address}`);
 
-    const _isaddress =await isAddress(origin_Address);
-    
     if(!_isaddress) return alert('Asset withdrawal address is not correct');
 
-    const _isaddressT =await isAddress(asset_treasury);
+    const asset_treasury = event.target.asset_treasury.value;
+
+    const _isaddressT =await isAddress(`validate?address=${asset_treasury}`);
 
     if(!_isaddressT) return alert('Treasury address is not correct');
 
     if(origin_Address.toString() === asset_treasury.toString()) return alert('Address should not match');
 
-    const dashboard = {
-      id:id,
-      dashboardname:event.target.dashboardname.value,
-      dollar_rate:Number(event.target.dollar_rate.value),
-      origin_Address:event.target.origin_Address.value,
-      minimum_buy_kshs:Number(event.target.minimum_buy_kshs.value)
+    //Update dashbaord object and activate update button
+    dashboard_.origin_Address = origin_Address;
+
+    dashboard_.asset_treasury = asset_treasury;
+
+    setValidated(true);
+
     };
 
-    const response = await updateDashboard('updateDashboard',dashboard);
+
+
+    const editForm = async (event) => {
+
+    event.preventDefault();
+
+    dashboard_.dollar_rate = event.target.dollar_rate.value;;
+
+    dashboard_.dashboardname = event.target.dashboardname.value;;
+
+    dashboard_.minimum_buy_kshs = event.target.minimum_buy_kshs.value;;
+
+
+    const response = await updateDashboard('updateDashboard',dashboard_);
 
     if(response === false){
+
+      setValidated(false);
 
       alert('Retry there was an erorr saving dashboard');
 
@@ -109,7 +135,7 @@ function DashboardForm({dashboard}){
 
     };
 
-  }
+  };
 
     return (
     <>
@@ -180,7 +206,7 @@ function DashboardForm({dashboard}){
           readOnly: true
         }}
         />
-      
+        <hr/>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Asset supported
         </Typography>
@@ -228,6 +254,16 @@ function DashboardForm({dashboard}){
         defaultValue={dashboard.origin_Address}
         />
 
+        <div sx={{ "& button": { m: 2 } }}>
+          <Button
+            disabled={validated}
+            onClick={validate}
+            size="small">
+            Validate addresses.
+          </Button>
+        </div>
+        <hr/>
+
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Maximum buy kshs
         </Typography>
@@ -267,8 +303,9 @@ function DashboardForm({dashboard}){
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
+            disabled={!validated}
             size="small">
-            Update
+            Update Dashboard
           </Button>
         </div>
         </form>

@@ -79,72 +79,7 @@ export default function listDashboard(){
     </>
   );
 
-}
-
-function ErrorComponent({message=null}){
-  let _message = message || 'An error occured try again';
-
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-       <CssBaseline />
-       <AppHeader/>
-        <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-        <Paper variant="outlined" 
-        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
-        <div>
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          {_message}
-        </Typography>
-        </div>
-        </Paper>
-        </Container>
-     </ThemeProvider>
-    </>
-    )
-}
-
-async function utills(name=null,id=null){
-
-  const router = useRouter();
-
-  switch(name) {
-
-  case '/editDashboard' :
-
-    return router.replace({pathname:name,query:{x:id}},name);
-
-    break;
-
-  case '/listDashboard' :
-
-    return router.replace({pathname:name,query:{x:id}},name);
-
-    break;
-
-  case '/removeDashboard' :
-
-    const response = await deleteDashboard('deleteDashboard',id);
-
-    if(response === false){
-
-    alert('Retry there was an erorr deleting dashboard');
-
-    } else {
-
-    return router.replace({pathname:"/listDashboard"},"/listDashboard");
-
-    }
-
-    break;
-
-  default :
-
-    return;
-
-  }
-
-}
+};
 
 
 function List({profile,dashboards,isError}){
@@ -178,8 +113,8 @@ function List({profile,dashboards,isError}){
 };
 
 
-
 function Profile({profile}){
+
 
   const searchParams = useSearchParams();
 
@@ -216,7 +151,8 @@ function Profile({profile}){
     }
   }
 
-}
+};
+
 
 function ProfileSample({profile}){
 
@@ -278,7 +214,7 @@ useEffect(()=>{
 
   );
 
-}
+};
 
 
 function Dashboards({dashboards}){
@@ -314,8 +250,7 @@ function Dashboards({dashboards}){
     );
 
   };
-}
-
+};
 
 
 function DrawDashboard({data}) {
@@ -422,5 +357,74 @@ function DrawDashboard({data}) {
       </>
     )
 
+};
+
+
+function ErrorComponent({message=null}){
+  let _message = message || 'An error occured try again';
+
+  return (
+    <>
+      <ThemeProvider theme={theme}>
+       <CssBaseline />
+       <AppHeader/>
+        <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
+        <Paper variant="outlined" 
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
+        <div>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          {_message}
+        </Typography>
+        </div>
+        </Paper>
+        </Container>
+     </ThemeProvider>
+    </>
+    )
 }
+
+async function utills(name=null,id=null){
+
+  const router = useRouter();
+
+  switch(name) {
+
+  case '/editDashboard' :
+
+    return router.replace({pathname:name,query:{x:id}},name);
+
+    break;
+
+  case '/listDashboard' :
+
+    return router.replace({pathname:name,query:{x:id}},name);
+
+    break;
+
+  case '/removeDashboard' :
+
+    const response = await deleteDashboard('deleteDashboard',id);
+
+    if(response === false){
+
+    alert('Retry there was an erorr deleting dashboard');
+
+    } else {
+
+    return router.replace({pathname:"/listDashboard"},"/listDashboard");
+
+    }
+
+    break;
+
+  default :
+
+    return;
+
+  }
+
+};
+
+
+
 
