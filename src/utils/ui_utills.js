@@ -78,22 +78,5 @@ maximumBuy : async function (cryptoAmnt,treasury){
         return false;
     };
 
-},
-
-//Takes the expiry timestamp
-expiryTime : async function (timestamp) {
-
-    try{
-
-        const oneWeekBg = new Big(604800000);
-        const creationTimeBg = new Big(timestamp);
-        const expiryTimeNum = creationTimeBg.plus(oneWeekBg).toNumber();
-        const displayTime = new Date(expiryTimeNum).toLocaleString();
-        return displayTime;
-
-    }catch(err){
-        return false;
-    }
 }
-
 };

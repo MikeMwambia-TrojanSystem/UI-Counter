@@ -24,7 +24,6 @@ export default function MainDashBoard({dashboard,price}) {
   //TEST PURPOSES
   let { data, isLoading, isError }  = useSWR(`0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875`,balInEth);
 
-
   let srcImage = null;
   let Kshs_price = null;
 
@@ -77,6 +76,8 @@ export default function MainDashBoard({dashboard,price}) {
                 variant="body2"
                 color="text.primary"
               >
+                Name is ${dashboard.dashboardname}.
+                <br/>
                 Price is ${dollar_price} or Kshs {Kshs_price}.
                 <br/>
                 $1 = Kshs {dashboard.dollar_rate}.

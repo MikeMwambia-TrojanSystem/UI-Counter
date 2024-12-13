@@ -2,12 +2,14 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+//const baseURL="https://api.counter.co.ke";
+const baseURL = "https://couchservice.loca.lt/atthemoment/v1/counter";
 
 exports.createDashboard = async function(_url,_data) {
 
   const valid = await validCreate(_data);
-  
+  console.log(valid);
+
   if(valid === true){
 
     let _response = false;
@@ -33,6 +35,7 @@ exports.createDashboard = async function(_url,_data) {
       _response = response.data;
     })
     .catch((err)=>{
+      console.log(err);
       _response = false;
     });//Update error
 
@@ -49,7 +52,7 @@ exports.createDashboard = async function(_url,_data) {
 exports.updateDashboard = async function(_url,_data){
 
   const valid = await updateCheck(_data);
-
+  
   if(valid === true){
 
     let _response = false;
@@ -60,9 +63,9 @@ exports.updateDashboard = async function(_url,_data){
       data :{
         id:_data.id,
         dashboardname:_data.dashboardname,
-        dollar_rate:_data.dollar_rate,
+        dollar_rate:Number(_data.dollar_rate),
         origin_Address:_data.origin_Address,
-        minimum_buy_kshs:_data.minimum_buy_kshs
+        minimum_buy_kshs:Number(_data.minimum_buy_kshs)
       }
     })
     .then((response)=>{

@@ -3,7 +3,7 @@ const axios =require('axios');
 exports.getData = async function(_url=null) {
 
     //const baseURL="https://api.counter.co.ke";
-    const baseURL = "https://couchservice.loca.lt";
+    const baseURL = "https://couchservice.loca.lt/atthemoment/v1/counter";
 
     let _response = false;
 

@@ -7,7 +7,7 @@
     "@mui/material": "^5.11.0",
     "@react-pdf/renderer": "^3.1.9",
     "axios": "^1.2.1",
-    "big.js": "^6.2.1",
+    "big.js": "^6.2.2",
     "bip39": "^3.1.0",
     "clsx": "^1.2.1",
     "fastest-validator": "^1.17.0",

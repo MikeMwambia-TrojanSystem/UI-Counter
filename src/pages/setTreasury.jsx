@@ -22,9 +22,6 @@ export default function Treasury(props) {
 
   const router = useRouter();
 
-  const [_addressB, set_addressB] = useState(false);
-  const [_errAlert, set_errAlert] = useState(null);
-
   const searchParams = useSearchParams();
 
   const id = searchParams.get('x');
@@ -43,13 +40,16 @@ export default function Treasury(props) {
 
     const isValid = await validateAddress(event.target.origin_Address.value) || false;
 
-    if(!isValid) return;
+
+
+    if(!isValid) return alert('Address error');
 
     const response = await createTreasury('balances',data);
 
     if(response === false){
-      set_addressB(true);
+
       alert('Retry or confirm withdrawal address');
+
     }else{
   
       router.replace({pathname:"/seeDashboard",query:{y:response}},"/seeDashboard");
@@ -69,16 +69,17 @@ export default function Treasury(props) {
 
       const _isaddressW = await isAddress(`validate?address=${addressW}`);
 
-      if(_isaddressT && _isaddressW){
+      if((_isaddressT.data===true) && (_isaddressW.data===true)){
         if(addressT.toString() != addressW.toString()){
           return true;
         };
         return false;
+      }else{
+        return false;
       };
 
       }catch(err){
-
-        set_errAlert('Address error');
+        
         return false;
 
       };
@@ -118,11 +119,6 @@ export default function Treasury(props) {
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ensure you are the owner of the address entered above to avoid loss of your assets.
         </Typography>
-
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        {_errAlert}
-        </Typography>
-
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Treasury address expires after 7 days.
         </Typography>

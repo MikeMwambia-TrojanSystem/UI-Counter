@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect,useState } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -22,9 +22,7 @@ const theme = createTheme();
 
 function getSingleDashboard (_id) {
 
-  const { data, error , isLoading } = useSWR(`getSingleDashboard?id=${_id}`,
-    getData,
-    {revalidateOnMount:true});
+  const { data, error , isLoading } = useSWR(`getSingleDashboard?id=${_id}`,getData);
 
    return {
     dashboard : data,
@@ -32,7 +30,7 @@ function getSingleDashboard (_id) {
     isError: error
   }
 
-}
+};
 
 export default function EditDashboard() {
 
@@ -56,9 +54,12 @@ export default function EditDashboard() {
 
   if(dashboard === false) return <div>Dashboard unavailable...</div>;
 
-  return <DashboardForm dashboard={dashboard}/>;
+  if( (undefined === dashboard) ||(dashboard.length === 0) ) return null;
 
-}
+
+  return <DashboardForm dashboard={dashboard[0]}/>;
+
+};
  
 
 
@@ -81,45 +82,57 @@ function DashboardForm({dashboard}){
       minimum_buy_kshs:Number(dashboard.minimum_buy_kshs)
     };
 
-    const validate = async (event) => {
+    const creationTime = new Date(Number(dashboard.creationTime)).toLocaleDateString();
 
-    event.preventDefault();
+    const expiryTime = new Date(Number(dashboard.expiryTime)).toLocaleDateString();
 
-    const origin_Address = event.target.origin_Address.value;
+    const validate = async (origin_Address,asset_treasury) => {
 
-    const _isaddress =await isAddress(`validate?address=${origin_Address}`);
+      try{
 
-    if(!_isaddress) return alert('Asset withdrawal address is not correct');
+      const _isaddressT = await isAddress(`validate?address=${asset_treasury}`);
 
-    const asset_treasury = event.target.asset_treasury.value;
+      const _isaddressW = await isAddress(`validate?address=${origin_Address}`);
 
-    const _isaddressT =await isAddress(`validate?address=${asset_treasury}`);
+      if((_isaddressT.data===true) && (_isaddressW.data===true)){
+        if(asset_treasury.toString() != origin_Address.toString()){
+          return true;
+        };
+        return false;
+      }else{
+        return false;
+      }
 
-    if(!_isaddressT) return alert('Treasury address is not correct');
+      }catch(err){
 
-    if(origin_Address.toString() === asset_treasury.toString()) return alert('Address should not match');
+        return false;
 
-    //Update dashbaord object and activate update button
-    dashboard_.origin_Address = origin_Address;
-
-    dashboard_.asset_treasury = asset_treasury;
-
-    setValidated(true);
+      };
 
     };
-
 
 
     const editForm = async (event) => {
 
     event.preventDefault();
 
-    dashboard_.dollar_rate = event.target.dollar_rate.value;;
+    dashboard_.dollar_rate = Number(event.target.dollar_rate.value);
 
     dashboard_.dashboardname = event.target.dashboardname.value;;
 
-    dashboard_.minimum_buy_kshs = event.target.minimum_buy_kshs.value;;
+    let _min_buy = (Number(event.target.minimum_buy_kshs.value)>Number(150000))?Number(150000):Number(event.target.minimum_buy_kshs.value);
 
+    dashboard_.minimum_buy_kshs = Number(_min_buy);
+
+    const origin_Address = event.target.origin_Address.value;
+
+    const asset_treasury = event.target.asset_treasury.value;
+
+    const isValid = await validate(origin_Address,asset_treasury);
+
+    if(false === isValid) return alert('Invalid addresses');
+
+    dashboard_.origin_Address = origin_Address;
 
     const response = await updateDashboard('updateDashboard',dashboard_);
 
@@ -192,21 +205,37 @@ function DashboardForm({dashboard}){
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Creation time
+          Creation Time
         </Typography>
         <TextField
         required
-        id="r_t"
-        name="r_t"
+        id="creationTime"
+        name="creationTime"
         fullWidth
-        type="number"
+        type="string"
         variant="standard"
-        defaultValue={dashboard.r_t}
+        defaultValue={creationTime}
         InputProps={{
           readOnly: true
         }}
         />
-        <hr/>
+
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Expiration Time
+        </Typography>
+        <TextField
+        required
+        id="expiryTime"
+        name="expiryTime"
+        fullWidth
+        type="string"
+        variant="standard"
+        defaultValue={expiryTime}
+        InputProps={{
+          readOnly: true
+        }}
+        />
+        
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Asset supported
         </Typography>
@@ -253,16 +282,7 @@ function DashboardForm({dashboard}){
         variant="standard"
         defaultValue={dashboard.origin_Address}
         />
-
-        <div sx={{ "& button": { m: 2 } }}>
-          <Button
-            disabled={validated}
-            onClick={validate}
-            size="small">
-            Validate addresses.
-          </Button>
-        </div>
-        <hr/>
+        
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Maximum buy kshs
@@ -297,13 +317,9 @@ function DashboardForm({dashboard}){
         Orders : - 0
         </Typography>
 
-        {/*Disable if no changes in the form and 
-        if the form has been clicked*/}
-
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            disabled={!validated}
             size="small">
             Update Dashboard
           </Button>

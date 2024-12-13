@@ -81,7 +81,7 @@ export default function Dashboard() {
       dashboardname:event.target.dashboardname.value,
       paybill:Number(event.target.paybill.value),
       dollar_rate:Number(event.target.dollar_rate.value),
-      r_t:Number(event.target.r_t.value),
+      r_t:event.target.r_t.value,
       asset_id:event.target.asset_id.value,
       asset_treasury:event.target.asset_treasury.value,
       origin_Address:event.target.origin_Address.value,

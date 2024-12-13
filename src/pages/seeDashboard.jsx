@@ -43,6 +43,7 @@ export default function Dashboard() {
   const [name,setname] = useState(null);
   const [paybill,setpaybill] = useState(null);
   const [r_t,setr_t] = useState(null);
+  const [dislayTime,setDisplayTime] = useState(null);
   const [minimum_buy_kshs,setminimum_buy_kshs] = useState(null);
   const [maximum_buy_kshs,setmaximum_buy_kshs] = useState(null);
 
@@ -62,25 +63,32 @@ export default function Dashboard() {
 
       event.preventDefault();
 
-      if(!id){
-        return;
-      };
+      try {
 
-      const treasuryInfo  = await getData(`getbalance?_id=${id}`);
+        if(!id){
+          return;
+        };
 
-      setassetId('ETH');
-      settreasuryA(treasuryInfo["treasury"]);
-      setwithdrawalA(treasuryInfo["origin_Address"]);
-      setbalanceT(treasuryInfo["asset_balance"]);
+        const treasuryInfo  = await getData(`getbalance?_id=${id}`);
 
-      if(false != treasuryInfo){
+        setassetId('ETHEREUM');
+        settreasuryA(treasuryInfo["treasury"]);
+        setwithdrawalA(treasuryInfo["origin_Address"]);
+        setbalanceT(treasuryInfo["asset_balance"]);
 
-      //Disable treasury button
-      settreasurySt(true);
+        if(false != treasuryInfo){
 
-      //Enable price info button
-      setpriceInfoSt(false);
+        //Disable treasury button
+        settreasurySt(true);
 
+        //Enable price info button
+        setpriceInfoSt(false);
+
+        };
+
+      }catch(err){
+
+        alert('Error generating treasury information');
       };
   };
 
@@ -88,27 +96,36 @@ export default function Dashboard() {
 
     event.preventDefault();
 
-    setprofileId(id);
+    try{
 
-    if(!profileId){
-      return;
+      setprofileId(id);
+
+      if(!profileId){
+        return;
+      };
+
+      const profileData = await getData(`getprofile?_id=${profileId}`);
+
+      setdollar_rate(profileData["dollar_rate"]);
+      setname(profileData["name"]);
+      setpaybill(profileData["paybill"]);
+
+      const creationDate = new Date(Number(profileData["r_t"])).toLocaleDateString() || null;
+      setr_t(profileData["r_t"]);
+      setDisplayTime(creationDate);
+
+      setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
+      setmaximum_buy_kshs(profileData["maximum_buy_kshs"]); 
+
+      if(Number(profileData["dollar_rate"])>1){
+      setprofileSt(true);
+      settreasurySt(false);
+      };
+
+    }catch(err){
+
+      alert('Error generating profile information');
     };
-
-    const profileData = await getData(`getprofile?_id=${profileId}`);
-
-    setdollar_rate(profileData["dollar_rate"]);
-    setname(profileData["name"]);
-    setpaybill(profileData["paybill"]);
-    setr_t(profileData["r_t"]);
-
-    setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
-    setmaximum_buy_kshs(profileData["maximum_buy_kshs"]);
-
-    if(Number(profileData["dollar_rate"])>1){
-    setprofileSt(true);
-    settreasurySt(false);
-    };
-
   };
 
 
@@ -130,7 +147,6 @@ export default function Dashboard() {
     }catch(err){
 
       alert('Could not fetch price');
-
     };
   };
 
@@ -163,28 +179,34 @@ export default function Dashboard() {
 
     event.preventDefault();
 
-    const dashboard = {
-      _id:id,
-      dashboardname:name,
-      paybill:Number(paybill),
-      dollar_rate:Number(dollar_rate),
-      r_t:Number(r_t),
-      asset_id:assetId,
-      asset_treasury:treasuryA,
-      origin_Address:withdrawalA,
-      maximum_buy_kshs:Number(maximum_buy_kshs),
-      minimum_buy_kshs:Number(minimum_buy_kshs),
-      orders:0
-    };
+    try{
 
-    const response = await createDashboard('createDashboard',dashboard);
+      const dashboard = {
+        _id:id,
+        dashboardname:name,
+        paybill:Number(paybill),
+        dollar_rate:Number(dollar_rate),
+        r_t:r_t,
+        asset_id:assetId,
+        asset_treasury:treasuryA,
+        origin_Address:withdrawalA,
+        maximum_buy_kshs:Number(maximum_buy_kshs),
+        minimum_buy_kshs:Number(minimum_buy_kshs),
+        orders:0
+      };
 
+      const response = await createDashboard('createDashboard',dashboard);
 
-    if(response === false){
-      setdashboardSt(false);
-      alert('Retry there was an erorr saving dashboard');
-    }else {
-      router.replace({pathname:"/listDashboard"},"/listDashboard");
+      if(response === false){
+        setdashboardSt(false);
+        alert('Retry there was an erorr saving dashboard');
+      }else {
+        router.replace({pathname:"/listDashboard"},"/listDashboard");
+      };
+
+    }catch(err){
+
+      alert('Could not set dashbaord information');
     };
     
   };
@@ -229,7 +251,7 @@ export default function Dashboard() {
               Dollar to Kshs rate :- {dollar_rate}
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-              Expiry time :- {r_t}
+              Creation time :- {dislayTime}
             </Typography>
             <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
               Maximum buy Kshs :- {maximum_buy_kshs}
@@ -272,7 +294,7 @@ export default function Dashboard() {
 
               <Typography variant="body2" color="text.primary" 
               sx={{ m: 1 }}>
-              Emergency Withdrawal Address :- 
+              Withdrawal Address :- 
               </Typography>
               <Typography variant="body2" color="text.primary" 
               sx={{ m: 1 }}>

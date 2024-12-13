@@ -59,7 +59,7 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETH'
+      name:'ETHEREUM'
     };
 
     const response = await createAsset('assets',data);

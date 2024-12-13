@@ -40,7 +40,7 @@ import copy from "../utils/copy.js";
 import useSWR from "swr";
 import { deleteDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
-import { expiryTime }  from "../utils/ui_utills.js";
+import { _Time }  from "../utils/ui_utills.js";
 
 function getAllDashboards () {
 
@@ -68,6 +68,8 @@ export default function listDashboard(){
   if (isLoading) return <LinearProgress/>;
 
   if(isError || false === dashboards) return <ErrorComponent message={'Error fetching dashboard'}/>;
+
+  if( (undefined === dashboards) ||(dashboards.length === 0) ) return null;
 
   const profile = dashboards.find(dashboard=> dashboard.id === id);
 
@@ -194,7 +196,7 @@ useEffect(()=>{
           Top up {profile.dashboardname}.
         </Typography>
        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Send {profile.asset_id} you wish to sell to<br/> 
+          Send Ethereum you wish to sell to<br/> 
           {profile.asset_treasury} 
           <IconButton aria-label="copy" size="small" 
             onClick={() => {copy(profile.asset_treasury);}}>
@@ -257,21 +259,10 @@ function DrawDashboard({data}) {
 
   const dashboard = data;
 
-  const creationDate = new Date(Number(dashboard.r_t)).toLocaleString();
+  const creationDate = new Date(dashboard.creationTime).toLocaleDateString() || null;
+  const expiryTime = new Date(dashboard.expiryTime).toLocaleDateString() || null;
 
-    //Add one week here
-  const [displayTime, setdisplayTime] = useState(null);
-
-  useEffect(() => {
-    async function getTime(timestamp){
-      const _current = await expiryTime(timestamp);
-      setdisplayTime(_current);
-    }
-
-    getTime(dashboard.r_t);
-
-  }, []);
-
+  //Change this logic make it better
   const timestamp = new Date().getTime();
 
   const difference = (Number(timestamp) - Number(new Date(Number(dashboard.r_t))));
@@ -315,8 +306,9 @@ function DrawDashboard({data}) {
           Paybill : {dashboard.paybill}<br/>
           Asset : {dashboard.asset_name}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
+          Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>
-          Expiry time : {displayTime}<br/>
+          Expiry time : {expiryTime}<br/>
           Status : {status}
       </Typography>
 
@@ -332,7 +324,7 @@ function DrawDashboard({data}) {
       aria-label="copy" 
       size="small"
       disabled={(status === "Expired")?true:false}
-      onClick={()=>auth(dashboard._id)}
+      onClick={()=>auth(dashboard.id)}
       >
       <RemoveIcon fontSize="inherit"/>Withdraw
       </IconButton>
@@ -340,7 +332,7 @@ function DrawDashboard({data}) {
       <IconButton 
       aria-label="copy" 
       size="small"
-      onClick={()=>edit(dashboard._id)}
+      onClick={()=>edit(dashboard.id)}
       >
       <ModeEditIcon fontSize="inherit" />Edit
       </IconButton>
@@ -348,7 +340,7 @@ function DrawDashboard({data}) {
       <IconButton
       aria-label="copy" 
       size="small"
-      onClick={()=>_remove(dashboard._id)}
+      onClick={()=>_remove(dashboard.id)}
       >
       <DeleteIcon fontSize="inherit" />Delete
       </IconButton>
