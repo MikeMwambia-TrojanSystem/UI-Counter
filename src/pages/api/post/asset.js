@@ -3,8 +3,7 @@ const { validCreate } = require("./schema/assetSchema.js");
 
 const axios =require('axios');
 
-//const baseURL="https://api.counter.co.ke";
-const baseURL="https://couchservice.loca.lt/atthemoment/v1/counter/";
+const baseURL="https://api.counter.co.ke";
 
 exports.createAsset = async function(_url,_data) {
 
