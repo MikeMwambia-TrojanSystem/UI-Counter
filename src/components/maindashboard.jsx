@@ -19,13 +19,10 @@ import useSWR from "swr";
 
 export default function MainDashBoard({dashboard,price}) {
 
-  console.log(dashboard);
-    
   const router = useRouter();
 
   //TEST PURPOSES
   let { data, isLoading, isError }  = useSWR(`0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875`,balInEth);
-
 
   let srcImage = null;
   let Kshs_price = null;
@@ -79,6 +76,8 @@ export default function MainDashBoard({dashboard,price}) {
                 variant="body2"
                 color="text.primary"
               >
+                Name is ${dashboard.dashboardname}.
+                <br/>
                 Price is ${dollar_price} or Kshs {Kshs_price}.
                 <br/>
                 $1 = Kshs {dashboard.dollar_rate}.
@@ -86,12 +85,15 @@ export default function MainDashBoard({dashboard,price}) {
                 Max. buy per transaction is Kshs {dashboard.maximum_buy_kshs}.
                 <br/>
                 Min. buy per transaction is Kshs {dashboard.minimum_buy_kshs}.
-                <br/>
+                <br/>asset_id
                 Avialable is {data} Ethereum.
+                <br/>
+                Valued at : -
+                <br/>
+                Insufficient balance if no bal. 
               </Typography>
               <div sx={{ "& button": { m: 1 } }}>
-             {/* Disabled/Active if the amnt of eth in wallet is greater 
-              than equivalent in Kshs of minimum buy plug gas fee.*/}
+             {/* Disable if valued at value is less than Kshs 150*/}
                 <Button
                   prefetch={false}
                   replace={true}

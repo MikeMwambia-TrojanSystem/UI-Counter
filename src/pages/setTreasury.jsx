@@ -11,7 +11,7 @@ import useSWR from "swr";
 import { useRouter } from 'next/navigation'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
-import {isAddress}  from "../utils/addressUtills";
+import {isAddress}  from "./api/get/addressUtils.js";
 import { getData } from "./api/get/getData.js";
 import { createTreasury }  from "./api/post/treasury.js";
 import { expiryTime }  from "../utils/ui_utills.js";
@@ -21,10 +21,6 @@ const theme = createTheme();
 export default function Treasury(props) {
 
   const router = useRouter();
-
-  //Activate or deactivate depending on this state
-  const [status, setStatus] = useState(true);
-  const [_addressB, set_addressB] = useState(false);
 
   const searchParams = useSearchParams();
 
@@ -42,26 +38,51 @@ export default function Treasury(props) {
       asset_balance:Number(0)
     };
 
-    if(data.origin_Address.toString() === data.treasury.toString()) return alert('Address should not match treasury');
+    const isValid = await validateAddress(event.target.origin_Address.value) || false;
 
-    if(!isAddress(data.origin_Address)) return alert('Invalid address');
+
+
+    if(!isValid) return alert('Address error');
 
     const response = await createTreasury('balances',data);
 
     if(response === false){
-      set_addressB(true);
+
       alert('Retry or confirm withdrawal address');
+
     }else{
   
       router.replace({pathname:"/seeDashboard",query:{y:response}},"/seeDashboard");
-    }
+    };
 
   };
 
 
-  const handleChange = async (event) => {
-      const setStatu = await isAddress(event.target.value);
-      setStatus((setStatu)?false:true);
+  const validateAddress = async (addressw) => {
+
+      const addressT = address;
+      const addressW = addressw;
+   
+      try{
+
+      const _isaddressT = await isAddress(`validate?address=${addressT}`);
+
+      const _isaddressW = await isAddress(`validate?address=${addressW}`);
+
+      if((_isaddressT.data===true) && (_isaddressW.data===true)){
+        if(addressT.toString() != addressW.toString()){
+          return true;
+        };
+        return false;
+      }else{
+        return false;
+      };
+
+      }catch(err){
+        
+        return false;
+
+      };
   };
 
 
@@ -93,12 +114,11 @@ export default function Treasury(props) {
         </Typography>
 
         <TextField required id="origin_Address" name="origin_Address" 
-        fullWidth type="string" variant="standard" onChange={handleChange}/>
+        fullWidth type="string" variant="standard"/>
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ensure you are the owner of the address entered above to avoid loss of your assets.
         </Typography>
-
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Treasury address expires after 7 days.
         </Typography>
@@ -106,8 +126,7 @@ export default function Treasury(props) {
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
-            size="small"
-            disabled={status}>
+            size="small">
             Save Treasury
           </Button>
         </div>
@@ -119,3 +138,4 @@ export default function Treasury(props) {
     </ThemeProvider>
   );
 }
+

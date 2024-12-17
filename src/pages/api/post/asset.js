@@ -9,7 +9,7 @@ const baseURL="https://couchservice.loca.lt/atthemoment/v1/counter/";
 exports.createAsset = async function(_url,_data) {
 
   const valid = await validCreate(_data);
-
+  console.log(valid);
   if(valid === true){
 
     let _response = false;

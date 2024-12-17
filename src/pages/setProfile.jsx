@@ -22,25 +22,27 @@ export default function Profile(props) {
 
   const [ isDisabled , setDisabled ] = useState(false);
 
-  const timestamp = new Date().getTime();
+  const timestamp = Date.now().toString();
 
-  //Add timeout to this function
+  const displayTime = new Date().toLocaleDateString();
 
   const handleSubmit = async (event) => {
 
     event.preventDefault()
 
     setDisabled(true);
+
+    let _min_buy = (Number(event.target.minimum_buy_kshs.value)>Number(150000))?Number(150000):Number(event.target.minimum_buy_kshs.value);
  
     const data = {
       name: event.target.name.value,
       unique_link: event.target.unique_link.value,
       dollar_rate:Number(event.target.dollar_rate.value),
-      minimum_buy_kshs:Number(event.target.minimum_buy_kshs.value),
+      minimum_buy_kshs:Number(_min_buy),
       paybill:Number(event.target.paybill.value),
       maximum_buy_kshs:Number(event.target.maximum_buy_kshs.value),
       status:false,
-      r_t : Number(timestamp)
+      r_t : timestamp
     };
 
     const response = await createProfile('profile',data);
@@ -52,7 +54,7 @@ export default function Profile(props) {
       router.replace({pathname:"/setAsset",query:{x:response._id}},"/setAsset");
     }
 
-  }
+  };
 
   return (
      <ThemeProvider theme={theme}>
@@ -138,7 +140,7 @@ export default function Profile(props) {
             fullWidth
             type="string"
             variant="standard"
-            defaultValue={timestamp}
+            defaultValue={displayTime}
             InputProps={{
               readOnly:true,
               startAdornment: (

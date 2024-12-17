@@ -39,10 +39,9 @@ exports.createProfile = async function(_url,_data) {
       _response = false;
     });
 
-    return _response
+    return _response;
     
   }
-
 
   return false;
 

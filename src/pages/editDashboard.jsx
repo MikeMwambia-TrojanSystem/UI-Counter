@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ useEffect,useState } from "react";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import {updateDashboard} from "./api/post/dashboard.js";
-import {isAddress}  from "../utils/addressUtills";
+import {isAddress}  from "./api/get/addressUtils.js";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 
@@ -22,9 +22,7 @@ const theme = createTheme();
 
 function getSingleDashboard (_id) {
 
-  const { data, error , isLoading } = useSWR(`getSingleDashboard?id=${_id}`,
-    getData,
-    {revalidateOnMount:true});
+  const { data, error , isLoading } = useSWR(`getSingleDashboard?id=${_id}`,getData);
 
    return {
     dashboard : data,
@@ -32,7 +30,7 @@ function getSingleDashboard (_id) {
     isError: error
   }
 
-}
+};
 
 export default function EditDashboard() {
 
@@ -56,9 +54,12 @@ export default function EditDashboard() {
 
   if(dashboard === false) return <div>Dashboard unavailable...</div>;
 
-  return <DashboardForm dashboard={dashboard}/>;
+  if( (undefined === dashboard) ||(dashboard.length === 0) ) return null;
 
-}
+
+  return <DashboardForm dashboard={dashboard[0]}/>;
+
+};
  
 
 
@@ -71,35 +72,73 @@ function DashboardForm({dashboard}){
 
     const id = searchParams.get('x');
 
+    const [validated,setValidated] = React.useState(false);
+
+    const dashboard_ = {
+      id:id,
+      dashboardname:dashboard.dashboardname,
+      dollar_rate:Number(dashboard.dollar_rate),
+      origin_Address:dashboard.origin_Address,
+      minimum_buy_kshs:Number(dashboard.minimum_buy_kshs)
+    };
+
+    const creationTime = new Date(Number(dashboard.creationTime)).toLocaleDateString();
+
+    const expiryTime = new Date(Number(dashboard.expiryTime)).toLocaleDateString();
+
+    const validate = async (origin_Address,asset_treasury) => {
+
+      try{
+
+      const _isaddressT = await isAddress(`validate?address=${asset_treasury}`);
+
+      const _isaddressW = await isAddress(`validate?address=${origin_Address}`);
+
+      if((_isaddressT.data===true) && (_isaddressW.data===true)){
+        if(asset_treasury.toString() != origin_Address.toString()){
+          return true;
+        };
+        return false;
+      }else{
+        return false;
+      }
+
+      }catch(err){
+
+        return false;
+
+      };
+
+    };
+
+
     const editForm = async (event) => {
 
-    event.preventDefault()
+    event.preventDefault();
+
+    dashboard_.dollar_rate = Number(event.target.dollar_rate.value);
+
+    dashboard_.dashboardname = event.target.dashboardname.value;;
+
+    let _min_buy = (Number(event.target.minimum_buy_kshs.value)>Number(150000))?Number(150000):Number(event.target.minimum_buy_kshs.value);
+
+    dashboard_.minimum_buy_kshs = Number(_min_buy);
 
     const origin_Address = event.target.origin_Address.value;
 
     const asset_treasury = event.target.asset_treasury.value;
 
-    const _isaddress =await isAddress(origin_Address);
-    
-    if(!_isaddress) return alert('Asset withdrawal address is not correct');
+    const isValid = await validate(origin_Address,asset_treasury);
 
-    const _isaddressT =await isAddress(asset_treasury);
+    if(false === isValid) return alert('Invalid addresses');
 
-    if(!_isaddressT) return alert('Treasury address is not correct');
+    dashboard_.origin_Address = origin_Address;
 
-    if(origin_Address.toString() === asset_treasury.toString()) return alert('Address should not match');
-
-    const dashboard = {
-      id:id,
-      dashboardname:event.target.dashboardname.value,
-      dollar_rate:Number(event.target.dollar_rate.value),
-      origin_Address:event.target.origin_Address.value,
-      minimum_buy_kshs:Number(event.target.minimum_buy_kshs.value)
-    };
-
-    const response = await updateDashboard('updateDashboard',dashboard);
+    const response = await updateDashboard('updateDashboard',dashboard_);
 
     if(response === false){
+
+      setValidated(false);
 
       alert('Retry there was an erorr saving dashboard');
 
@@ -109,7 +148,7 @@ function DashboardForm({dashboard}){
 
     };
 
-  }
+  };
 
     return (
     <>
@@ -166,21 +205,37 @@ function DashboardForm({dashboard}){
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Creation time
+          Creation Time
         </Typography>
         <TextField
         required
-        id="r_t"
-        name="r_t"
+        id="creationTime"
+        name="creationTime"
         fullWidth
-        type="number"
+        type="string"
         variant="standard"
-        defaultValue={dashboard.r_t}
+        defaultValue={creationTime}
         InputProps={{
           readOnly: true
         }}
         />
-      
+
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Expiration Time
+        </Typography>
+        <TextField
+        required
+        id="expiryTime"
+        name="expiryTime"
+        fullWidth
+        type="string"
+        variant="standard"
+        defaultValue={expiryTime}
+        InputProps={{
+          readOnly: true
+        }}
+        />
+        
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Asset supported
         </Typography>
@@ -227,6 +282,7 @@ function DashboardForm({dashboard}){
         variant="standard"
         defaultValue={dashboard.origin_Address}
         />
+        
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Maximum buy kshs
@@ -261,14 +317,11 @@ function DashboardForm({dashboard}){
         Orders : - 0
         </Typography>
 
-        {/*Disable if no changes in the form and 
-        if the form has been clicked*/}
-
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"
             size="small">
-            Update
+            Update Dashboard
           </Button>
         </div>
         </form>
