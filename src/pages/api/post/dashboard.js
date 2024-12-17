@@ -2,8 +2,7 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-//const baseURL="https://api.counter.co.ke";
-const baseURL = "https://couchservice.loca.lt/atthemoment/v1/counter";
+const baseURL="https://api.counter.co.ke";
 
 exports.createDashboard = async function(_url,_data) {
 
