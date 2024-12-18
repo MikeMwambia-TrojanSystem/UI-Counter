@@ -8,7 +8,7 @@ const baseURL="https://api.counter.co.ke";
 exports.createAsset = async function(_url,_data) {
 
   const valid = await validCreate(_data);
-  console.log(valid);
+  
   if(valid === true){
 
     let _response = false;

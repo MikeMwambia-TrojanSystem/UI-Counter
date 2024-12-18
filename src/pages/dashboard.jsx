@@ -10,7 +10,7 @@ import StickyFooter from "../components/footer";
 import MainDashboard from "../components/maindashboard";
 import useSWR from "swr";
 import Error from 'next/error';
-import { getData } from "./api/get/getData.js";
+import { generateActiveDashboards } from "./api/get/activeDashboards.js";
 import { getPrice } from "./api/get/getPrice.js";
 import { priceInKshs } from "../utils/ui_utills.js";
 
@@ -31,12 +31,12 @@ const defaultTheme = createTheme();
 
 export default function Dashboard(props) {
 
-  //We cannot use this method to get dashboards 
-  //instead we use design document that takes url 
-  //and returns all  ACTIVE dashboards
-  //The below getAllDashboards is for settings page alone
-  //MOVE THIS LOGIC TO ONE FUNCTION
 
+  const dashboard = props.activeDashbaords;
+  console.log(dashboard);
+  if(dashboard.length>0)//Do something with active dashboards
+    //Show no active dashboards
+    
   const { data : dashboards } = useSWR(`getAllDashboards`,getData);
   const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice
     ,{ refreshInterval: 5000 });
@@ -99,3 +99,15 @@ export default function Dashboard(props) {
   );
 }
 
+
+
+export async function getStaticProps() {
+
+  const _activeDashbaords = await generateActiveDashboards();
+
+  return {
+    props: {
+      activeDashbaords: _activeDashbaords
+    }
+  };
+}

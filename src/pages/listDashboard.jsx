@@ -304,7 +304,7 @@ function DrawDashboard({data}) {
           Dollar Rate : {dashboard.dollar_rate}<br/>
           Minimum Buy : {dashboard.minimum_buy_kshs}<br/>
           Paybill : {dashboard.paybill}<br/>
-          Asset : {dashboard.asset_name}<br/>
+          Asset : {dashboard.asset_name || 'ETHEREUM'}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
           Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>

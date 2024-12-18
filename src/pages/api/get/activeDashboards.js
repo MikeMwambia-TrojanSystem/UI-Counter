@@ -1,38 +1,97 @@
 const axios =require('axios');
+const { getPrice } = require("./getPrice.js");
+const { getBalInEth } - require("./addressUtils.js");
+const { priceInKshs,balInKshs } = require("../utils/ui_utills.js");
+
 
 //Takes unique url
-exports.generateActiveDashboards = async function(_url=null) {
+exports.generateActiveDashboards = async function() {
 
-  let _activeDashbaords = [];
+  let api = 'https://api.counter.co.ke/getActiveDashboards'
 
   await axios
-  .get('getActiveDashboardsFromCouchService')
+  .get(api)
   .then(response => {
-    _activeDashbaords.push(response);
-  }).catch(error => _activeDashbaords);
+    return (response.length>0)?addPrice(response):[];
+  }).catch(error => false);
 
 };
 
+async function addPrice(docs){
 
+  let pricedDashboards = [];
 
-//Dashboards queried
-exports.indActiveDashboards = async function(_dashboard=null) {
+  try {
 
-  let response = {};
+    let price = await getPrice('api/v3/ticker/price?symbol=ETHUSDT');
+    let dollar_price = price.price;
 
-  await axios
-  .get('priceFromBinance')
-  .then(response => {
-    //Calculate asset price in Kshs from response
-    //Get asset address balance
-    return axios.get('getCryptoBalance');
-  })
-  .then(response => {
-    //Calculate asset address balance in Kshs
-    //set the maximum buy from above
-    return response;
+    docs.forEach((doc)=>{
 
-  }).catch(error => response);
+      let Kshs_price = await priceInKshs(dollar_price,doc.dollar_rate);
+
+      const dashboardA = {
+          id: doc.id,
+          dashboardname: doc.dashboardname,
+          dollar_rate: doc.dollar_rate,
+          creationTime: doc.creationTime,
+          expiryTime: doc.expiryTime,
+          asset_treasury: doc.asset_treasury,
+          minimum_buy_kshs: doc.minimum_buy_kshs,
+          dollar_price:dollar_price,
+          Kshs_price:Kshs_price
+      };
+
+      const dashboardAD = JSON.parse(JSON.stringify(dashboardA));
+      pricedDashboards.push(dashboardAD);
+
+    });
+
+    return addCryptoBal(pricedDashboards);
+
+  }catch(err){
+    console.log(err);
+    return false;
+  };
 
 };
+
+async function addCryptoBal(docs){
+
+  let addedCryptoBal = [];
+
+  try {
+
+    docs.forEach((doc)=>{
+
+      let treasuryBal = await getBalInEth('balAddress',{address:doc.address,form:'ether'});
+      let balInKshs = await balInKshs(doc.Kshs_price,treasuryBal);
+
+      const dashboardCrypted = {
+          id: doc.id,
+          dashboardname: doc.dashboardname,
+          dollar_rate: doc.dollar_rate,
+          creationTime: doc.creationTime,
+          expiryTime: doc.expiryTime,
+          asset_treasury: treasuryBal,
+          minimum_buy_kshs: doc.minimum_buy_kshs,
+          maximum_buy_kshs: balInKshs||150000,
+          dollar_price:doc.dollar_price,
+          Kshs_price:doc.Kshs_price
+      };
+
+      const dashboardCrypto = JSON.parse(JSON.stringify(dashboardCrypted));
+      addedCryptoBal.push(dashboardCrypto);
+
+    });
+
+    return addedCryptoBal;
+
+  }catch(err){
+    console.log(err);
+    return false;
+  }
+
+};
+
 

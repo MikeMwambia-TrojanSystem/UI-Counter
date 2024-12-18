@@ -45,6 +45,7 @@ cryptoAmnt: async function (priceInKshs,amntInKshs){
 
 //Takes rate in dollar rate and price in dollars
 //Returns Big Number string (price in Kshs)
+//cryptBal should be in ethers to make it easy to calculate
 balInKshs : async function (_priceInKshs,cryptBal){
 
     try{
