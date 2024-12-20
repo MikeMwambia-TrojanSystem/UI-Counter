@@ -48,7 +48,7 @@ async function addPrice(docs){
           dollar_price:dollar_price,
           Kshs_price:Kshs_price
       };
-
+      
       const dashboardAD = JSON.parse(JSON.stringify(dashboardA));
       pricedDashboards.push(dashboardAD);
     });

@@ -13,37 +13,14 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import { balInEth } from "../utils/addressUtills.js";
-import useSWR from "swr";
 
 
-export default function MainDashBoard({dashboard,price}) {
+export default function MainDashBoard({dashboard}) {
 
   const router = useRouter();
 
-  //TEST PURPOSES
-  let { data, isLoading, isError }  = useSWR(`0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875`,balInEth);
-
-  let srcImage = null;
-  let Kshs_price = null;
-
-  if(dashboard.asset_id === "ETH"){
-    srcImage = "/images/CoinIcons/eth.png";
-  };
-
-
-  if (isError) return <div>Failed to load refresh page...</div>;
-
-  if (isLoading)
-    return (
-      <div>
-        <LinearProgress color="inherit" />
-      </div>
-  );
-
-  const dollar_price = Number(price.price);
-
-  Kshs_price = Math.round(Number(dollar_price*dashboard.dollar_rate))
+  const creationDate = new Date(dashboard.creationTime).toLocaleDateString() || null;
+  const expiryTime = new Date(dashboard.expiryTime).toLocaleDateString() || null;
 
   const handleSubmit = async (event) => {
 
@@ -64,10 +41,10 @@ export default function MainDashBoard({dashboard,price}) {
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src={srcImage}/>
+          <Avatar alt="Remy Sharp" src="/images/CoinIcons/eth.png"/>
         </ListItemAvatar>
         <ListItemText
-          primary={dashboard.asset_id}
+          primary="Ethereum"
           secondary={
             <React.Fragment>
               <Typography
@@ -76,21 +53,25 @@ export default function MainDashBoard({dashboard,price}) {
                 variant="body2"
                 color="text.primary"
               >
-                Name is ${dashboard.dashboardname}.
+                Name is {dashboard.dashboardname}.
                 <br/>
-                Price is ${dollar_price} or Kshs {Kshs_price}.
+                Price in $ {dashboard.dollar_price}.
+                <br/>
+                Price in Kshs {dashboard.Kshs_price}.
                 <br/>
                 $1 = Kshs {dashboard.dollar_rate}.
                 <br/>
-                Max. buy per transaction is Kshs {dashboard.maximum_buy_kshs}.
+                Max. buy is Kshs {dashboard.maximum_buy_kshs}.
                 <br/>
-                Min. buy per transaction is Kshs {dashboard.minimum_buy_kshs}.
-                <br/>asset_id
-                Avialable is {data} Ethereum.
+                Min. buy is Kshs {dashboard.minimum_buy_kshs}.
                 <br/>
-                Valued at : -
+                Avialable is {dashboard.asset_treasury} Ethereum.
                 <br/>
-                Insufficient balance if no bal. 
+                Valued at : - {dashboard.available}
+                <br/>
+                Creation time : - {creationDate}
+                <br/>
+                Expiry time : -  {expiryTime}
               </Typography>
               <div sx={{ "& button": { m: 1 } }}>
              {/* Disable if valued at value is less than Kshs 150*/}

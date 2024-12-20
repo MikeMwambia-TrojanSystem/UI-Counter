@@ -9,11 +9,7 @@ import HeaderComponent from "../components/header";
 import StickyFooter from "../components/footer";
 import MainDashboard from "../components/maindashboard";
 import useSWR from "swr";
-import Error from 'next/error';
 import { generateActiveDashboards } from "./api/get/activeDashboards.js";
-import { getPrice } from "./api/get/getPrice.js";
-import { getData } from "./api/get/getData.js";
-import { priceInKshs } from "../utils/ui_utills.js";
 
 //Theme
 const theme = createTheme({
@@ -30,34 +26,18 @@ const theme = createTheme({
 const defaultTheme = createTheme();
 
 
-export default function Dashboard(props) {
 
-  
-  const { data : dashboards } = useSWR(`ActiveDashboards`,generateActiveDashboards);
+export default function Dashboard() {
+
+  const { data :dashboards } = useSWR(`ActiveDashboards`,generateActiveDashboards,{ refreshInterval: 5000 });
   console.log(dashboards);
-
-  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 5000 });
-
-  const [Kshs_price, setKshs_price] = useState(null);
 
   if (!dashboards)
     return (
       <div>
-        Welcome to counter the platform that gives you the freedom to price your crypto.
-        Generating dashbaords.
-      </div>
-    );
-
-  if (!price)
-    return (
-      <div>
         <LinearProgress color="inherit" />
       </div>
-    );
-
-  if(!props){
-    return <Error statusCode={404}/>
-  }
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -72,8 +52,7 @@ export default function Dashboard(props) {
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
           <HeaderComponent />
            {dashboards.map((dashboard) => {
-              return (<MainDashboard dashboard={dashboard}
-                price={price} Kshs_price={Kshs_price}/>);
+              return (<MainDashboard dashboard={dashboard}/>);
             })}
         </Container>
         <Box
