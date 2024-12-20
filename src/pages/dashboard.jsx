@@ -12,6 +12,7 @@ import useSWR from "swr";
 import Error from 'next/error';
 import { generateActiveDashboards } from "./api/get/activeDashboards.js";
 import { getPrice } from "./api/get/getPrice.js";
+import { getData } from "./api/get/getData.js";
 import { priceInKshs } from "../utils/ui_utills.js";
 
 //Theme
@@ -31,22 +32,19 @@ const defaultTheme = createTheme();
 
 export default function Dashboard(props) {
 
+  
+  const { data : dashboards } = useSWR(`ActiveDashboards`,generateActiveDashboards);
+  console.log(dashboards);
 
-  const dashboard = props.activeDashbaords;
-  console.log(dashboard);
-  if(dashboard.length>0)//Do something with active dashboards
-    //Show no active dashboards
-    
-  const { data : dashboards } = useSWR(`getAllDashboards`,getData);
-  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice
-    ,{ refreshInterval: 5000 });
+  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 5000 });
 
   const [Kshs_price, setKshs_price] = useState(null);
 
   if (!dashboards)
     return (
       <div>
-        Generating dashboard if there's an error refresh page.
+        Welcome to counter the platform that gives you the freedom to price your crypto.
+        Generating dashbaords.
       </div>
     );
 
@@ -97,17 +95,4 @@ export default function Dashboard(props) {
       </Box>
     </ThemeProvider>
   );
-}
-
-
-
-export async function getStaticProps() {
-
-  const _activeDashbaords = await generateActiveDashboards();
-
-  return {
-    props: {
-      activeDashbaords: _activeDashbaords
-    }
-  };
-}
+};

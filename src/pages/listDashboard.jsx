@@ -62,14 +62,23 @@ export default function listDashboard(){
 
   const id = searchParams.get('x');
 
-
   const { dashboards, isLoading, isError } = getAllDashboards();
 
   if (isLoading) return <LinearProgress/>;
 
   if(isError || false === dashboards) return <ErrorComponent message={'Error fetching dashboard'}/>;
 
-  if( (undefined === dashboards) ||(dashboards.length === 0) ) return null;
+  if( (undefined === dashboards) ||(dashboards.length === 0) ) return (
+      <>
+
+      <div>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        No dashboards avaialable.
+      </Typography>
+      </div>
+      
+      </>
+  );
 
   const profile = dashboards.find(dashboard=> dashboard.id === id);
 

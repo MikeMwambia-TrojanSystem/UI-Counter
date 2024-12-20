@@ -12,7 +12,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { createProfile }   from "./api/post/profile.js";
 
-//URL Bug
 
 const theme = createTheme();
 
