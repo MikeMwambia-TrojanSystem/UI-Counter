@@ -10,8 +10,9 @@ import StickyFooter from "../components/footer";
 import MainDashboard from "../components/maindashboard";
 import useSWR from "swr";
 import Error from 'next/error';
-import { getData } from "./api/get/getData.js";
+import { generateActiveDashboards } from "./api/get/activeDashboards.js";
 import { getPrice } from "./api/get/getPrice.js";
+import { getData } from "./api/get/getData.js";
 import { priceInKshs } from "../utils/ui_utills.js";
 
 //Theme
@@ -31,22 +32,19 @@ const defaultTheme = createTheme();
 
 export default function Dashboard(props) {
 
-  //We cannot use this method to get dashboards 
-  //instead we use design document that takes url 
-  //and returns all  ACTIVE dashboards
-  //The below getAllDashboards is for settings page alone
-  //MOVE THIS LOGIC TO ONE FUNCTION
+  
+  const { data : dashboards } = useSWR(`ActiveDashboards`,generateActiveDashboards);
+  console.log(dashboards);
 
-  const { data : dashboards } = useSWR(`getAllDashboards`,getData);
-  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice
-    ,{ refreshInterval: 5000 });
+  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 5000 });
 
   const [Kshs_price, setKshs_price] = useState(null);
 
   if (!dashboards)
     return (
       <div>
-        Generating dashboard if there's an error refresh page.
+        Welcome to counter the platform that gives you the freedom to price your crypto.
+        Generating dashbaords.
       </div>
     );
 
@@ -97,5 +95,4 @@ export default function Dashboard(props) {
       </Box>
     </ThemeProvider>
   );
-}
-
+};

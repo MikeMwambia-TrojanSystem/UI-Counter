@@ -62,14 +62,23 @@ export default function listDashboard(){
 
   const id = searchParams.get('x');
 
-
   const { dashboards, isLoading, isError } = getAllDashboards();
 
   if (isLoading) return <LinearProgress/>;
 
   if(isError || false === dashboards) return <ErrorComponent message={'Error fetching dashboard'}/>;
 
-  if( (undefined === dashboards) ||(dashboards.length === 0) ) return null;
+  if( (undefined === dashboards) ||(dashboards.length === 0) ) return (
+      <>
+
+      <div>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        No dashboards avaialable.
+      </Typography>
+      </div>
+      
+      </>
+  );
 
   const profile = dashboards.find(dashboard=> dashboard.id === id);
 
@@ -304,7 +313,7 @@ function DrawDashboard({data}) {
           Dollar Rate : {dashboard.dollar_rate}<br/>
           Minimum Buy : {dashboard.minimum_buy_kshs}<br/>
           Paybill : {dashboard.paybill}<br/>
-          Asset : {dashboard.asset_name}<br/>
+          Asset : {dashboard.asset_name || 'ETHEREUM'}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
           Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>

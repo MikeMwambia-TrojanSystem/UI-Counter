@@ -2,9 +2,9 @@ const axios =require('axios');
 const bip39 = require('bip39');
 const Moralis = require('moralis');
 
-exports.isAddress = async function(_url=null) {
+const baseURL="https://ethereum.counter.co.ke";
 
-    const baseURL="https://ethereum.counter.co.ke";
+exports.isAddress = async function(_url=null) {
 
     let _response = false;
 
@@ -27,8 +27,6 @@ exports.isAddress = async function(_url=null) {
 
 };
 
-
-
 exports.getMnemonic = async function(){
 
   return bip39.generateMnemonic();
@@ -36,39 +34,33 @@ exports.getMnemonic = async function(){
 };
 
 
-
-exports.balInWei = async function (address){
-
-    try{
-
-        return await provider.eth.getBalance(address);
-        
-    }catch(err){
-        console.log(err);
-        return false;
-    };
-};
+exports.getBalInEth = async function(_url=null,_data=null) {
 
 
+    let _response = false;
 
-exports.balInEth = async function (address) {
+    await axios({
+      method:'post',
+      url:`${baseURL}/${_url}`,
+      data :_data
+    })
+    .then((response)=>{
+      _response = response.data;
+    })
+    .catch((err)=>{
+      console.log(err);
+      _response = false;
+    });//Update error
 
-    try {
-        const bal_Wei = await provider.eth.getBalance(address);
-        return await provider.utils.fromWei(`${bal_Wei}`,'ether');
-
-    }catch(err){
-
-        return false;
-    }; 
+    return _response
 
 };
+
 
 
 exports.getWalletHistory = async function(_address){
 
-  console.log(_address);
-  
+
   const timeNowInSeconds = Math.round(Date.now()/1000);
   const oneWeekAgo = Math.round(timeNowInSeconds - 604800);
 

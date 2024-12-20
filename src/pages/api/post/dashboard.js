@@ -7,7 +7,6 @@ const baseURL="https://api.counter.co.ke";
 exports.createDashboard = async function(_url,_data) {
 
   const valid = await validCreate(_data);
-  console.log(valid);
 
   if(valid === true){
 
@@ -34,7 +33,6 @@ exports.createDashboard = async function(_url,_data) {
       _response = response.data;
     })
     .catch((err)=>{
-      console.log(err);
       _response = false;
     });//Update error
 
