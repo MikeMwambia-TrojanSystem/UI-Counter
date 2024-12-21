@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useRouter } from 'next/navigation';
+import { useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
@@ -13,9 +14,38 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
+import { getBalInEth } from "../pages/api/get/addressUtils.js";
+import { priceInKshs,balInKshs } from "../pages/api/get/priceUtills.js";
 
 
-export default function MainDashBoard({dashboard}) {
+export default function MainDashBoard({dashboard,price}) {
+
+  const [kshs_price,setkshs_price] = useState(0);
+  const [treasury_bal,setTreasury_bal] = useState(0);
+  const [kshs_bal,setKshs_bal] = useState(0);
+  const [minimum_buy_kshs,setMinimum_buy_kshs] = useState(0);
+  const [maximum_buy_kshs,setMaximum_buy_kshs] = useState(0);
+
+
+  const priceDashboard = async (event) => {
+
+  let Kshs_price = await priceInKshs(price.price,dashboard.dollar_rate);
+  setkshs_price(Number(Kshs_price).toFixed(4));
+
+  let treasuryBal = await getBalInEth('balAddress',{address:dashboard.asset_treasury,form:'ether'});
+  setTreasury_bal(Number(treasuryBal).toFixed(4));
+
+  let balInKshs_ = await balInKshs(Kshs_price,treasuryBal);
+  setKshs_bal(Number(balInKshs_).toFixed(4));
+
+  let minimum_buy_kshs_ = (balInKshs_>0)?( (balInKshs_>dashboard.minimum_buy_kshs)?dashboard.minimum_buy_kshs:balInKshs_):0;
+  setMinimum_buy_kshs(minimum_buy_kshs_);
+
+  let maximum_buy_kshs_ = (150000>balInKshs_)?balInKshs_:150000;
+  setMaximum_buy_kshs(maximum_buy_kshs_);
+  };
+
+  priceDashboard();
 
   const router = useRouter();
 
@@ -40,11 +70,7 @@ export default function MainDashBoard({dashboard}) {
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Remy Sharp" src="/images/CoinIcons/eth.png"/>
-        </ListItemAvatar>
         <ListItemText
-          primary="Ethereum"
           secondary={
             <React.Fragment>
               <Typography
@@ -53,21 +79,19 @@ export default function MainDashBoard({dashboard}) {
                 variant="body2"
                 color="text.primary"
               >
-                Name is {dashboard.dashboardname}.
+                Counter name :- {dashboard.dashboardname}.
                 <br/>
-                Price in $ {dashboard.dollar_price}.
+                Dollar rate $1 = Kshs {dashboard.dollar_rate}.
                 <br/>
-                Price in Kshs {dashboard.Kshs_price}.
+                Price in Kshs {kshs_price}.
                 <br/>
-                $1 = Kshs {dashboard.dollar_rate}.
+                Avialable is {treasury_bal} Ethereum.
                 <br/>
-                Max. buy is Kshs {dashboard.maximum_buy_kshs}.
+                Valued at Kshs : - {kshs_bal}
                 <br/>
-                Min. buy is Kshs {dashboard.minimum_buy_kshs}.
+                Max. buy is Kshs {maximum_buy_kshs}.
                 <br/>
-                Avialable is {dashboard.asset_treasury} Ethereum.
-                <br/>
-                Valued at : - {dashboard.available}
+                Min. buy is Kshs {minimum_buy_kshs}.
                 <br/>
                 Creation time : - {creationDate}
                 <br/>
@@ -83,7 +107,6 @@ export default function MainDashBoard({dashboard}) {
                   Buy
                 </Button>
               </div>
-              Refresh Interval :- 5 secs
             </React.Fragment>
           }
         />

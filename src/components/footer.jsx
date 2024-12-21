@@ -44,15 +44,19 @@ export default function StickyFooter() {
         <Container maxWidth="sm">
             <Link text target="_blank" href="https://forms.gle/1rfPaW1AMDQkrkXK8" 
               rel="noopener noreferrer" underline="none" variant="body2">
-              | Request account
+              | Log In
             </Link>
             <Link text target="_blank" href="/setUp" 
+              rel="noopener noreferrer" underline="none" variant="body2"  sx={{ margin: 1 }} >
+              | Sign Up
+            </Link>
+            <Link text target="_blank" href="https://forms.gle/1rfPaW1AMDQkrkXK8" 
               rel="noopener noreferrer" underline="none" variant="body2"  sx={{ margin: 1 }} >
               | Settings
             </Link>
             <Link text target="_blank" href="https://forms.gle/1rfPaW1AMDQkrkXK8" 
               rel="noopener noreferrer" underline="none" variant="body2"  sx={{ margin: 1 }} >
-              | Support
+              | Refresh Interval :- 5 secs
             </Link>
           <Copyright />
         </Container>
