@@ -5,8 +5,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-export default function HeaderComponent({vendors}) {
-  let vendorsListed = vendors;
+export default function HeaderComponent({offers,price}) {
   return (
     <>
       <AppBar color="primary">
@@ -30,7 +29,7 @@ export default function HeaderComponent({vendors}) {
               mt: 0.5,
               color: 'inherit'
             }}>
-          Digital Assets Market
+          Ethereum marketplace<br/>{offers} open counters.
           </Typography>
           </Box>
 
@@ -40,19 +39,12 @@ export default function HeaderComponent({vendors}) {
 
           <Typography
             variant="body2"
-            component="a"
-            href="https://forms.gle/1rfPaW1AMDQkrkXK8"
+            component="p"
             sx={{
               mt: 0.5,
-              fontFamily: 'monospace',
-              fontWeight: 200,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-          Create account
-          <br/>
-          Settings
+              color: 'inherit'
+            }}>
+          Price in dollars ($){price}<br/>Price source :- Binance.
           </Typography>
 
           </Box>

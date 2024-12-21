@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState,useEffect } from "react";
@@ -9,7 +10,8 @@ import HeaderComponent from "../components/header";
 import StickyFooter from "../components/footer";
 import MainDashboard from "../components/maindashboard";
 import useSWR from "swr";
-import { generateActiveDashboards } from "./api/get/activeDashboards.js";
+import { getData } from "./api/get/getData.js";
+import { getPrice } from "./api/get/getPrice.js";
 
 //Theme
 const theme = createTheme({
@@ -29,13 +31,35 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
 
-  const { data :dashboards } = useSWR(`ActiveDashboards`,generateActiveDashboards,{ refreshInterval: 5000 });
-  console.log(dashboards);
+  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 5000 });
 
+  const { data : dashboards } = useSWR(`getActiveDashboards`,getData);
+  
   if (!dashboards)
     return (
       <div>
         <LinearProgress color="inherit" />
+      </div>
+  );
+
+  if(dashboards===[]) 
+    return (
+      <div>
+        Welcome to counter a platform that gives you the freedom to price your crypto.
+      </div>
+  );
+
+  if(undefined===price) 
+    return (
+      <div>
+        Refresh page to load dashboards.
+      </div>
+  );
+
+  if(false === dashboards)
+    return (
+      <div>
+        Error occured.
       </div>
   );
 
@@ -50,9 +74,9 @@ export default function Dashboard() {
       >
         <CssBaseline />
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
-          <HeaderComponent />
+          <HeaderComponent offers={dashboards.length} price={price.price}/>
            {dashboards.map((dashboard) => {
-              return (<MainDashboard dashboard={dashboard}/>);
+              return (<MainDashboard dashboard={dashboard} price={price}/>);
             })}
         </Container>
         <Box
