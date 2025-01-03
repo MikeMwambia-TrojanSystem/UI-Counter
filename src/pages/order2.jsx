@@ -16,6 +16,15 @@ const theme = createTheme();
 
 export default function Order2() {
 
+  /*
+  Calls validation service  that in generator wallet service
+  the validation service then sends out an event listened by couch service
+  to update the order on couch service 
+  Order expiry is every block mined.
+  Sets payment function countdown timer to 15 seconds
+*/
+
+
   const searchParams = useSearchParams();
 
   const router = useRouter();
@@ -96,7 +105,7 @@ export default function Order2() {
           disabled={status}
           type="submit"
           size="small">
-          Next
+          Validate Order
         </Button>
       </div>
       </form>

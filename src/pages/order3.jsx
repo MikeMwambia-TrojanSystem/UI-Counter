@@ -30,6 +30,14 @@ function getSingleOrder (_id) {
 
 export default function Order3() {
 
+  /*
+  Calls query reciept service that validates the payment code
+  and sends out order.paid event that is listed by 
+  couch service that then updated the order to payment recieved
+
+*/
+
+
   const searchParams = useSearchParams();
 
   const router = useRouter();

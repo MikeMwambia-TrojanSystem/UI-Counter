@@ -1,5 +1,6 @@
 import { useRouter,useSearchParams } from 'next/navigation';
 import { createOrder }  from "./api/post/order.js";
+import Link from 'next/link';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
@@ -18,37 +19,33 @@ export default function Order(props) {
 
   const searchParams = useSearchParams();
 
+  const Kshs_price = searchParams.get('Kshs_price');
+
+  const maximum_buy_kshs = searchParams.get('maximum_buy_kshs');
+
+  const dashboardId = searchParams.get('dashboardId');
+
+  const dashboardname = searchParams.get('dashboardname');
+
   const dollar_rate = searchParams.get('dollar_rate');
 
   const dollar_price = searchParams.get('dollar_price');
 
-  const asset_type = searchParams.get('asset_type');
-
   const minimum_buy = searchParams.get('minimum_buy');
 
-  const order_treasury = searchParams.get('order_treasury');
-
-  //Display purposes only
-  let Kshs_price = Math.round(dollar_price*dollar_rate)|| null;
+  const asset_treasury = searchParams.get('asset_treasury');
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
 
-    if(dollar_price && dollar_rate && 
-      asset_type && order_treasury && Kshs_price){
-
-    const _Kshs_price = await priceInKshs(dollar_price,dollar_rate);
-
-      if(!_Kshs_price) return alert('Error creating order');
+    if(dashboardId && Kshs_price){
 
     const data = {
-      status:props.status,
-      dollar_rate:Number(dollar_rate),
-      asset_price_usd:Number(dollar_price),
-      crypto_amnt:'0',//Default start value
-      order_treasury:order_treasury,
-      Kshs_price:_Kshs_price
+      dashboardId:dashboardId,
+      status:true,//Default start
+      order_timestamp:new Date().getTime(),
+      Kshs_price:Kshs_price,
     };
     
     const response = await createOrder('createOrder',data);
@@ -56,7 +53,8 @@ export default function Order(props) {
     if(response === false){
       alert('Error refresh page and try again');
     }else{
-      router.replace({pathname:"/order1",query:{x:response,y:minimum_buy}});
+      router.replace({pathname:"/order1",query:{x:response,w:maximum_buy_kshs,
+        y:minimum_buy,z:Kshs_price}});
     }
 
     }else {
@@ -75,23 +73,19 @@ export default function Order(props) {
       <form onSubmit={handleSubmit}>
       <div>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          {asset_type} Order Details
+          Order Details
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Dollar rate :- {dollar_rate}
+          You are about to order from {dashboardname} dashboard.
+          The dollar rate is Kshs {dollar_rate} for every $1.
         </Typography>
   
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Asset price in dollars :- {dollar_price}
+        The asset price is KSHs {Kshs_price} for 1.0000 Ethereum at a 
+        dollar price of ${dollar_price}.
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Asset price in Kshs :- {Kshs_price}
-        </Typography>
-        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Minimum purchase :- {minimum_buy}
-        </Typography>
-        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Status :- {(props.status).toString()}
+          Minimum purchase is KSHs {minimum_buy} and maximum purchase is KSHs {maximum_buy_kshs}.
         </Typography>
       </div>
       <div sx={{ "& button": { m: 1 } }}>
@@ -102,6 +96,7 @@ export default function Order(props) {
           size="small">
           Lock Order
         </Button>
+        <Button href="/dashboard">Return to dashboard</Button>
       </div>
       </form>
       </Box>
@@ -112,16 +107,6 @@ export default function Order(props) {
 }
 
 
-
-export async function getStaticProps() {
-
-  return {
-    props: {
-      status: true
-    },
-  };
-  
-}
 
 
 /*
