@@ -16,6 +16,10 @@ const theme = createTheme();
 
 export default function Order4() {
 
+  /*
+    Calls query reciept service 
+  */
+
   const searchParams = useSearchParams();
 
   const router = useRouter();

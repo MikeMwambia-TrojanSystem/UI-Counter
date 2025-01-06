@@ -48,7 +48,6 @@ exports.getBalInEth = async function(_url=null,_data=null) {
       _response = response.data;
     })
     .catch((err)=>{
-      console.log(err);
       _response = false;
     });//Update error
 

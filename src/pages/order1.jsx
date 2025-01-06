@@ -39,7 +39,7 @@ const [cryptoValue,setcryptoValue] = useState(0);
 const [status , setStatus] = useState(true);
 
 
-  const _cryptoAmnt = async (event) => {
+const _cryptoAmnt = async (event) => {
 
     try{
 
@@ -61,7 +61,7 @@ const [status , setStatus] = useState(true);
       
       return false;
     };
-  };
+};
 
   const handleSubmit = async (event) => {
 
@@ -71,7 +71,7 @@ const [status , setStatus] = useState(true);
 
       const amnt = Number(event.target.ksh_amnt.value);
 
-      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt) ){
+      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt)&&(false != cryptoValue) ){
 
         const data = {
           _id:order_id,
@@ -85,7 +85,7 @@ const [status , setStatus] = useState(true);
         if(response === false){
           alert('Error refresh page and try again');
         }else{
-          router.replace({pathname:"/order2",query:{x:response}});
+          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue}});
         };
 
       };

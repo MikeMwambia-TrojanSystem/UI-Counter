@@ -56,6 +56,10 @@ export default function MainDashBoard({dashboard,price}) {
 
   event.preventDefault();
 
+  const asset_treasury = dashboard.asset_treasury;
+
+  sessionStorage.setItem("asset_treasury", asset_treasury);
+
   router.replace({pathname:"/order",
     query:{
             "Kshs_price":kshs_price,

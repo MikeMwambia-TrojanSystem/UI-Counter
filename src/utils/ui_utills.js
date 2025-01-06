@@ -37,7 +37,6 @@ cryptoAmnt: async function (priceInKshs,amntInKshs){
         return cryptoAmnt.toString();
 
     }catch(err){
-        console.log(err);
         return false;
     };
 
