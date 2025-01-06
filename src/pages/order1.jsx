@@ -28,74 +28,56 @@ const order_id = searchParams.get('x');
 
 const minimum_buy = searchParams.get('y');
 
-const [bal_InKshs,setbal_InKshs] = useState(null);
+const maximum_buy_kshs = searchParams.get('w');
+
+const Kshs_price = searchParams.get('Kshs_price');
+
 const [amntSpend,setamntSpend] = useState(0);
+
 const [cryptoValue,setcryptoValue] = useState(0);
+
 const [status , setStatus] = useState(true);
 
-const { data : orders } = useSWR(`readOrder?id=${order_id}`,getData);
 
-//TEST
-//const { data : balance } = useSWR(`0x2442F0A5Bd476a64baa61641Bb9f5A0bb42EC875`,balInEth);
-// const { data : balance } = useSWR(`${orders.order_treasury}`,balInEth);
-const balance = '100';
-
-  if (!balance)
-    return (
-      <div>
-        <LinearProgress color="inherit" />
-      </div>
-    );
-
-  if (!orders)
-    return (
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Invalid order
-        </Typography>
-    );
-
-  const _cryptoAmnt = async (event) => {
+const _cryptoAmnt = async (event) => {
 
     try{
 
-      let _value = await balInKshs(orders.Kshs_price,balance)
-      setbal_InKshs(_value);
-
       let amnt = Number(document.getElementById('ksh_amnt').value) ||0;
-      setamntSpend(amnt);
+      
+      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt) ){
 
-      let _cryptoValue = await cryptoAmnt(orders.Kshs_price,amnt) || 0;
-      setcryptoValue(_cryptoValue);
+        setamntSpend(amnt);
 
-      if((amnt>0) && (_value>amnt) 
-        && (amnt>minimum_buy) && (150000>amnt)) {
+        let _cryptoValue = await cryptoAmnt(Kshs_price,amnt) || 0;
+        setcryptoValue(_cryptoValue);
+
         setStatus(false);
-      }else {
-        setStatus(true);
-      }
+
+      };
+
 
     }catch(err){
       
       return false;
     };
-  };
+};
 
   const handleSubmit = async (event) => {
 
     event.preventDefault();
 
-    if(order_id && minimum_buy){
+    if(order_id){
 
       const amnt = Number(event.target.ksh_amnt.value);
-      const maximumBy = Number(150000);
-      const minimumBy = Number(minimum_buy);
 
-      if((amnt>minimumBy)&&(maximumBy>amnt)&&(bal_InKshs>amnt)){
+      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt)&&(false != cryptoValue) ){
 
         const data = {
           _id:order_id,
           ksh_amnt:amnt,
-          crypto_amnt:`${cryptoValue}`
+          crypto_amnt:`${cryptoValue}`,
+          form:'order_1'
         };
 
         const response = await updateOrder('updateOrder',data);
@@ -103,16 +85,13 @@ const balance = '100';
         if(response === false){
           alert('Error refresh page and try again');
         }else{
-          router.replace({pathname:"/order2",query:{x:response}});
+          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue}});
         };
 
-      }else{
-
-        alert(`Amount must be greater than Kshs ${minimum_buy} 
-          and less than Kshs 150000 or 
-          Kshs ${bal_InKshs} whichever is lower`);
-
       };
+
+      return;
+
     };
   };
 
@@ -132,16 +111,10 @@ const balance = '100';
         fullWidth type="number" variant="standard" onChange={_cryptoAmnt}/>
       </div>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Maximum buy per transaction is Kshs 150000.
+        Maximum buy per transaction is Kshs maximum_buy_kshs.
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Minimum buy per transaction is Kshs {minimum_buy}.
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        {balance} Ethereum available for sale at $1 = {orders.dollar_rate} rate.
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Valued in Kshs at {bal_InKshs}
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         For Kshs {amntSpend} you get {cryptoValue} Ethereum.

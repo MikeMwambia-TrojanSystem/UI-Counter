@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { updateOrder }  from "./api/post/order.js";
-import { isAddress }  from "../utils/addressUtills.js";
+import {isAddress}  from "./api/get/addressUtils.js";
 
 const theme = createTheme();
 
@@ -22,7 +22,10 @@ export default function Order2() {
 
   const order_id = searchParams.get('x');
 
+  const cryptoValue = searchParams.get('y');
+
   const [status,setStatus] = useState(true);
+
 
   const _isAddress = async (event) => {
 
@@ -30,7 +33,8 @@ export default function Order2() {
 
       let crypto_address = document.getElementById('crypto_address').value ||null;
 
-      let status = await isAddress(crypto_address);
+      let status = await isAddress(`validate?address=${crypto_address}`);
+
       if(status){
         setStatus(false);
       }else{
@@ -48,27 +52,40 @@ export default function Order2() {
 
   event.preventDefault();
 
-  const isAddressS = await isAddress(event.target.crypto_address.value);
+  const crypto_address = document.getElementById('crypto_address').value ||null;
 
-  if(order_id && isAddressS){
+  const isAddressS = await isAddress(`validate?address=${crypto_address}`); 
 
-    const data = {
-      _id:order_id,
-      crypto_address:event.target.crypto_address.value
-    };
+  const asset_treasury = sessionStorage.getItem("asset_treasury");
 
-    const response = await updateOrder('updateOrder',data);
+  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'});
 
-    if(response === false){
-      alert('Error refresh page and try again');
+  if(treasuryAmnt > cryptoValue){
+
+    if(isAddressS){
+
+      const data = {
+        _id:order_id,
+        crypto_address:crypto_address,
+        form:'order_2'
+      };
+
+      const response = await updateOrder('updateOrder',data);
+
+      if(response === false){
+        alert('Error refresh page and try again');
+      }else{
+        router.replace({pathname:"/order3",query:{x:response}});
+      };
+
     }else{
-      router.replace({pathname:"/order3",query:{x:response}});
-    };
 
+      alert('Not a valid address');
+    };
 
   }else{
 
-    alert('Not a valid address');
+      alert('Could not be supported');
 
   };
 
@@ -96,7 +113,7 @@ export default function Order2() {
           disabled={status}
           type="submit"
           size="small">
-          Next
+          Validate Order
         </Button>
       </div>
       </form>

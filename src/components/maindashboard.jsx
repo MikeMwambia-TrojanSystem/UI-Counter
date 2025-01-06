@@ -56,15 +56,20 @@ export default function MainDashBoard({dashboard,price}) {
 
   event.preventDefault();
 
-  alert('This part is not ready for testing');
+  const asset_treasury = dashboard.asset_treasury;
 
-  /*router.replace({pathname:"/order",
-    query:{"dollar_rate":dashboard.dollar_rate,
-           "dollar_price":dollar_price,
-           "asset_type":dashboard.asset_id,
-           "order_treasury":dashboard.asset_treasury,
-           "minimum_buy":dashboard.minimum_buy_kshs
-          }});*/
+  sessionStorage.setItem("asset_treasury", asset_treasury);
+
+  router.replace({pathname:"/order",
+    query:{
+            "Kshs_price":kshs_price,
+            "minimum_buy":minimum_buy_kshs,
+            "maximum_buy_kshs":maximum_buy_kshs,
+            "dashboardId":dashboard.id,
+            "dollar_price":price.price,
+            "dashboardname":dashboard.dashboardname,
+            "dollar_rate":dashboard.dollar_rate
+          }});
   };
 
   return (

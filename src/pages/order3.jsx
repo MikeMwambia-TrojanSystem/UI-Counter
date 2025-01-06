@@ -23,9 +23,9 @@ function getSingleOrder (_id) {
     data : data,
     isLoading,
     isError: error
-  }
+  };
 
-}
+};
 
 
 export default function Order3() {
@@ -65,15 +65,18 @@ export default function Order3() {
       <form onSubmit={handleSubmit}>
       <div>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        The dollar to ksh rate for this transaction is {data.dollar_rate}
-        </Typography>
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        The ethereum price for this transaction in dollars is {data.asset_price_usd}
+        The ethereum price for this transaction is {data.Kshs_price}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Make payment of Ksh {data.ksh_amnt} to paybill {data.paybill} to recieve {data.crypto_amnt} Eth in address 
         <br/>
         {data.crypto_address} 
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        For account number enter {data.pay_code}
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Order status is {data.status}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Once you have made payment click next to enter mpesa payment code
