@@ -44,8 +44,9 @@ export default function Order(props) {
     const data = {
       dashboardId:dashboardId,
       status:true,//Default start
-      order_timestamp:new Date().getTime(),
-      Kshs_price:Kshs_price,
+      order_timestamp:new Date().getTime().toString(),
+      Kshs_price:Math.round(Number(Kshs_price)),
+      minimum_buy_kshs:10500 //Number(minimum_buy) Test purposes
     };
     
     const response = await createOrder('createOrder',data);

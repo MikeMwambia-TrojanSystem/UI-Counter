@@ -10,7 +10,7 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { updateOrder }  from "./api/post/order.js";
-import {isAddress}  from "./api/get/addressUtils.js";
+import {isAddress,getBalInEth}  from "./api/get/addressUtils.js";
 
 const theme = createTheme();
 
@@ -58,7 +58,8 @@ export default function Order2() {
 
   const asset_treasury = sessionStorage.getItem("asset_treasury");
 
-  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'});
+  const treasuryAmnt = 15;
+  //await getBalInEth('balAddress',{address:asset_treasury,form:'ether'}); Test
 
   if(treasuryAmnt > cryptoValue){
 

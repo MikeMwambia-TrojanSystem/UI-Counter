@@ -26,11 +26,11 @@ const searchParams = useSearchParams();
 
 const order_id = searchParams.get('x');
 
-const minimum_buy = searchParams.get('y');
+const minimum_buy = 16500 //searchParams.get('y'); test
 
-const maximum_buy_kshs = searchParams.get('w');
+const maximum_buy_kshs = 150000 //searchParams.get('w'); test
 
-const Kshs_price = searchParams.get('Kshs_price');
+const Kshs_price = searchParams.get('z');
 
 const [amntSpend,setamntSpend] = useState(0);
 
@@ -38,13 +38,17 @@ const [cryptoValue,setcryptoValue] = useState(0);
 
 const [status , setStatus] = useState(true);
 
+const [warning,setWarning] = useState(null);
+
+const [amntB,setAmnt] = useState(null);
+
 
 const _cryptoAmnt = async (event) => {
 
     try{
 
       let amnt = Number(document.getElementById('ksh_amnt').value) ||0;
-      
+
       if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt) ){
 
         setamntSpend(amnt);
@@ -54,12 +58,22 @@ const _cryptoAmnt = async (event) => {
 
         setStatus(false);
 
+        setWarning(null);
+
+        setAmnt(`For Kshs ${amnt} you get ${_cryptoValue} Ethereum.`)
+
+      }else{
+        
+        setWarning(`${amnt} should be less than ${maximum_buy_kshs} and more than 
+          ${minimum_buy}`);
+
+        setAmnt(null);
+
       };
 
 
     }catch(err){
-      
-      return false;
+      setWarning(`Error occured`);
     };
 };
 
@@ -111,13 +125,16 @@ const _cryptoAmnt = async (event) => {
         fullWidth type="number" variant="standard" onChange={_cryptoAmnt}/>
       </div>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Maximum buy per transaction is Kshs maximum_buy_kshs.
+        Maximum buy per transaction is Kshs {maximum_buy_kshs}.
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Minimum buy per transaction is Kshs {minimum_buy}.
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        For Kshs {amntSpend} you get {cryptoValue} Ethereum.
+        {amntB}
+      </Typography>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        {warning}
       </Typography>
       <div sx={{ "& button": { m: 1 } }}>
         <Button
