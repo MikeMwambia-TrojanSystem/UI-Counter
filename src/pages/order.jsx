@@ -46,7 +46,8 @@ export default function Order(props) {
       status:true,//Default start
       order_timestamp:new Date().getTime().toString(),
       Kshs_price:Math.round(Number(Kshs_price)),
-      minimum_buy_kshs:10500 //Number(minimum_buy) Test purposes
+      minimum_buy_kshs:Number(minimum_buy),
+      asset_treasury:asset_treasury
     };
     
     const response = await createOrder('createOrder',data);
@@ -54,6 +55,7 @@ export default function Order(props) {
     if(response === false){
       alert('Error refresh page and try again');
     }else{
+
       router.replace({pathname:"/order1",query:{x:response,w:maximum_buy_kshs,
         y:minimum_buy,z:Kshs_price}});
     }

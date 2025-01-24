@@ -56,10 +56,7 @@ export default function Order2() {
 
   const isAddressS = await isAddress(`validate?address=${crypto_address}`); 
 
-  const asset_treasury = sessionStorage.getItem("asset_treasury");
-
-  const treasuryAmnt = 15;
-  //await getBalInEth('balAddress',{address:asset_treasury,form:'ether'}); Test
+  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'}); Test
 
   if(treasuryAmnt > cryptoValue){
 

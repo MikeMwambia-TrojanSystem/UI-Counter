@@ -43,7 +43,7 @@ export default function Order3() {
   if (!data)
     return (
       <div>
-        <LinearProgress color="inherit" />
+      <LinearProgress color="inherit" />
       </div>
     );
 
@@ -54,7 +54,7 @@ export default function Order3() {
   router.replace({pathname:"/order4",query:{x:order_id}});
 
   };
-
+  
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
@@ -65,18 +65,19 @@ export default function Order3() {
       <form onSubmit={handleSubmit}>
       <div>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        The ethereum price for this transaction is {data.Kshs_price}
+        The ethereum price for this transaction is {data[0].Kshs_price}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Make payment of Ksh {data.ksh_amnt} to paybill {data.paybill} to recieve {data.crypto_amnt} Eth in address 
+        Make payment of Ksh {data[0].ksh_amnt} to paybill 
+        {data[0].paybill} to recieve {data[0].crypto_amnt} Eth in address 
         <br/>
-        {data.crypto_address} 
+        {data[0].crypto_address} 
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        For account number enter {data.pay_code}
+        For account number enter {data[0].pay_code}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Order status is {data.status}
+        Order status is {data[0].status}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Once you have made payment click next to enter mpesa payment code

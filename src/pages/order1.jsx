@@ -26,9 +26,9 @@ const searchParams = useSearchParams();
 
 const order_id = searchParams.get('x');
 
-const minimum_buy = 16500 //searchParams.get('y'); test
+const minimum_buy = searchParams.get('y');
 
-const maximum_buy_kshs = 150000 //searchParams.get('w'); test
+const maximum_buy_kshs = searchParams.get('w');
 
 const Kshs_price = searchParams.get('z');
 
@@ -85,7 +85,7 @@ const _cryptoAmnt = async (event) => {
 
       const amnt = Number(event.target.ksh_amnt.value);
 
-      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt)&&(false != cryptoValue) ){
+      if( (amnt>minimum_buy)&&(maximum_buy_kshs>amnt)&&(0 != cryptoValue) ){
 
         const data = {
           _id:order_id,

@@ -19,7 +19,6 @@ exports.isAddress = async function(_url=null) {
       _response = response;
     })
     .catch((err)=>{
-      console.log(err);
       _response = false;
     });
 
@@ -78,12 +77,11 @@ try {
     "address": `${_address}`
   });
 
-  console.log(response);
   return response;
 
 } catch (e) {
 
-  console.error(e);
+  return false;
 
 };
 

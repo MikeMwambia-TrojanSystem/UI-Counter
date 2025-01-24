@@ -7,6 +7,7 @@ const schemaCreate = {
   Kshs_price:{type:"number",default:0,integer:true},
   status:{type:"boolean"},
   dashboardId:{type:"string"},
+  asset_treasury:{type:"string"},
   minimum_buy_kshs:{type:"number",positive:true,min:0,integer: true,max: 150000},
   $$strict: true 
 };
