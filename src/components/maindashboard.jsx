@@ -58,8 +58,6 @@ export default function MainDashBoard({dashboard,price}) {
 
   const asset_treasury = dashboard.asset_treasury;
 
-  sessionStorage.setItem("asset_treasury", asset_treasury);
-
   router.replace({pathname:"/order",
     query:{
             "Kshs_price":kshs_price,
@@ -68,7 +66,8 @@ export default function MainDashBoard({dashboard,price}) {
             "dashboardId":dashboard.id,
             "dollar_price":price.price,
             "dashboardname":dashboard.dashboardname,
-            "dollar_rate":dashboard.dollar_rate
+            "dollar_rate":dashboard.dollar_rate,
+            "asset_treasury":asset_treasury
           }});
   };
 

@@ -1,5 +1,5 @@
 //Create asset API
-const { validCreate,updateCheck,codeCheck } = require("./schema/orderSchema.js");
+const { validCreate,order_1Check,order_2Check } = require("./schema/orderSchema.js");
 
 const axios =require('axios');
 
@@ -23,7 +23,7 @@ exports.createOrder = async function(_url,_data) {
     })
     .catch((err)=>{
       _response = false;
-    });//Update error
+    });
 
     return _response
     
@@ -36,43 +36,55 @@ exports.createOrder = async function(_url,_data) {
 
 exports.updateOrder = async function(_url,_data) {
 
-let data = {};
+const form = _data.form;
 
-const fields = ["_id","ksh_amnt",
-  "crypto_address","paybill","pay_code","status","crypto_amnt"];
+switch(form){
 
+case 'order_1':
 
-for(item of fields) {
+    const order1Update = order_1Check(_data);
+    if(order1Update){
+      let response = await updateData(_url,_data);
+      return response;
+    }
+    return false;
 
-  if(_data[item]) data[item] = _data[item];
-  
-}
+  break;
 
-const valid = await updateCheck(data);
-console.log(valid);
-if(valid === true){
+case 'order_2':
 
-  const baseURL="http://34.172.249.132/atthemoment/v1/counter";
+    const order2Update = order_2Check(_data);
+    if(order2Update){
+      let response = await updateData(_url,_data);
+      return response;
+    }
+    return false;
 
-  let _response = false;
+  break;
 
-  await axios({
-    method:'post',
-    url:`${baseURL}/${_url}`,
-    data :data
-  })
-  .then((response)=>{
-    _response = response.data;
-  })
-  .catch((err)=>{
-    _response = false;
-  });//Update error
-
-  return _response
+default : return false;
+  break;
 
 }
 
-return false;
+    async function updateData(_url,data){
+      let _response = false;
+
+          await axios({
+            method:'post',
+            url:`${baseURL}/${_url}`,
+            data :_data
+          })
+          .then((response)=>{
+            _response = response.data;
+          })
+          .catch((err)=>{
+            console.log(err);
+            _response = false;
+          });
+
+          return _response
+    }
 
 }
 

@@ -1,7 +1,6 @@
 import Typography from "@mui/material/Typography";
 import useSWR from "swr";
 import Box from "@mui/material/Box";
-import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import {useState} from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -9,41 +8,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import { useSearchParams } from 'next/navigation';
-import TextField from "@mui/material/TextField";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getData,getWalletHistory } from "./api/get/getData.js";
+import { getData } from "./api/get/getData.js";
 
-//Copy implementation like in Dashboard page
-
-const theme = createTheme();
-
-function getSingleOrder (_id) {
-
-  const { data,error,isLoading } = useSWR(`readOrder?id=${_id}`,getData,{revalidateOnMount:true});
-  //const { walletHistory,error,isLoading } = useSWR(`readOrder?id=${_id}`,getWalletHistory,
-   // {revalidateOnMount:true});
-  
-  //const { data:order } = useSWR(`readOrder?id=${_id}`,getData,{revalidateOnMount:true});
-  //const { data:walletHistory } = useSWR(`0xEa2267417720F2288d86f8B2c62f91964f45D650`,getWalletHistory,{revalidateOnMount:true});
-
-  //console.log(order);
-
-  //console.log(walletHistory);
-
-  //return walletHistory;
-  return {
-    data : data,
-    isLoading,
-    isError: error
-  };
-
-};
-
-
-//Remove the idea of events instead
-//Return the reciept once the transaction goes through by clicking query reciept
-//Show the reciept and history of transfers in last week.
-
+/*
+Without history and events
+*/
 
 export default function Order5() {
 
@@ -51,20 +21,35 @@ export default function Order5() {
 
   const order_id = searchParams.get('x');
 
-  const [orderStatus,setorderStatus] = useState('Not listening to treasury');
+  const [eventUI,setEventUI] = useState(false);
 
-  let { data, isLoading, isError }  = getSingleOrder(order_id);
+  const { data: order } = useSWR(`readOrder?id=${order_id}`,getData,{revalidateOnMount:true});
 
-  if (isError) return <div>Failed to load refresh page...</div>;
-
-  if (!data)
+  if (!order)
     return (
       <div>
         <LinearProgress color="inherit" />
       </div>
-    );
+  );
+
+  if(order === false)
+    return (
+      <div>
+        Error occured.
+      </div>
+  );
+
+  if(order === [])
+    return (
+      <div>
+        Refesh page to load order.
+      </div>
+  );
 
 
+  if(order[0].transHash==='No transHash'){
+    setEventUI(true);
+  };
 
 
   return (
@@ -72,58 +57,79 @@ export default function Order5() {
       <CssBaseline/>
       <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
-      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>  
+
       <Box sx={{ m: 1,textAlign:"center" }}>
       <div>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        MPESA pay code  {data.pay_code}-- Payment recieved
+        MPESA pay code  {order[0].pay_code}-- Payment recieved
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ethereum recieving address :- 
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        {data.crypto_address}
+        {order[0].crypto_address}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Ethereum amount :- {data.crypto_amnt}
+        Ethereum amount :- {order[0].crypto_amnt}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Amount paid in Kshs :- {data.ksh_amnt}
-        </Typography>
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Status :- request reciept button
+        Amount paid in Kshs :- {order[0].ksh_amnt}
         </Typography>
       </div>
-      <div sx={{ "& button": { m: 1 } }}>
-        <Button
-          onClick={navigate}
-          prefetch={false}
-          replace={true}
-          size="small">
-          Back to Dashboard
-        </Button>
+      
+      <div>
+      {
+          eventUI?attachEvents(order[0].asset_treasury):
+         (<Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+            Transaction settled with hash {order[0].transHash}
+            Amount is {order[0].crypto_amnt}
+          </Typography>)
+      }
       </div>
-      <div sx={{ "& button": { m: 1 } }}>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Previous transactions settled by treasury:- 
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Transaction 1
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Transaction 2
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Transaction 3
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Order counter today and enjoy the freedom to price.
-      </Typography>
+
+      <div>
+          <Link href="#" underline="hover">
+            Back to Dashboards page
+          </Link>
+          <Link href="#" underline="hover"
+          onClick={() => {
+                    const asset_treasury = order[0].asset_treasury;
+                    getHistory(asset_treasury);
+                  }}>
+            Wallet history
+          </Link>
       </div>
+
       </Box>
+
       </Paper>
       </Container>
     </ThemeProvider>
       );
+}
+
+
+async function getHistory(address){
+
+    const asset_treasury = address;
+
+  //const { data: treasuryHistory } = useSWR(asset_treasury,getWalletHistory,{revalidateOnMount:true});
+
+    const { data, error , isLoading } = useSWR(address,
+                                                        getWalletHistory,
+                                                        {revalidateOnMount:true});
+    //Draw UI
+   return {
+    dashboard : data,
+    isLoading,
+    isError: error
+  }
+}
+
+//Automatically remove events when you leave page
+async function attachEvents(address){
+  
+  //Attach events to treasury
 }
 
