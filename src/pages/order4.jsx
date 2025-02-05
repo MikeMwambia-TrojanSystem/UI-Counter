@@ -29,8 +29,8 @@ export default function Order4() {
 
   const pay_code = event.target.pay_code.value
 
-  const response = await getReciept(`/queryreciept?TransID=${pay_code}`);
-
+  const response = await getReciept(`queryreciept?TransID=${pay_code}`);
+  
   if(response.statusText === 'OK'){
 
     router.replace({pathname:"/order5",query:{x:order_id}},"/order5");

@@ -95,6 +95,11 @@ export default function listDashboard(){
 
 function List({profile,dashboards,isError}){
 
+  /*
+  During events implementation add one hear to 
+  update Kshs price on each dashboard
+  */
+
   return (
     <>
     <ThemeProvider theme={theme}>

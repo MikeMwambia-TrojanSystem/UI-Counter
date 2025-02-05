@@ -22,6 +22,8 @@ export default function Order2() {
 
   const order_id = searchParams.get('x');
 
+  const asset_treasury = searchParams.get('o');
+
   const cryptoValue = searchParams.get('y');
 
   const [status,setStatus] = useState(true);
@@ -56,7 +58,7 @@ export default function Order2() {
 
   const isAddressS = await isAddress(`validate?address=${crypto_address}`); 
 
-  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'}); Test
+  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'});
 
   if(treasuryAmnt > cryptoValue){
 

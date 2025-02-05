@@ -92,7 +92,7 @@ export default function Asset() {
       </Typography>
 
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Supported chains : - Ethereum Mainnet
+          Supported chains : - Ethereum Sepolia Testnet
       </Typography>
 
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>

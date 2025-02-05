@@ -57,7 +57,7 @@ export default function Order(props) {
     }else{
 
       router.replace({pathname:"/order1",query:{x:response,w:maximum_buy_kshs,
-        y:minimum_buy,z:Kshs_price}});
+        y:minimum_buy,z:Kshs_price,o:asset_treasury}});
     }
 
     }else {

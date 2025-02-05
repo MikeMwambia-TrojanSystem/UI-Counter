@@ -47,6 +47,10 @@ export default function Order3() {
       </div>
     );
 
+  if(data.length===0){
+    return <div>No record found</div>;
+  }
+
  const handleSubmit = async (event) => {
 
   event.preventDefault();
@@ -55,6 +59,8 @@ export default function Order3() {
 
   };
   
+  
+
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>

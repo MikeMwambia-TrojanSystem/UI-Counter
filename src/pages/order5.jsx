@@ -13,6 +13,7 @@ import { getData } from "./api/get/getData.js";
 
 /*
 Without history and events
+On this page put a loader if response from sender wallet show transhash
 */
 
 export default function Order5() {

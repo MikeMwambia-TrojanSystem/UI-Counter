@@ -32,6 +32,8 @@ const maximum_buy_kshs = searchParams.get('w');
 
 const Kshs_price = searchParams.get('z');
 
+const asset_treasury = searchParams.get('o');
+
 const [amntSpend,setamntSpend] = useState(0);
 
 const [cryptoValue,setcryptoValue] = useState(0);
@@ -99,7 +101,8 @@ const _cryptoAmnt = async (event) => {
         if(response === false){
           alert('Error refresh page and try again');
         }else{
-          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue}});
+          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue,
+                                                          o:asset_treasury}});
         };
 
       };
