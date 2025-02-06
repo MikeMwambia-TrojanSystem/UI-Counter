@@ -29,12 +29,16 @@ cryptoAmnt: async function (priceInKshs,amntInKshs){
 
     try{
 
-        const bg_priceInKshs = new Big(`${priceInKshs}`);
-        const bg_amntInKshs = new Big(`${amntInKshs}`);
+        const bg_priceInKshs = new Big(Number(priceInKshs));
+        const bg_amntInKshs = new Big(Number(amntInKshs));
+
+        //KSHs per wei
+        const oneEthInWei = new Big(10).pow(18);
+        const weiPerKshs = oneEthInWei.div(bg_priceInKshs);
+        const bg_weiAmnt = weiPerKshs.times(bg_amntInKshs);
         Big.DP = 12;
 
-        const cryptoAmnt = bg_amntInKshs.div(bg_priceInKshs);
-        return cryptoAmnt.toString();
+        return bg_weiAmnt.div(oneEthInWei).toString();
 
     }catch(err){
         return false;
