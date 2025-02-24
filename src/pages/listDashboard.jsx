@@ -38,7 +38,7 @@ import Avatar from "@mui/material/Avatar";
 import treasuryQR from "../utils/treasuryQR.js";
 import copy from "../utils/copy.js";
 import useSWR from "swr";
-import { deleteDashboard } from "./api/post/dashboard.js";
+import { deleteDashboard,withdrawDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
 import { _Time }  from "../utils/ui_utills.js";
 
@@ -288,7 +288,22 @@ function DrawDashboard({data}) {
 
   const router = useRouter();
 
-  const auth = () => alert('Withdrawal logic here Only withdraws to dashboards withdrawal address');
+  const auth = async (id) => {
+    
+    const response = await withdrawDashboard('withdrawTreasury',id);
+    console.log(response);
+
+    if(response){
+
+      alert('Withdrawal request looged wait for a confirmation event');
+
+    }else{
+
+      alert('Error occured try again later');
+
+    }
+
+  };
 
   const edit = (id) => router.replace({pathname:"/editDashboard",query:{x:id}},"/editDashboard");
 

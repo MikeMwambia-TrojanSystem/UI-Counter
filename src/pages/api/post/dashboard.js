@@ -4,6 +4,7 @@ const axios =require('axios');
 
 const baseURL="https://api.counter.co.ke";
 
+
 exports.createDashboard = async function(_url,_data) {
 
   const valid = await validCreate(_data);
@@ -81,6 +82,26 @@ exports.updateDashboard = async function(_url,_data){
 
 };
 
+exports.withdrawDashboard = async function(_url,_id){
+
+    let _response = false;
+
+    await axios({
+      method:'post',
+      url:`${baseURL}/${_url}`,
+      data :{
+        id:_id
+      }
+    })
+    .then((response)=>{
+      _response = response.data;
+    })
+    .catch((err)=>{
+      _response = false;
+    });//Update error
+
+    return _response;
+};
 
 exports.deleteDashboard = async function(_url,_id){
 

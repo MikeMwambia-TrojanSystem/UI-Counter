@@ -38,7 +38,12 @@ cryptoAmnt: async function (priceInKshs,amntInKshs){
         const bg_weiAmnt = weiPerKshs.times(bg_amntInKshs);
         Big.DP = 12;
 
-        return bg_weiAmnt.div(oneEthInWei).toString();
+        return {
+            display: bg_weiAmnt.div(oneEthInWei).toString(),
+            sign:bg_weiAmnt
+        }
+
+       
 
     }catch(err){
         return false;

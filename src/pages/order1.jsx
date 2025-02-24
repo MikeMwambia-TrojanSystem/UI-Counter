@@ -55,14 +55,15 @@ const _cryptoAmnt = async (event) => {
 
         setamntSpend(amnt);
 
+        //Sends wei amnt to Backend
         let _cryptoValue = await cryptoAmnt(Kshs_price,amnt) || 0;
-        setcryptoValue(_cryptoValue);
+        setcryptoValue(_cryptoValue.sign);
 
         setStatus(false);
 
         setWarning(null);
 
-        setAmnt(`For Kshs ${amnt} you get ${_cryptoValue} Ethereum.`)
+        setAmnt(`For Kshs ${amnt} you get ${_cryptoValue.display} Ethereum.`)
 
       }else{
         
@@ -92,7 +93,7 @@ const _cryptoAmnt = async (event) => {
         const data = {
           _id:order_id,
           ksh_amnt:amnt,
-          crypto_amnt:`${cryptoValue}`,
+          crypto_amnt:`${cryptoValue}`,//Ensures it send crypto amnt to backend
           form:'order_1'
         };
 

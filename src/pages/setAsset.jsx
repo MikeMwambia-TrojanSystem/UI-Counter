@@ -59,7 +59,7 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETHEREUM'
+      name:'ETHEREUM' //Find a way of making this global
     };
 
     const response = await createAsset('assets',data);

@@ -16,6 +16,7 @@ import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 
 
+
 const theme = createTheme();
 
 
@@ -31,6 +32,7 @@ function getSingleDashboard (_id) {
   }
 
 };
+
 
 export default function EditDashboard() {
 
@@ -90,6 +92,8 @@ function DashboardForm({dashboard}){
 
       try{
 
+        //Update to check even smart contract
+        //Add back button
       const _isaddressT = await isAddress(`validate?address=${asset_treasury}`);
 
       const _isaddressW = await isAddress(`validate?address=${origin_Address}`);
