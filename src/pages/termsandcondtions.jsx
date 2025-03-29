@@ -43,14 +43,13 @@ const status = ()=>{
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
 
       <div>
         <Typography variant="body2" sx={{ justifyContent: "left", m: 1 }}>
-          We link your paybill to your digital assets wallets giving you 
+          We link your PAYBILLS to your digital assets wallets giving you 
           the freedom to price your crypto in Kenyan shillings.
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "left", m: 1 }}>
@@ -62,22 +61,22 @@ const status = ()=>{
         <form>
         <label>
         <input type="checkbox" name="taxes" checked={isTaxes} onChange={handleChange}/>
-          It is my responsibility to file tax returns.
+          It is my responsibility(owner of paybill) to file tax returns.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="prices" checked={isPrices} onChange={handleChange}/>
-          It is my responsibility to price my assets.
+          It is my responsibility(owner of paybill) to price my assets.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="safety" checked={isSafe} onChange={handleChange}/>
-          It is my responsibility to ensure safety of my paybill.
+          It is my responsibility(owner of paybill) to ensure safety of my paybill.
         </label>
         <br/>
         <label>
         <input type="checkbox" name="withdrawalA" checked={iswithdrawalA} onChange={handleChange}/>
-          The safety and control of withdrawal address is my responsibility.
+          The SAFETY and CONTROL of withdrawal address is my responsibility.
         </label>
         <br/>
         <label>
@@ -91,7 +90,7 @@ const status = ()=>{
           replace={true}
           size="small"
           disabled={status()}>
-          Continue
+          Yeah Wherever
         </Button>
         </form>
       </div>

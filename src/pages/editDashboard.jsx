@@ -14,7 +14,7 @@ import {updateDashboard} from "./api/post/dashboard.js";
 import {isAddress}  from "./api/get/addressUtils.js";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
-
+import Link from 'next/link';
 
 
 const theme = createTheme();
@@ -92,8 +92,6 @@ function DashboardForm({dashboard}){
 
       try{
 
-        //Update to check even smart contract
-        //Add back button
       const _isaddressT = await isAddress(`validate?address=${asset_treasury}`);
 
       const _isaddressW = await isAddress(`validate?address=${origin_Address}`);
@@ -322,11 +320,17 @@ function DashboardForm({dashboard}){
         </Typography>
 
         <div sx={{ "& button": { m: 2 } }}>
+        
           <Button
             type="submit"
             size="small">
             Update Dashboard
           </Button>
+
+          <Button size="small" href="/listDashboard">
+            List dashboards
+          </Button>
+
         </div>
         </form>
       </Box>

@@ -14,7 +14,6 @@ import { balInKshs,cryptoAmnt } from "../utils/ui_utills.js";
 import TextField from "@mui/material/TextField";
 import useSWR from "swr";
 import LinearProgress from "@mui/material/LinearProgress";
-import { getData } from "./api/get/getData.js";
 
 const theme = createTheme();
 

@@ -289,9 +289,9 @@ function DrawDashboard({data}) {
   const router = useRouter();
 
   const auth = async (id) => {
-    
+
     const response = await withdrawDashboard('withdrawTreasury',id);
-    console.log(response);
+    /*Update to take responses*/
 
     if(response){
 

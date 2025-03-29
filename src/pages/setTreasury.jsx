@@ -117,10 +117,12 @@ export default function Treasury(props) {
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Ensure you are the owner of the address entered above to avoid loss of your assets.
         </Typography>
+        {
+        /* Add this when bots go live
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Treasury address expires after 7 days.
-        </Typography>
-
+        </Typography> */
+        }
         <div sx={{ "& button": { m: 2 } }}>
           <Button
             type="submit"

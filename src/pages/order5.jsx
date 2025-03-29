@@ -14,6 +14,10 @@ import { getData } from "./api/get/getData.js";
 /*
 Without history and events
 On this page put a loader if response from sender wallet show transhash
+Otherwise show a message asking user to wait for 15 secs 
+b4 address gets crypto
+Remove a lof things in this version including events on this page
+just state that crypto is on the way
 */
 
 export default function Order5() {
@@ -77,22 +81,35 @@ export default function Order5() {
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Amount paid in Kshs :- {order[0].ksh_amnt}
         </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Order status is :- {order[0].status}
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        It takes approximately 15 secs for the transactions 
+        to be confirmed and settled.
+        </Typography>
       </div>
       
       <div>
       {
+        /*Next version of UI
           eventUI?attachEvents(order[0].asset_treasury):
          (<Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
             Transaction settled with hash {order[0].transHash}
             Amount is {order[0].crypto_amnt}
           </Typography>)
+          */
       }
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        For support call Kang'ethe traders on 0751-204-038.
+      </Typography>
       </div>
 
       <div>
           <Link href="#" underline="hover">
             Back to Dashboards page
           </Link>
+          {/*Next version of UI
           <Link href="#" underline="hover"
           onClick={() => {
                     const asset_treasury = order[0].asset_treasury;
@@ -100,6 +117,7 @@ export default function Order5() {
                   }}>
             Wallet history
           </Link>
+          */}
       </div>
 
       </Box>

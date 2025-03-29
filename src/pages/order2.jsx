@@ -58,7 +58,7 @@ export default function Order2() {
 
   const isAddressS = await isAddress(`validate?address=${crypto_address}`); 
 
-  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'ether'});
+  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'wei'});
 
   if(treasuryAmnt > cryptoValue){
 

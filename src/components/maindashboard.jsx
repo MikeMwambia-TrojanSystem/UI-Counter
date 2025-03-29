@@ -111,6 +111,11 @@ export default function MainDashBoard({dashboard,price}) {
                   Buy
                 </Button>
               </div>
+              {/*
+              Add this when bots go live
+              <div sx={{ "& button": { m: 1 } }}>
+             Successfull trades 789 trades , unsuccessfult trades 2.
+              </div>*/}
             </React.Fragment>
           }
         />

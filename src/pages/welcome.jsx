@@ -19,13 +19,12 @@ export default function _Intro(props) {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
       <div>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Welcome to counter OTC desk Test 1
+          Welcome to Kang'ethe OTC desk Test 1
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           { unique_link }.
@@ -41,7 +40,7 @@ export default function _Intro(props) {
               );
             })}
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Total Kenya Shillings volume per day configured is {props.amountKshs} on this desk.
+          Kenya Shillings volume per day is Kshs 150,000 on this desk.
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           By continuing you agree to the above configurations.
@@ -68,14 +67,11 @@ export async function getStaticProps() {
 
   const unique_link = process.env.UNIQUE_URL || null; 
 
-  const amountKshs = parseInt(150000);
-
   const _assets = ["Ethereum Token on Ethereum Network"];
 
   return {
     props: {
       _assets: _assets,
-      amountKshs: amountKshs,
       unique_link: unique_link
     },
   };
