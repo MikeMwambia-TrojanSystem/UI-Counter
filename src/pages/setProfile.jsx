@@ -44,7 +44,7 @@ export default function Profile(props) {
       r_t : timestamp
     };
 
-    const response = await createProfile('profile',data);
+    const response = await createProfile('createprofile',data);
 
     if(response === false){
       setDisabled(false);
