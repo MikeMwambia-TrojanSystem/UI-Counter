@@ -16,7 +16,10 @@ exports.createProfile = async function(_url,_data) {
     await axios({
       method:'post',
       url:`${baseURL}/${_url}`,
-      data :{
+      headers: {
+          'content-type': 'application/json'
+      },
+      params :{
         dollar_rate:_data.dollar_rate,
         name:_data.name,
         paybill:_data.paybill,
@@ -25,9 +28,23 @@ exports.createProfile = async function(_url,_data) {
         maximum_buy_kshs:_data.maximum_buy_kshs,
         status:_data.status,
         r_t:_data.r_t
-      }
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData.join('&')
+        }
+      ]
     })
     .then((response)=>{
+
       if(true===response.data.creation){
          _response = response.data;
       }else{
