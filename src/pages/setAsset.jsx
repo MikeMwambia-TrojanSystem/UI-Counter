@@ -62,7 +62,7 @@ export default function Asset() {
       name:'ETHEREUM' //Find a way of making this global
     };
 
-    const response = await createAsset('assets',data);
+    const response = await createAsset('createasset',data);
 
     if(response === false){
       setDisabled(false);
