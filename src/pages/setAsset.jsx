@@ -59,17 +59,17 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETHEREUM' //Find a way of making this global
+      name:'ETHEREUM' //Completely remove this
     };
 
     const response = await createAsset('createasset',data);
 
-    if(response === false){
+    if(response.ok === true){
       setDisabled(false);
       alert('Error refresh page and try again');
     }else{
       
-      router.replace({pathname:"/genMne",query:{x:response}},"/genMne");
+      router.replace({pathname:"/genMne",query:{x:response.id}},"/genMne");
     }
 
   };
