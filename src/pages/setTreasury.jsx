@@ -42,7 +42,7 @@ export default function Treasury(props) {
 
     if(!isValid) return alert('Address error');
 
-    const response = await createTreasury('balances',data);
+    const response = await createTreasury('createtreasury',data);
 
     if(response === false){
 
@@ -50,7 +50,7 @@ export default function Treasury(props) {
 
     }else{
   
-      router.replace({pathname:"/seeDashboard",query:{y:response}},"/seeDashboard");
+      router.replace({pathname:"/seeDashboard",query:{y:response.id}},"/seeDashboard");
     };
 
   };
@@ -87,8 +87,6 @@ export default function Treasury(props) {
   return (
      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
-
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
@@ -102,7 +100,7 @@ export default function Treasury(props) {
         Treasury address balance : - 0 ETH 
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        If the treasury address above expires and there are assets balances on that addrress,
+        Treasury address expires after 2 weeks of non trading activity and if there are assets balances on that addrress,
         they are automatically sent 
         to a withdrawal address entered below.
         </Typography>
@@ -120,7 +118,7 @@ export default function Treasury(props) {
         {
         /* Add this when bots go live
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Treasury address expires after 7 days.
+        Treasury address expires after in 7 days.
         </Typography> */
         }
         <div sx={{ "& button": { m: 2 } }}>

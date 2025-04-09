@@ -44,8 +44,8 @@ import { _Time }  from "../utils/ui_utills.js";
 
 function getAllDashboards () {
 
-  const { data, error , isLoading} = useSWR('getAllDashboards',getData,{revalidateOnMount:true});
-
+  const { data, error , isLoading} = useSWR('getdashboards',getData,{revalidateOnMount:true});
+  
    return {
     dashboards : data,
     isLoading,
@@ -67,18 +67,6 @@ export default function listDashboard(){
   if (isLoading) return <LinearProgress/>;
 
   if(isError || false === dashboards) return <ErrorComponent message={'Error fetching dashboard'}/>;
-
-  if( (undefined === dashboards) ||(dashboards.length === 0) ) return (
-      <>
-
-      <div>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        No dashboards avaialable.
-      </Typography>
-      </div>
-      
-      </>
-  );
 
   const profile = dashboards.find(dashboard=> dashboard.id === id);
 
@@ -103,8 +91,7 @@ function List({profile,dashboards,isError}){
   return (
     <>
     <ThemeProvider theme={theme}>
-       <CssBaseline />
-       <AppHeader/>
+       <CssBaseline/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Suspense fallback={<LinearProgress/>}>
       <Paper variant="outlined" 
@@ -388,7 +375,6 @@ function ErrorComponent({message=null}){
     <>
       <ThemeProvider theme={theme}>
        <CssBaseline />
-       <AppHeader/>
         <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
         <Paper variant="outlined" 
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 

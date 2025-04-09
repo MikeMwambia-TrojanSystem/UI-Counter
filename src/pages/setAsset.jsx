@@ -64,7 +64,7 @@ export default function Asset() {
 
     const response = await createAsset('createasset',data);
 
-    if(response.ok === true){
+    if(false===response){
       setDisabled(false);
       alert('Error refresh page and try again');
     }else{
@@ -77,7 +77,6 @@ export default function Asset() {
   return (
      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>

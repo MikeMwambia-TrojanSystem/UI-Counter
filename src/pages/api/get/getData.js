@@ -11,8 +11,7 @@ exports.getData = async function(_url=null) {
       url:`${baseURL}/${_url}`,
       headers:{'Access-Control-Allow-Origin': '*'}//Remove this pre production
     })
-    .then((response)=>{
-
+    .then((response)=>{;
       _response = response.data;
     })
     .catch((err)=>{

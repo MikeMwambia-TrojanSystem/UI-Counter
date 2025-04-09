@@ -23,7 +23,7 @@ const theme = createTheme();
 
 function getSingleDashboard (_id) {
 
-  const { data, error , isLoading } = useSWR(`getSingleDashboard?id=${_id}`,getData);
+  const { data, error , isLoading } = useSWR(`getsingledashboard?id=${_id}`,getData);
 
    return {
     dashboard : data,
@@ -43,7 +43,7 @@ export default function EditDashboard() {
   const id = searchParams.get('x');
 
   let { dashboard, isLoading, isError }  = getSingleDashboard(id);
-
+  
   if(isError) return <div>Failed to load refresh page...</div>;
 
   if (isLoading)
@@ -136,7 +136,7 @@ function DashboardForm({dashboard}){
 
     dashboard_.origin_Address = origin_Address;
 
-    const response = await updateDashboard('updateDashboard',dashboard_);
+    const response = await updateDashboard('updatedashboard',dashboard_);
 
     if(response === false){
 
@@ -156,7 +156,6 @@ function DashboardForm({dashboard}){
     <>
      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
@@ -255,6 +254,22 @@ function DashboardForm({dashboard}){
         />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Network supported
+        </Typography>
+        <TextField
+        required
+        id="network"
+        name="network"
+        fullWidth
+        type="string"
+        variant="standard"
+        defaultValue="Ethereum Sepolia Testnet"
+        InputProps={{
+          readOnly: true
+        }}
+        />
+
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           Asset treasury
         </Typography>
         <TextField
@@ -326,13 +341,17 @@ function DashboardForm({dashboard}){
             size="small">
             Update Dashboard
           </Button>
-
-          <Button size="small" href="/listDashboard">
-            List dashboards
-          </Button>
-
         </div>
         </form>
+        <div>
+      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+      <Link href="/setProfile">Create Dashboard</Link>
+      <br/>
+      <Link href="/listDashboard">List dashboards</Link>
+      <br/>
+      <Link href="/dashboard">Buyers page</Link>
+      </Typography>
+      </div>
       </Box>
         </Paper>
       </Container>
