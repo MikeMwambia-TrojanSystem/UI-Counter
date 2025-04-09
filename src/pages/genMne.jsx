@@ -18,7 +18,6 @@ export default function GenMnemonic(props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-
   //Gen mnemonic phrase
   const [status, setStatus] = useState(false);
   const [displayMne, setdisplayMne] = useState('block');
@@ -60,13 +59,11 @@ export default function GenMnemonic(props) {
 
     if(false === response) return alert("Error occured refresh page and retry");
 
-    let addType = typeof response._address.address;
-    let keyType = typeof response._key;
+    let addType = typeof response;
 
-    if(addType === 'string' && keyType === 'string') {
+    if(addType === 'string') {
 
-      setaddress(response._address.address);
-      setprivate_key(response._key);
+      setaddress(response);
       setdisAddress('block');
       setdisSubmitA(true);
 
@@ -101,7 +98,7 @@ export default function GenMnemonic(props) {
 
     event.preventDefault();
 
-    if(address && phrase && private_key){
+    if(address && phrase){
 
       const id = searchParams.get('x');
 
@@ -123,7 +120,6 @@ export default function GenMnemonic(props) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
@@ -177,16 +173,10 @@ export default function GenMnemonic(props) {
       <Box sx={{ display: disAddress }}>
       {/*Put address in url and to redirect /setTreasury page*/}
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-       Your Ethereum treasury address is : - 
+       Your Ethereum Sepolia testnet treasury address is : - 
       </Typography>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
        {address} 
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-      Your private key is : -
-      </Typography>
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-      {private_key}
       </Typography>
       <Button
           type="submit"

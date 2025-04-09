@@ -59,17 +59,17 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETHEREUM' //Find a way of making this global
+      name:'ETHEREUM' //Completely remove this
     };
 
-    const response = await createAsset('assets',data);
+    const response = await createAsset('createasset',data);
 
-    if(response === false){
+    if(false===response){
       setDisabled(false);
       alert('Error refresh page and try again');
     }else{
       
-      router.replace({pathname:"/genMne",query:{x:response}},"/genMne");
+      router.replace({pathname:"/genMne",query:{x:response.id}},"/genMne");
     }
 
   };
@@ -77,7 +77,6 @@ export default function Asset() {
   return (
      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>

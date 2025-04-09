@@ -16,10 +16,26 @@ exports.createAsset = async function(_url,_data) {
     await axios({
       method:'post',
       url:`${baseURL}/${_url}`,
-      data :{
+      headers: {
+          'content-type': 'application/json'
+      },
+      params :{
         _id:_data._id,
         name:_data.name
-      }
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData.join('&')
+        }
+      ]
     })
     .then((response)=>{
       _response = response.data;

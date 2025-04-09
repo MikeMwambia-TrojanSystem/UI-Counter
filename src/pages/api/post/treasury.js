@@ -16,12 +16,28 @@ exports.createTreasury = async function(_url,_data) {
     await axios({
       method:'post',
       url:`${baseURL}/${_url}`,
-      data :{
+      headers: {
+          'content-type': 'application/json'
+      },
+      params :{
         _id:_data._id,
         origin_Address:_data.origin_Address,
         treasury:_data.treasury,
         asset_balance:_data.asset_balance
-      }
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData.join('&')
+        }
+      ]
     })
     .then((response)=>{
       _response = response.data;

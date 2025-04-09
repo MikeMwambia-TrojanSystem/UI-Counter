@@ -35,7 +35,7 @@ export default function Dashboard() {
     getPrice,
     { refreshInterval: 10000 });
 
-  const { data : dashboards } = useSWR(`getActiveDashboards`,getData);
+  const { data : dashboards } = useSWR(`getactivedashboard`,getData);
   
   if (!dashboards)
     return (

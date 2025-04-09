@@ -34,6 +34,7 @@ export default function Dashboard() {
 
   //Treasury Data
   const [assetId,setassetId] = useState(null);
+  const [network,setNetwork] = useState(null);
   const [treasuryA,settreasuryA] = useState(null);
   const [withdrawalA,setwithdrawalA] = useState(null);
   const [balanceT,setbalanceT] = useState(null);
@@ -69,14 +70,19 @@ export default function Dashboard() {
           return;
         };
 
-        const treasuryInfo  = await getData(`getbalance?_id=${id}`);
+        const treasuryInfo  = await getData(`gettreasury?id=${id}`);
+
+        let infoTreasury = treasuryInfo[0]?.value || false;
+
+        if(false===infoTreasury) return alert('Error generating treasury data');
 
         setassetId('ETHEREUM');
-        settreasuryA(treasuryInfo["treasury"]);
-        setwithdrawalA(treasuryInfo["origin_Address"]);
-        setbalanceT(treasuryInfo["asset_balance"]);
+        setNetwork('Ethereum Sepolia Testnet');
+        settreasuryA(infoTreasury?.treasury);
+        setwithdrawalA(infoTreasury?.origin_Address);
+        setbalanceT(infoTreasury?.asset_balance);
 
-        if(false != treasuryInfo){
+        if(false != infoTreasury){
 
         //Disable treasury button
         settreasurySt(true);
@@ -104,20 +110,30 @@ export default function Dashboard() {
         return;
       };
 
-      const profileData = await getData(`getprofile?_id=${profileId}`);
+      const profileData = await getData(`getprofile?id=${profileId}`);
 
-      setdollar_rate(profileData["dollar_rate"]);
-      setname(profileData["name"]);
-      setpaybill(profileData["paybill"]);
+      let dataProfile = profileData[0]?.value || false;
 
-      const creationDate = new Date(Number(profileData["r_t"])).toLocaleDateString() || null;
-      setr_t(profileData["r_t"]);
+      if(false===dataProfile) return alert('Error generating profile data');
+
+      let dollarRate = dataProfile?.dollar_rate || 'Error';
+      let name = dataProfile?.name || 'Error';
+      let paybill = dataProfile?.paybill || 'Error';
+      setdollar_rate(dollarRate);
+      setname(name);
+      setpaybill(paybill);
+
+      let creationT = dataProfile?.r_t
+      const creationDate = new Date(Number(creationT)).toLocaleDateString() || null;
+      setr_t(creationT);
       setDisplayTime(creationDate);
 
-      setminimum_buy_kshs(profileData["minimum_buy_kshs"]);
-      setmaximum_buy_kshs(profileData["maximum_buy_kshs"]); 
+      let minBuy = dataProfile?.minimum_buy_kshs || 'Error';
+      let maxBuy = dataProfile?.maximum_buy_kshs || 'Error';
+      setminimum_buy_kshs(minBuy);
+      setmaximum_buy_kshs(maxBuy); 
 
-      if(Number(profileData["dollar_rate"])>1){
+      if(Number(dollarRate)>1){
       setprofileSt(true);
       settreasurySt(false);
       };
@@ -195,8 +211,8 @@ export default function Dashboard() {
         orders:0
       };
 
-      const response = await createDashboard('createDashboard',dashboard);
-
+      const response = await createDashboard('createdashboard',dashboard);
+      
       if(response === false){
         setdashboardSt(false);
         alert('Retry there was an erorr saving dashboard');
@@ -215,7 +231,6 @@ export default function Dashboard() {
   return (
      <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -282,7 +297,10 @@ export default function Dashboard() {
               sx={{ m: 1 }}>
                 Asset Name : - {assetId}
               </Typography>
-
+              <Typography variant="body2" color="text.primary" 
+              sx={{ m: 1 }}>
+                Network : - {network}
+              </Typography>
               <Typography variant="body2" color="text.primary" 
               sx={{ m: 1 }}>
                 Treasury Address :-

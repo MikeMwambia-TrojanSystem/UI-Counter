@@ -15,8 +15,24 @@ exports.createOrder = async function(_url,_data) {
 
     await axios({
       method:'post',
+      headers: {
+          'content-type': 'application/json'
+      },
       url:`${baseURL}/${_url}`,
-      data :_data
+      params :_data,
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData.join('&')
+        }
+      ]
     })
     .then((response)=>{
       _response = response.data;

@@ -15,8 +15,11 @@ exports.createDashboard = async function(_url,_data) {
 
     await axios({
       method:'post',
+      headers: {
+          'content-type': 'application/json'
+      },
       url:`${baseURL}/${_url}`,
-      data :{
+      params :{
         _id:_data._id,
         dashboardname:_data.dashboardname,
         paybill:_data.paybill,
@@ -28,7 +31,20 @@ exports.createDashboard = async function(_url,_data) {
         maximum_buy_kshs:_data.maximum_buy_kshs,
         minimum_buy_kshs:_data.minimum_buy_kshs,
         orders:_data.orders
-      }
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData.join('&')
+        }
+      ]
     })
     .then((response)=>{
       _response = response.data;
