@@ -274,7 +274,7 @@ function DrawDashboard({data}) {
   const ageInDays = (difference/86400000);
 
   //Spend more thought here
-  const status = (ageInDays>7)?'Expired':'Active';
+  const status = dashboard.status;
 
   const router = useRouter();
 
@@ -331,7 +331,7 @@ function DrawDashboard({data}) {
           Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>
           Expiry time : {expiryTime}<br/>
-          Status : {dashboard.status}
+          Status : {(dashboard.status)?'Active':'Expired'}
       </Typography>
 
       <IconButton
@@ -345,7 +345,7 @@ function DrawDashboard({data}) {
       <IconButton 
       aria-label="copy" 
       size="small"
-      disabled={dashboard.status}
+      disabled={((status)?false:true)}
       onClick={()=>auth(dashboard.id)}
       >
       <RemoveIcon fontSize="inherit"/>Withdraw
