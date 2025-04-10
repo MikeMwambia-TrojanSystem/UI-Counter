@@ -15,7 +15,7 @@ exports.getPrice = async function(_url=null) {
     })
     .catch((err)=>{
       _response = false;
-    });//Update error
+    });
 
     return _response;
 

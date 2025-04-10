@@ -5,9 +5,11 @@ import { useState,useEffect } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import Typography from "@mui/material/Typography";
 import Container from '@mui/material/Container';
 import HeaderComponent from "../components/header";
 import StickyFooter from "../components/footer";
+import Paper from '@mui/material/Paper';
 import MainDashboard from "../components/maindashboard";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
@@ -35,35 +37,50 @@ export default function Dashboard() {
     getPrice,
     { refreshInterval: 10000 });
 
+  console.log(price);
+
   const { data : dashboards } = useSWR(`getactivedashboard`,getData);
+  console.log(dashboards);
   
-  if (!dashboards)
+  if(!dashboards || !price){
     return (
-      <div>
-        <LinearProgress color="inherit" />
-      </div>
-  );
+      <>
+      <ThemeProvider theme={theme}>
+       <CssBaseline />
+        <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
+        <Paper variant="outlined" 
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
+        <div>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          An error occured fetching dashboards <br/>Try again later.
+        </Typography>
+        </div>
+        </Paper>
+        </Container>
+     </ThemeProvider>
+    </>
+    )
+  }
 
-  if(dashboards===[]) 
+  if(dashboards===[]) {
     return (
-      <div>
-        Welcome to counter a platform that gives you the freedom to price your crypto.
-      </div>
+      <>
+      <ThemeProvider theme={theme}>
+       <CssBaseline />
+        <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
+        <Paper variant="outlined" 
+        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
+        <div>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          There are no dashboards listed on this url yet <br/>Check back later.
+        </Typography>
+        </div>
+        </Paper>
+        </Container>
+     </ThemeProvider>
+    </>
   );
-
-  if(undefined===price) 
-    return (
-      <div>
-        Refresh page to load dashboards.
-      </div>
-  );
-
-  if(false === dashboards)
-    return (
-      <div>
-        Error occured.
-      </div>
-  );
+}
 
   return (
     <ThemeProvider theme={theme}>
@@ -77,6 +94,13 @@ export default function Dashboard() {
         <CssBaseline />
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
           <HeaderComponent offers={dashboards.length} price={price.price}/>
+          <div>
+          Welcome to counter a platform that gives you the freedom to price your crypto.
+          <br/>
+          You are running on Ethereum Sepolia TESTNET.
+          <br/>
+          For Kshs 13 @ Day you can have access to a configured account and trade over 50 currencies.
+          </div>
            {dashboards.map((dashboard) => {
               return (<MainDashboard dashboard={dashboard} price={price}/>);
             })}
