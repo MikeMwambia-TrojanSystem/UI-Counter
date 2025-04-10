@@ -86,6 +86,8 @@ function List({profile,dashboards,isError}){
   /*
   During events implementation add one hear to 
   update Kshs price on each dashboard
+  Consider adding a way for someone to see treasury balance
+  and refresh on the address
   */
 
   return (
@@ -258,6 +260,7 @@ function Dashboards({dashboards}){
 
 function DrawDashboard({data}) {
 
+  
   const dashboard = data;
 
   const creationDate = new Date(dashboard.creationTime).toLocaleDateString() || null;
@@ -277,16 +280,21 @@ function DrawDashboard({data}) {
 
   const auth = async (id) => {
 
-    const response = await withdrawDashboard('withdrawTreasury',id);
-    /*Update to take responses*/
+    const response = await withdrawDashboard('withdrawT',id);
+
+    /*TODO
+    Update to take responses
+    Create it's own pages
+    Show withdrawal amount to be recieved
+    */
 
     if(response){
 
-      alert('Withdrawal request looged wait for a confirmation event');
-
+      alert(`Withdrawal to ${dashboard.origin_Address} success`);
+      window.location.reload();
     }else{
 
-      alert('Error occured try again later');
+      alert('An error occured give it sometime and try again');
 
     }
 
@@ -306,8 +314,6 @@ function DrawDashboard({data}) {
       alert('Retry there was an erorr deleting dashboard');
     }else{
 
-      //Bug
-      //User has to refresh to get fresh data
       window.location.reload()
     }
 
@@ -325,7 +331,7 @@ function DrawDashboard({data}) {
           Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>
           Expiry time : {expiryTime}<br/>
-          Status : {status}
+          Status : {dashboard.status}
       </Typography>
 
       <IconButton
@@ -339,7 +345,7 @@ function DrawDashboard({data}) {
       <IconButton 
       aria-label="copy" 
       size="small"
-      disabled={(status === "Expired")?true:false}
+      disabled={dashboard.status}
       onClick={()=>auth(dashboard.id)}
       >
       <RemoveIcon fontSize="inherit"/>Withdraw
@@ -369,7 +375,7 @@ function DrawDashboard({data}) {
 
 
 function ErrorComponent({message=null}){
-  let _message = message || 'An error occured try again';
+  let _message = message || 'An error occured give it sometime and try again';
 
   return (
     <>
