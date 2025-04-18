@@ -63,11 +63,9 @@ export default function Treasury(props) {
    
       try{
 
-      const _isaddressT = await isAddress(`validate?address=${addressT}`);
-
       const _isaddressW = await isAddress(`validate?address=${addressW}`);
 
-      if((_isaddressT.data===true) && (_isaddressW.data===true)){
+      if(_isaddressW.data===true){
         if(addressT.toString() != addressW.toString()){
           return true;
         };
