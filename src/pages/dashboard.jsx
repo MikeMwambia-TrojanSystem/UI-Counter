@@ -37,10 +37,8 @@ export default function Dashboard() {
     getPrice,
     { refreshInterval: 10000 });
 
-  console.log(price);
-
   const { data : dashboards } = useSWR(`getactivedashboard`,getData);
-  console.log(dashboards);
+
   
   if(!dashboards || !price){
     return (
@@ -62,12 +60,13 @@ export default function Dashboard() {
     )
   }
 
-  if(dashboards===[]) {
+  if(dashboards.length===0) {
     return (
       <>
       <ThemeProvider theme={theme}>
        <CssBaseline />
         <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
+        <HeaderComponent offers={dashboards.length} price={price.price}/>
         <Paper variant="outlined" 
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
         <div>
@@ -95,12 +94,13 @@ export default function Dashboard() {
         <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
           <HeaderComponent offers={dashboards.length} price={price.price}/>
           <div>
-          Welcome to counter a platform that gives you the freedom to price your crypto.
-          <br/>
-          You are running on Ethereum Sepolia TESTNET.
-          <br/>
-          For Kshs 13 @ Day you can have access to a configured account and trade over 50 currencies.
-          </div>
+-          Welcome to counter a platform that gives you the freedom to price your crypto
+-          <br/>
+-          You are running on Ethereum Sepolia TESTNET
+-          <br/>
+-          For upto Kshs 13 @ Day on pay per use basis,
+           you can have access to a configured account and trade over 50 currencies
+-          </div>
            {dashboards.map((dashboard) => {
               return (<MainDashboard dashboard={dashboard} price={price}/>);
             })}

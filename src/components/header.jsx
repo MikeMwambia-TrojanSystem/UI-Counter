@@ -16,7 +16,6 @@ export default function HeaderComponent({offers,price}) {
               width:"100%",
               gridTemplateColumns:'repeat(3, 1fr)'
             }}>
-
           <Box sx={{
               display: 'flex',
               justifyContent: 'flex-start',
@@ -29,14 +28,13 @@ export default function HeaderComponent({offers,price}) {
               mt: 0.5,
               color: 'inherit'
             }}>
-          Ethereum marketplace<br/>{offers} open counters.
+          Ethereum marketplace<br/>{offers} open offers.
           </Typography>
           </Box>
 
 
 
           <Box sx={{ display: 'flex',justifyContent: 'flex-end',flexWrap: 'wrap'}}>
-
           <Typography
             variant="body2"
             component="p"
@@ -46,8 +44,8 @@ export default function HeaderComponent({offers,price}) {
             }}>
           Price in dollars ($){price}<br/>Price source :- Binance.
           </Typography>
-
           </Box>
+
           </Box>
         </Toolbar>
       </AppBar>
