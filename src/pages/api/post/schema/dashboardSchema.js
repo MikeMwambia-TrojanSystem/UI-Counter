@@ -8,6 +8,7 @@ const schemaCreate = {
   paybill:{type:"number",positive:true,min:0,integer:true},
   dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},
   r_t:{type:"string"},
+  loaded:{type:"boolean",default:false},
   asset_id:{type:"string",min:1,max:30},
   asset_treasury:{type:"string"},
   origin_Address:{type:"string"},

@@ -41,11 +41,12 @@ import useSWR from "swr";
 import { deleteDashboard,withdrawDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
 import { _Time }  from "../utils/ui_utills.js";
+import { getBalInEth_ } from "./api/post/treasury.js";
 
 function getAllDashboards () {
 
   const { data, error , isLoading} = useSWR('getdashboards',getData,{revalidateOnMount:true});
-  
+
    return {
     dashboards : data,
     isLoading,
@@ -260,7 +261,10 @@ function Dashboards({dashboards}){
 
 function DrawDashboard({data}) {
 
-  
+  const [bal,setBal] = React.useState('0.0');
+  const [balBttn,setbalBttn] = useState(false);
+
+
   const dashboard = data;
 
   const creationDate = new Date(dashboard.creationTime).toLocaleDateString() || null;
@@ -317,7 +321,15 @@ function DrawDashboard({data}) {
       window.location.reload()
     }
 
-  }
+  };
+
+  const _updateTreasuryBal = async (asset_treasury) =>{
+
+      let treasuryBal = await getBalInEth_(asset_treasury);
+      setbalBttn(true);
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+
+  };
 
   return (
       <>
@@ -328,6 +340,11 @@ function DrawDashboard({data}) {
           Paybill : {dashboard.paybill}<br/>
           Asset : {dashboard.asset_name || 'ETHEREUM'}<br/>
           Asset Treasury Address : {dashboard.asset_treasury}<br/>
+          Asset Treasury Balance : {bal}
+            <IconButton aria-label="copy" size="small" 
+              onClick={()=>_updateTreasuryBal(dashboard.asset_treasury)} disabled={balBttn}>
+             <AddIcon fontSize="inherit"/>Update</IconButton>
+          <br/>
           Asset withdrawal Address : {dashboard.origin_Address}<br/>
           Creation time : {creationDate}<br/>
           Expiry time : {expiryTime}<br/>

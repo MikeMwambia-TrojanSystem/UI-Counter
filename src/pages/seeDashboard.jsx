@@ -206,6 +206,7 @@ export default function Dashboard() {
         asset_id:assetId,
         asset_treasury:treasuryA,
         origin_Address:withdrawalA,
+        loaded:false,
         maximum_buy_kshs:Number(maximum_buy_kshs),
         minimum_buy_kshs:Number(minimum_buy_kshs),
         orders:0

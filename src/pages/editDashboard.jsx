@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import {updateDashboard} from "./api/post/dashboard.js";
-import {isAddress}  from "./api/get/addressUtils.js";
+import { isAddressValid }  from "./api/post/treasury.js";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 import Link from 'next/link';
@@ -92,9 +92,9 @@ function DashboardForm({dashboard}){
 
       try{
 
-      const _isaddressT = await isAddress(`validate?address=${asset_treasury}`);
+      const _isaddressT = await isAddressValid(asset_treasury);
 
-      const _isaddressW = await isAddress(`validate?address=${origin_Address}`);
+      const _isaddressW = await isAddressValid(origin_Address);
 
       if((_isaddressT.data===true) && (_isaddressW.data===true)){
         if(asset_treasury.toString() != origin_Address.toString()){

@@ -53,3 +53,81 @@ exports.createTreasury = async function(_url,_data) {
   return false;
 
 }
+
+
+exports.getBalInEth_ = async function(_address) {
+
+    let _response = false;
+
+    await axios({
+      method:'post',
+      url:`${baseURL}/checkTBal`,
+      headers: {
+          'content-type': 'application/json'
+      },
+      params :{
+        address:_address
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData;
+        }
+      ]
+    })
+    .then((response)=>{
+      _response = response.data;
+    })
+    .catch((err)=>{
+      _response = false;
+    });//Update error
+
+    return _response
+
+};
+
+
+exports.isAddressValid = async function(_address) {
+
+    let _response = false;
+
+    await axios({
+      method:'post',
+      url:`${baseURL}/checkAddrss`,
+      headers: {
+          'content-type': 'application/json'
+      },
+      params :{
+        address:_address
+      },
+      transformRequest: [
+        function(data, headers) {
+          const serializedData = []
+
+          for (const k in data) {
+            if (data[k]) {
+              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
+            }
+          }
+
+          return serializedData;
+        }
+      ]
+    })
+    .then((response)=>{
+      _response = response.data;
+    })
+    .catch((err)=>{
+      _response = false;
+    });//Update error
+
+    return _response
+
+};
