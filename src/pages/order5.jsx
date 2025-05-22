@@ -106,7 +106,7 @@ export default function Order5() {
       </div>
 
       <div>
-          <Link href="#" underline="hover">
+          <Link href="#" rel="noopener noreferrer" underline="hover">
             Back to Dashboards page
           </Link>
           {/*Next version of UI

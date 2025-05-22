@@ -52,6 +52,7 @@ export default function _Intro(props) {
       <div sx={{ "& button": { m: 1 } }}>
         <Button
           href="/termsandcondtions"
+          rel="noopener noreferrer"
           prefetch={false}
           replace={true}
           size="small">

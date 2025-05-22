@@ -99,7 +99,9 @@ export default function Order(props) {
           size="small">
           Lock Order
         </Button>
-        <Button href="/dashboard">Return to dashboard</Button>
+        <Button href="/dashboard" rel="noopener noreferrer">
+          Return to dashboard
+        </Button>
       </div>
       </form>
       </Box>

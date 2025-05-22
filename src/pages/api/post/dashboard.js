@@ -67,7 +67,7 @@ exports.createDashboard = async function(_url,_data) {
 exports.updateDashboard = async function(_url,_data){
 
   const valid = await updateCheck(_data);
-  
+
   if(valid === true){
 
     let _response = false;
@@ -87,7 +87,6 @@ exports.updateDashboard = async function(_url,_data){
       _response = response.data;
     })
     .catch((err)=>{
-
       _response = false;
     });//Update error
 

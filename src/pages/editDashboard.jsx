@@ -16,10 +16,7 @@ import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 import Link from 'next/link';
 
-
 const theme = createTheme();
-
-
 
 function getSingleDashboard (_id) {
 
@@ -93,10 +90,10 @@ function DashboardForm({dashboard}){
       try{
 
       const _isaddressT = await isAddressValid(asset_treasury);
-
+      
       const _isaddressW = await isAddressValid(origin_Address);
 
-      if((_isaddressT.data===true) && (_isaddressW.data===true)){
+      if((_isaddressT===true) && (_isaddressW===true)){
         if(asset_treasury.toString() != origin_Address.toString()){
           return true;
         };
@@ -345,11 +342,11 @@ function DashboardForm({dashboard}){
         </form>
         <div>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-      <Link href="/setProfile">Create Dashboard</Link>
+      <Link href="/setProfile" rel="noopener noreferrer">Create Dashboard</Link>
       <br/>
-      <Link href="/listDashboard">List dashboards</Link>
+      <Link href="/listDashboard" rel="noopener noreferrer">List dashboards</Link>
       <br/>
-      <Link href="/dashboard">Buyers page</Link>
+      <Link href="/dashboard" rel="noopener noreferrer">Buyers page</Link>
       </Typography>
       </div>
       </Box>

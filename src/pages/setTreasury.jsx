@@ -37,8 +37,6 @@ export default function Treasury(props) {
 
     const isValid = await validateAddress(event.target.origin_Address.value) || false;
 
-
-
     if(!isValid) return alert('Address error');
 
     const response = await createTreasury('createtreasury',data);
@@ -64,7 +62,7 @@ export default function Treasury(props) {
 
       const _isaddressW = await isAddressValid(addressW);
 
-      if(_isaddressW.data===true){
+      if(_isaddressW===true){
         if(addressT.toString() != addressW.toString()){
           return true;
         };

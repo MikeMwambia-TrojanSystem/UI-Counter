@@ -103,11 +103,11 @@ function List({profile,dashboards,isError}){
       <Dashboards dashboards={dashboards}/>
       <div>
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-      <Link href="/setProfile">Create</Link>
+      <Link href="/setProfile" rel="noopener noreferrer">Create</Link>
       <br/>
-      <Link href="/listDashboard">List dashboards</Link>
+      <Link href="/listDashboard" rel="noopener noreferrer">List dashboards</Link>
       <br/>
-      <Link href="/dashboard">Buyers page</Link>
+      <Link target="_blank" rel="noopener noreferrer" href="/dashboard">Buyers page</Link>
       </Typography>
       </div>
       </Paper>
@@ -163,6 +163,8 @@ function Profile({profile}){
 function ProfileSample({profile}){
 
 const [qr, setQr] = React.useState(null);
+const [balBttn,setbalBttn] = useState(false);
+const [bal,setBal] = React.useState('0.0');
 
 const router = useRouter();
 
@@ -194,6 +196,15 @@ useEffect(()=>{
 
   },[]);
 
+  const _updateTreasuryBal = async (asset_treasury) =>{
+
+      let treasuryBal = await getBalInEth_(asset_treasury);
+      setbalBttn(true);
+
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+
+  };
+
   return (
        <>
        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
@@ -214,6 +225,16 @@ useEffect(()=>{
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
           The rate is  {profile.dollar_rate} Kenya shilling to 1 dollar.
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+          Asset Treasury Balance : {bal}
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        <IconButton aria-label="copy" size="small" 
+          onClick={()=>_updateTreasuryBal(profile.asset_treasury)} 
+          disabled={balBttn}>
+          <AddIcon fontSize="inherit"/>Update
+        </IconButton>
         </Typography>
         <hr/>
        </>
@@ -263,7 +284,7 @@ function DrawDashboard({data}) {
 
   const [bal,setBal] = React.useState('0.0');
   const [balBttn,setbalBttn] = useState(false);
-
+  const [withdrwB,setwithdrwB] = React.useState(true);
 
   const dashboard = data;
 
@@ -286,10 +307,12 @@ function DrawDashboard({data}) {
 
     const response = await withdrawDashboard('withdrawT',id);
 
-    /*TODO
+    /*
+    TODO
     Update to take responses
     Create it's own pages
     Show withdrawal amount to be recieved
+    Have a way of confirming maybe form events
     */
 
     if(response){
@@ -327,8 +350,12 @@ function DrawDashboard({data}) {
 
       let treasuryBal = await getBalInEth_(asset_treasury);
       setbalBttn(true);
+
       (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
 
+      if(Number(treasuryBal)>Number("0.0005")){
+        setwithdrwB(false);
+      }
   };
 
   return (
@@ -354,17 +381,15 @@ function DrawDashboard({data}) {
       <IconButton
       aria-label="copy" 
       size="small"
-      onClick={()=>topup(dashboard.id)}
-      >
+      onClick={()=>topup(dashboard.id)}>
       <AddIcon fontSize="inherit"/>Top up
       </IconButton>
 
       <IconButton 
       aria-label="copy" 
       size="small"
-      disabled={((status)?false:true)}
-      onClick={()=>auth(dashboard.id)}
-      >
+      disabled={withdrwB}
+      onClick={()=>auth(dashboard.id)}>
       <RemoveIcon fontSize="inherit"/>Withdraw
       </IconButton>
 

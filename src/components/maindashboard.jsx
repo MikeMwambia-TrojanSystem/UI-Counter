@@ -14,9 +14,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import { getBalInEth } from "../pages/api/get/addressUtils.js";
+import { getBalInEth_ } from "../pages/api/post/treasury.js";
 import { priceInKshs,balInKshs } from "../pages/api/get/priceUtills.js";
-
 
 export default function MainDashBoard({dashboard,price}) {
 
@@ -25,24 +24,34 @@ export default function MainDashBoard({dashboard,price}) {
   const [kshs_bal,setKshs_bal] = useState(0);
   const [minimum_buy_kshs,setMinimum_buy_kshs] = useState(0);
   const [maximum_buy_kshs,setMaximum_buy_kshs] = useState(0);
-
+  const [byDisabled,setbyDisabled] = useState(true);
+  const [buyInit,setbuyInit] = useState('Awaiting treasury funding');
 
   const priceDashboard = async (event) => {
 
   let Kshs_price = await priceInKshs(price.price,dashboard.dollar_rate);
   setkshs_price(Number(Kshs_price).toFixed(4));
 
-  let treasuryBal = await getBalInEth('balAddress',{address:dashboard.asset_treasury,form:'ether'});
+  let treasuryBal = await getBalInEth_(dashboard.asset_treasury);
   setTreasury_bal(Number(treasuryBal).toFixed(4));
 
   let balInKshs_ = await balInKshs(Kshs_price,treasuryBal);
   setKshs_bal(Number(balInKshs_).toFixed(4));
 
-  let minimum_buy_kshs_ = (balInKshs_>0)?( (balInKshs_>dashboard.minimum_buy_kshs)?dashboard.minimum_buy_kshs:balInKshs_):0;
-  setMinimum_buy_kshs(minimum_buy_kshs_);
+  let minimum_buy_kshs_ = (balInKshs_>0)?((balInKshs_>dashboard.minimum_buy_kshs)?dashboard.minimum_buy_kshs:balInKshs_):0;
+  setMinimum_buy_kshs(Number(minimum_buy_kshs_).toFixed(4));
 
   let maximum_buy_kshs_ = (150000>balInKshs_)?balInKshs_:150000;
-  setMaximum_buy_kshs(maximum_buy_kshs_);
+  setMaximum_buy_kshs(Number(maximum_buy_kshs_).toFixed(4));
+
+  if(balInKshs_>150){
+    setbyDisabled(false);
+    setbuyInit('Buy');
+  }else{
+    setbyDisabled(true);
+    setbuyInit('Awaiting treasury funding');
+  };
+
   };
 
   priceDashboard();
@@ -106,9 +115,10 @@ export default function MainDashBoard({dashboard,price}) {
                 <Button
                   prefetch={false}
                   replace={true}
+                  disabled={byDisabled}
                   onClick={handleSubmit}
                   size="small">
-                  Buy
+                  {buyInit}
                 </Button>
               </div>
               {/*
