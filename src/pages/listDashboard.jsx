@@ -233,7 +233,7 @@ useEffect(()=>{
           The rate is  {profile.dollar_rate} Kenya shilling to 1 dollar.
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Asset Treasury Balance : {bal}
+          Current treasury balance : {bal}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         <IconButton aria-label="copy" size="small" 
