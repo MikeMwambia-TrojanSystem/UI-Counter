@@ -9,7 +9,7 @@ function Copyright() {
       <Container>
         <Typography variant="body2" color="text.secondary" align="center">
           {" © "}
-          <Link color="inherit" href="#">
+          <Link color="inherit" href="#" rel="noopener noreferrer">
             Mzynga Technology
           </Link>{" "}
           {new Date().getFullYear()}

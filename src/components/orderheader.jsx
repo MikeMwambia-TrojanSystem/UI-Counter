@@ -24,7 +24,7 @@ export default function OrderHeader(data) {
         }}
       >
         <Toolbar>
-          <Link href="/dashboard">
+          <Link href="/dashboard" rel="noopener noreferrer">
             <IconButton sx={{ p: 0 }}>
               <Avatar alt="Remy Sharp" src={parsedInfo.data.profilePic} />
             </IconButton>
@@ -34,7 +34,8 @@ export default function OrderHeader(data) {
             Assets listed :- 1
           </Typography>
           <Typography variant="body2" sx={{ justifyContent: "right",ml:'70%'}}>
-            <a target="_blank" href="https://forms.gle/1rfPaW1AMDQkrkXK8" sx={{ justifyContent: "right" }} rel="noopener noreferrer">
+            <a target="_blank" href="https://forms.gle/1rfPaW1AMDQkrkXK8" 
+              sx={{ justifyContent: "right" }} rel="noopener noreferrer">
             Request account
             </a>
             </Typography>

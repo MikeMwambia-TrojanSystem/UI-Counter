@@ -61,6 +61,7 @@ export default function Instructions() {
         <Button
           type="submit"
           href="/setProfile"
+          rel="noopener noreferrer"
           prefetch={false}
           replace={true}
           size="small">

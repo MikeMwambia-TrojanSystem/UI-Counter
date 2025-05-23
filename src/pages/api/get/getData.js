@@ -8,8 +8,7 @@ exports.getData = async function(_url=null) {
 
     await axios({
       method:'get',
-      url:`${baseURL}/${_url}`,
-      headers:{'Access-Control-Allow-Origin': '*'}//Remove this pre production
+      url:`${baseURL}/${_url}`
     })
     .then((response)=>{;
       _response = response.data;

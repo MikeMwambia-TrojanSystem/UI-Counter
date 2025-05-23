@@ -86,6 +86,7 @@ const status = ()=>{
         <br/>
         <Button
           href="/instructions"
+          rel="noopener noreferrer"
           prefetch={false}
           replace={true}
           size="small"

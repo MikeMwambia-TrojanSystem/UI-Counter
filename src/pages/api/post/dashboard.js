@@ -25,6 +25,7 @@ exports.createDashboard = async function(_url,_data) {
         paybill:_data.paybill,
         dollar_rate:_data.dollar_rate,
         r_t:_data.r_t,
+        loaded:_data.loaded,
         asset_name:_data.asset_id,
         asset_treasury:_data.asset_treasury,
         origin_Address:_data.origin_Address,
@@ -66,7 +67,7 @@ exports.createDashboard = async function(_url,_data) {
 exports.updateDashboard = async function(_url,_data){
 
   const valid = await updateCheck(_data);
-  
+
   if(valid === true){
 
     let _response = false;
@@ -86,7 +87,6 @@ exports.updateDashboard = async function(_url,_data){
       _response = response.data;
     })
     .catch((err)=>{
-
       _response = false;
     });//Update error
 

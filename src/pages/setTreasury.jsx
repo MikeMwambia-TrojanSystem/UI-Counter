@@ -11,8 +11,7 @@ import useSWR from "swr";
 import { useRouter } from 'next/navigation'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
-import {isAddress}  from "./api/get/addressUtils.js";
-import { createTreasury }  from "./api/post/treasury.js";
+import { createTreasury,isAddressValid }  from "./api/post/treasury.js";
 
 const theme = createTheme();
 
@@ -38,8 +37,6 @@ export default function Treasury(props) {
 
     const isValid = await validateAddress(event.target.origin_Address.value) || false;
 
-
-
     if(!isValid) return alert('Address error');
 
     const response = await createTreasury('createtreasury',data);
@@ -63,9 +60,9 @@ export default function Treasury(props) {
    
       try{
 
-      const _isaddressW = await isAddress(`validate?address=${addressW}`);
+      const _isaddressW = await isAddressValid(addressW);
 
-      if(_isaddressW.data===true){
+      if(_isaddressW===true){
         if(addressT.toString() != addressW.toString()){
           return true;
         };

@@ -7,6 +7,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 
+/*
+Every step leaves a footprint no matter how small.
+*/
+
 const theme = createTheme();
 
 export default function _Intro(props) {
@@ -49,6 +53,7 @@ export default function _Intro(props) {
       <div sx={{ "& button": { m: 1 } }}>
         <Button
           href="/termsandcondtions"
+          rel="noopener noreferrer"
           prefetch={false}
           replace={true}
           size="small">
