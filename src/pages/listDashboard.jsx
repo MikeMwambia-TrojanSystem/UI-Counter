@@ -111,7 +111,7 @@ function List({profile,dashboards,isError}){
       <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
       <Link href="/setProfile" rel="noopener noreferrer">Create</Link>
       <br/>
-      <Link href="/listDashboard" rel="noopener noreferrer">List dashboards</Link>
+      <Link href="/listDashboard" rel="noopener noreferrer">All dashboards</Link>
       <br/>
       <Link target="_blank" rel="noopener noreferrer" href="/dashboard">Buyers page</Link>
       </Typography>

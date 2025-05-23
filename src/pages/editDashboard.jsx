@@ -333,11 +333,8 @@ function DashboardForm({dashboard}){
 
         <div sx={{ "& button": { m: 2 } }}>
         
-          <Button
-            type="submit"
-            size="small">
-            Update Dashboard
-          </Button>
+          <Button type="submit" size="small">Update Dashboard</Button>
+          <Link href="/listDashboard" rel="noopener noreferrer">Cancel</Link>
         </div>
         </form>
         <div>
