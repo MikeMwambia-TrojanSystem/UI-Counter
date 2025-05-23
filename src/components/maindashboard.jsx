@@ -46,13 +46,13 @@ export default function MainDashBoard({dashboard,price}) {
   let balInKshs_ = await balInKshs(Kshs_price,treasuryBal);
   setKshs_bal(Number(balInKshs_).toFixed(4));
 
-  let minimum_buy_kshs_ = (balInKshs_>0)?((balInKshs_>dashboard.minimum_buy_kshs)?dashboard.minimum_buy_kshs:balInKshs_):0;
+  let minimum_buy_kshs_ = (Number(balInKshs_)>150)?(Number(dashboard.minimum_buy_kshs)):150;
   setMinimum_buy_kshs(Number(minimum_buy_kshs_).toFixed(4));
 
-  let maximum_buy_kshs_ = (150000>balInKshs_)?balInKshs_:150000;
+  let maximum_buy_kshs_ = (Number(150000)>Number(balInKshs_))?Number(balInKshs_):Number(150000);
   setMaximum_buy_kshs(Number(maximum_buy_kshs_).toFixed(4));
 
-  if(balInKshs_>150){
+  if(Number(balInKshs_)>150){
     setbyDisabled(false);
     setbuyInit('Buy');
   }else{
