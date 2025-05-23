@@ -1,3 +1,11 @@
+/*
+TODO :-
+After deposit you should wait 15 minutes before
+before trading is activated.
+But show immeadiately on list page
+QOS Bots
+*/
+
 import * as React from "react";
 import { useRouter } from 'next/navigation';
 import { useState } from "react";

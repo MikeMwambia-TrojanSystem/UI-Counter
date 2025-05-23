@@ -14,6 +14,12 @@
 // We also do 2FA where the number
 // that is linked to that counter url recieves transaction codes
 // Order dashboards by creation date
+/*
+TODO :-
+After deposit you should wait 15 minutes before
+before trading is activated.
+But on this page balance reflects automatically
+*/
 
 import React, { useEffect,useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";

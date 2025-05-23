@@ -7,6 +7,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 
+/*
+Every step leaves a footprint no matter how small.
+*/
+
 const theme = createTheme();
 
 export default function _Intro(props) {
@@ -44,9 +48,6 @@ export default function _Intro(props) {
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           By continuing you agree to the above configurations.
-          /*
-          Every step leaves a footprint no matter how small.
-          */
         </Typography>
       </div>
       <div sx={{ "& button": { m: 1 } }}>
