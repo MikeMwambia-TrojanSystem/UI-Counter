@@ -10,7 +10,8 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { updateOrder }  from "./api/post/order.js";
-import {isAddress,getBalInEth}  from "./api/get/addressUtils.js";
+import { isAddressValid }  from "./api/post/treasury.js";
+import { getBalInEth_ } from "../pages/api/post/treasury.js";
 
 const theme = createTheme();
 
@@ -35,7 +36,7 @@ export default function Order2() {
 
       let crypto_address = document.getElementById('crypto_address').value ||null;
 
-      let status = await isAddress(`validate?address=${crypto_address}`);
+      let status = await isAddressValid(crypto_address);
 
       if(status){
         setStatus(false);
@@ -56,9 +57,9 @@ export default function Order2() {
 
   const crypto_address = document.getElementById('crypto_address').value ||null;
 
-  const isAddressS = await isAddress(`validate?address=${crypto_address}`); 
+  const isAddressS = await isAddressValid(crypto_address);
 
-  const treasuryAmnt = await getBalInEth('balAddress',{address:asset_treasury,form:'wei'});
+  const treasuryAmnt = await getBalInEth_(asset_treasury);
 
   if(treasuryAmnt > cryptoValue){
 
@@ -70,7 +71,7 @@ export default function Order2() {
         form:'order_2'
       };
 
-      const response = await updateOrder('updateOrder',data);
+      const response = await updateOrder('updateorder',data);
 
       if(response === false){
         alert('Error refresh page and try again');
@@ -94,7 +95,6 @@ export default function Order2() {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>

@@ -43,8 +43,6 @@ cryptoAmnt: async function (priceInKshs,amntInKshs){
             sign:bg_weiAmnt
         }
 
-       
-
     }catch(err){
         return false;
     };

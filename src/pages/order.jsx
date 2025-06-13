@@ -50,12 +50,11 @@ export default function Order(props) {
       asset_treasury:asset_treasury
     };
     
-    const response = await createOrder('createOrder',data);
+    const response = await createOrder('createorder',data);
 
     if(response === false){
       alert('Error refresh page and try again');
     }else{
-
       router.replace({pathname:"/order1",query:{x:response,w:maximum_buy_kshs,
         y:minimum_buy,z:Kshs_price,o:asset_treasury}});
     }
@@ -69,7 +68,6 @@ export default function Order(props) {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
