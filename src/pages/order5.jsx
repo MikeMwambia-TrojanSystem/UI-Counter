@@ -10,7 +10,10 @@ import Container from "@mui/material/Container";
 import { useSearchParams } from 'next/navigation';
 import LinearProgress from "@mui/material/LinearProgress";
 import { getData } from "./api/get/getData.js";
-
+import IconButton from '@mui/material/IconButton';
+import Link from 'next/link';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 /*
 Without history and events
 On this page put a loader if response from sender wallet show transhash
@@ -20,6 +23,8 @@ Remove a lof things in this version including events on this page
 just state that crypto is on the way
 */
 
+const theme = createTheme();
+
 export default function Order5() {
 
   const searchParams = useSearchParams();
@@ -28,7 +33,7 @@ export default function Order5() {
 
   const [eventUI,setEventUI] = useState(false);
 
-  const { data: order } = useSWR(`readOrder?id=${order_id}`,getData,{revalidateOnMount:true});
+  const { data: order } = useSWR(`readorder?id=${order_id}`,getData,{revalidateOnMount:true});
 
   if (!order)
     return (
@@ -60,7 +65,6 @@ export default function Order5() {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>  
 
@@ -85,8 +89,14 @@ export default function Order5() {
         Order status is :- {order[0].status}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        It takes approximately 15 secs for the transactions 
-        to be confirmed and settled.
+        <IconButton aria-label="copy" size="small" 
+          onClick={()=>_updateOrderStatus(order[0].asset_treasury)}>
+          <AddIcon fontSize="inherit"/>Check order status
+        </IconButton>
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        It takes approximately 15 secs for the Ethereum 
+        to be sent out and reflect on {order[0].crypto_address}.
         </Typography>
       </div>
       
@@ -109,15 +119,6 @@ export default function Order5() {
           <Link href="#" rel="noopener noreferrer" underline="hover">
             Back to Dashboards page
           </Link>
-          {/*Next version of UI
-          <Link href="#" underline="hover"
-          onClick={() => {
-                    const asset_treasury = order[0].asset_treasury;
-                    getHistory(asset_treasury);
-                  }}>
-            Wallet history
-          </Link>
-          */}
       </div>
 
       </Box>
@@ -128,6 +129,16 @@ export default function Order5() {
       );
 }
 
+/*
+Next version of UI
+
+<Link href="#" underline="hover"
+onClick={() => {
+          const asset_treasury = order[0].asset_treasury;
+          getHistory(asset_treasury);
+        }}>
+  Wallet history
+</Link>
 
 async function getHistory(address){
 
@@ -151,4 +162,4 @@ async function attachEvents(address){
   
   //Attach events to treasury
 }
-
+*/

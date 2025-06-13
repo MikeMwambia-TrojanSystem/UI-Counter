@@ -33,12 +33,9 @@ const defaultTheme = createTheme();
 
 export default function Dashboard() {
 
-  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',
-    getPrice,
-    { refreshInterval: 10000 });
+  const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 10000 });
 
   const { data : dashboards } = useSWR(`getactivedashboard`,getData);
-
   
   if(!dashboards || !price){
     return (
@@ -50,7 +47,7 @@ export default function Dashboard() {
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
         <div>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          An error occured fetching dashboards <br/>Try again later.
+          Fetching dashboards <br/>Refresh page to try again later.
         </Typography>
         </div>
         </Paper>

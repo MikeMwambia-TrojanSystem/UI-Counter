@@ -17,7 +17,7 @@ const theme = createTheme();
 
 function getSingleOrder (_id) {
 
-  const { data,error,isLoading } = useSWR(`readOrder?id=${_id}`,getData,{revalidateOnMount:true});
+  const { data,error,isLoading } = useSWR(`readorder?id=${_id}`,getData,{revalidateOnMount:true});
 
    return {
     data : data,
@@ -64,7 +64,6 @@ export default function Order3() {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
@@ -74,8 +73,7 @@ export default function Order3() {
         The ethereum price for this transaction is {data[0].Kshs_price}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        Make payment of Ksh {data[0].ksh_amnt} to paybill 
-        {data[0].paybill} to recieve {data[0].crypto_amnt} Eth in address 
+        Make payment of Ksh {data[0].ksh_amnt} to paybill {data[0].paybill} to recieve {data[0].crypto_amnt} Eth in address 
         <br/>
         {data[0].crypto_address} 
         </Typography>

@@ -15,6 +15,11 @@ import TextField from "@mui/material/TextField";
 import useSWR from "swr";
 import LinearProgress from "@mui/material/LinearProgress";
 
+/*TODO :-
+Add ability for someone to enter the amount of ethereum 
+they would want to recieve also
+*/
+
 const theme = createTheme();
 
 export default function Order1() {
@@ -56,7 +61,8 @@ const _cryptoAmnt = async (event) => {
 
         //Sends wei amnt to Backend
         let _cryptoValue = await cryptoAmnt(Kshs_price,amnt) || 0;
-        setcryptoValue(_cryptoValue.sign);
+
+        setcryptoValue(_cryptoValue.display);
 
         setStatus(false);
 
@@ -71,11 +77,14 @@ const _cryptoAmnt = async (event) => {
 
         setAmnt(null);
 
+        setStatus(true);
+
       };
 
-
     }catch(err){
+
       setWarning(`Error occured`);
+
     };
 };
 
@@ -96,13 +105,12 @@ const _cryptoAmnt = async (event) => {
           form:'order_1'
         };
 
-        const response = await updateOrder('updateOrder',data);
+        const response = await updateOrder('updateorder',data);
 
         if(response === false){
           alert('Error refresh page and try again');
         }else{
-          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue,
-                                                          o:asset_treasury}});
+          router.replace({pathname:"/order2",query:{x:response,y:cryptoValue,o:asset_treasury}});
         };
 
       };
@@ -115,7 +123,6 @@ const _cryptoAmnt = async (event) => {
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppHeader/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
