@@ -50,7 +50,6 @@ export default function Order2() {
   };
 
 
-
   const handleSubmit = async (event) => {
 
   event.preventDefault();
@@ -59,7 +58,7 @@ export default function Order2() {
 
   const isAddressS = await isAddressValid(crypto_address);
 
-  const treasuryAmnt = await getBalInEth_(asset_treasury);
+  const treasuryAmnt = await getBalInEth_(asset_treasury,'safe');
 
   if(treasuryAmnt > cryptoValue){
 
@@ -86,7 +85,8 @@ export default function Order2() {
 
   }else{
 
-      alert('Could not be supported');
+      alert('Treasury amount could not support order');
+      router.replace({pathname:"/dashboard"});
 
   };
 

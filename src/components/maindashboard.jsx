@@ -40,7 +40,7 @@ export default function MainDashBoard({dashboard,price}) {
   let Kshs_price = await priceInKshs(price.price,dashboard.dollar_rate);
   setkshs_price(Number(Kshs_price).toFixed(4));
 
-  let treasuryBal = await getBalInEth_(dashboard.asset_treasury);
+  let treasuryBal = await getBalInEth_(dashboard.asset_treasury,'latest');
   setTreasury_bal(Number(treasuryBal).toFixed(4));
 
   let balInKshs_ = await balInKshs(Kshs_price,treasuryBal);
