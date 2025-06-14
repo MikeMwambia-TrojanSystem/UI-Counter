@@ -47,7 +47,7 @@ export default function Dashboard() {
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
         <div>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-          Fetching dashboards <br/>Refresh page to try again later.
+          Fetching dashboards and price...
         </Typography>
         </div>
         </Paper>
