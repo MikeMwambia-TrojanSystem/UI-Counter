@@ -12,6 +12,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { createProfile }   from "./api/post/profile.js";
 
+/* TODO :- 
+  Restructure this code to allow the user to choose 
+  the asset so the minimum amount 
+  is set based on asset.
+*/
 
 const theme = createTheme();
 
@@ -20,6 +25,8 @@ export default function Profile(props) {
   const router = useRouter();
 
   const [ isDisabled , setDisabled ] = useState(false);
+
+  const [ _min_buy , setMinimumBuyKshs ] = useState(150);
 
   const timestamp = Date.now().toString();
 
@@ -31,8 +38,6 @@ export default function Profile(props) {
 
     setDisabled(true);
 
-    let _min_buy = (Number(event.target.minimum_buy_kshs.value)>Number(150000))?Number(150000):Number(event.target.minimum_buy_kshs.value);
- 
     const data = {
       name: event.target.name.value,
       unique_link: event.target.unique_link.value,
@@ -54,6 +59,15 @@ export default function Profile(props) {
     }
 
   };
+
+  const validateField = async(event) => {
+
+    let price = document.getElementById("minimum_buy_kshs").value||0;
+
+    let _min_buyC = (Number(price)>Number(150000))?Number(150000):(Number(150)>Number(price))?Number(150):Number(price);
+    setMinimumBuyKshs(_min_buyC);
+
+  }
 
   return (
      <ThemeProvider theme={theme}>
@@ -181,6 +195,7 @@ export default function Profile(props) {
             fullWidth
             type="number"
             variant="standard"
+            defaultValue={_min_buy}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="end" sx={{ m: 1 }}>
@@ -188,7 +203,9 @@ export default function Profile(props) {
                 </InputAdornment>
               ),
             }}
-          />
+            helperText="Default is Kshs 150"
+            onChange={validateField}
+        />
 
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         Dollar rate
