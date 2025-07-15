@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+
 /*
 Without history and events
 On this page put a loader if response from sender wallet show transhash
@@ -42,26 +43,6 @@ export default function Order5() {
       </div>
   );
 
-  if(order === false)
-    return (
-      <div>
-        Error occured.
-      </div>
-  );
-
-  if(order === [])
-    return (
-      <div>
-        Refesh page to load order.
-      </div>
-  );
-
-
-  if(order[0].transHash==='No transHash'){
-    setEventUI(true);
-  };
-
-
   return (
       <ThemeProvider theme={theme}>
       <CssBaseline/>
@@ -89,40 +70,22 @@ export default function Order5() {
         Order status is :- {order[0].status}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        <IconButton aria-label="copy" size="small" 
-          onClick={()=>_updateOrderStatus(order[0].asset_treasury)}>
-          <AddIcon fontSize="inherit"/>Check order status
-        </IconButton>
-        </Typography>
-        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
         It takes approximately 15 secs for the Ethereum 
         to be sent out and reflect on {order[0].crypto_address}.
+        <br/>
+        After which the order status is updated.
         </Typography>
-      </div>
-      
-      <div>
-      {
-        /*Next version of UI
-          eventUI?attachEvents(order[0].asset_treasury):
-         (<Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-            Transaction settled with hash {order[0].transHash}
-            Amount is {order[0].crypto_amnt}
-          </Typography>)
-          */
-      }
-      <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        For support call Kang'ethe traders on 0751-204-038.
-      </Typography>
       </div>
 
       <div>
-          <Link href="#" rel="noopener noreferrer" underline="hover">
+          <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+            For support call Kang'ethe traders on 0751-204-038.
+          </Typography>
+          <Link href="/dashboard" rel="noopener noreferrer" underline="hover">
             Back to Dashboards page
           </Link>
       </div>
-
       </Box>
-
       </Paper>
       </Container>
     </ThemeProvider>
