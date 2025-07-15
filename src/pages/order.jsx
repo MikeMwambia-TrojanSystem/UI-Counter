@@ -80,14 +80,14 @@ export default function Order(props) {
           You are about to order from {dashboardname} dashboard.
           The dollar rate is Kshs {dollar_rate} for every $1.
         </Typography>
-  
+        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          Minimum purchase is KSHs {minimum_buy} and maximum purchase is KSHs {maximum_buy_kshs}.
+        </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
         The asset price is KSHs {Kshs_price} for 1.0000 Ethereum at a 
         dollar price of ${dollar_price}.
         </Typography>
-        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Minimum purchase is KSHs {minimum_buy} and maximum purchase is KSHs {maximum_buy_kshs}.
-        </Typography>
+        
       </div>
       <div sx={{ "& button": { m: 1 } }}>
         <Button

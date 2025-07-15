@@ -55,7 +55,7 @@ exports.createTreasury = async function(_url,_data) {
 }
 
 
-exports.getBalInEth_ = async function(_address) {
+exports.getBalInEth_ = async function(_address,_tag) {
 
     let _response = false;
 
@@ -66,7 +66,8 @@ exports.getBalInEth_ = async function(_address) {
           'content-type': 'application/json'
       },
       params :{
-        address:_address
+        address:_address,
+        tag:_tag
       },
       transformRequest: [
         function(data, headers) {
@@ -93,9 +94,11 @@ exports.getBalInEth_ = async function(_address) {
 
 };
 
+
 /*
 Consumed only by dashboard page
 Gets balance form couchdb not blockchain
+Not used ATM
 */
 
 exports.getBalTInEth_ = async function(_address) {
