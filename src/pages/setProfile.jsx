@@ -64,7 +64,7 @@ export default function Profile(props) {
 
     let price = document.getElementById("minimum_buy_kshs").value||0;
 
-    let _min_buyC = (Number(price)>Number(150000))?Number(150000):(Number(150)>Number(price))?Number(150):Number(price);
+    let _min_buyC = (Number(price)>Number(150000))?Number(150000):(Number(149)>Number(price))?Number(149):Number(price);
     setMinimumBuyKshs(_min_buyC);
 
   }
