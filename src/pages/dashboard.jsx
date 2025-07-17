@@ -27,6 +27,13 @@ const theme = createTheme({
   },
 });
 
+
+const metadata = {
+  icons: {
+    icon: '/icon.png',
+  },
+};
+
 const defaultTheme = createTheme();
 
 
