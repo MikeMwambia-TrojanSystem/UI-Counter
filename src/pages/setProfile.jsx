@@ -26,7 +26,7 @@ export default function Profile(props) {
 
   const [ isDisabled , setDisabled ] = useState(false);
 
-  const [ _min_buy , setMinimumBuyKshs ] = useState(150);
+  const [ _min_buy , setMinimumBuyKshs ] = useState(149);
 
   const timestamp = Date.now().toString();
 
