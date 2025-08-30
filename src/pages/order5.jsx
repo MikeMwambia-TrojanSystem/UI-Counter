@@ -33,7 +33,9 @@ export default function Order5() {
   const order_id = searchParams.get('x');
 
   const [eventUI,setEventUI] = useState(false);
-
+  ensure mpesa payment code passed to url is same 
+  as the one saved in the order record retrieved below
+  before you display any information
   const { data: order } = useSWR(`readorder?id=${order_id}`,getData,{revalidateOnMount:true});
 
   if (!order)

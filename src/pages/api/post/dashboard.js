@@ -73,7 +73,7 @@ exports.updateDashboard = async function(_url,_data){
     let _response = false;
 
     await axios({
-      method:'post',
+      method:'PUT',
       url:`${baseURL}/${_url}`,
       data :{
         id:_data.id,
