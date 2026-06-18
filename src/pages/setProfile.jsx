@@ -16,6 +16,7 @@ import { createProfile }   from "./api/post/profile.js";
   Restructure this code to allow the user to choose 
   the asset so the minimum amount 
   is set based on asset.
+  Start with ETH and keep it @ Kshs 150
 */
 
 const theme = createTheme();

@@ -37,7 +37,6 @@ const metadata = {
 const defaultTheme = createTheme();
 
 
-
 export default function Dashboard() {
 
   const { data : price } = useSWR('api/v3/ticker/price?symbol=ETHUSDT',getPrice,{ refreshInterval: 10000 });
@@ -83,7 +82,7 @@ export default function Dashboard() {
      </ThemeProvider>
     </>
   );
-}
+};
 
   return (
     <ThemeProvider theme={theme}>

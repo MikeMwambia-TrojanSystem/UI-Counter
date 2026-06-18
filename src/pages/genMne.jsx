@@ -11,6 +11,12 @@ import { getMnemonic } from "../pages/api/get/addressUtils.js";
 import { genAddress }  from "../pages/api/post/mnemonic.js";
 import { useRouter,useSearchParams } from 'next/navigation';
 
+/*
+Consider changing into a design where someone
+is allowed to input the mnemonic phrase
+ATM go out with this on ETH
+TODO:- Break this page into two parts
+*/
 const theme = createTheme();
 
 export default function GenMnemonic(props) {
@@ -134,7 +140,7 @@ export default function GenMnemonic(props) {
         safe,whoever knows this phrase has control of your treasury wallet. 
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
-        KEEP THE PHRASE SAFE. 
+        KEEP THE PHRASE SAFE.WE DON STORE IT SO WE CANNOT RECOVER IT 
         </Typography>
         <Button
           type="submit"

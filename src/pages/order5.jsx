@@ -33,17 +33,42 @@ export default function Order5() {
   const order_id = searchParams.get('x');
 
   const [eventUI,setEventUI] = useState(false);
-  ensure mpesa payment code passed to url is same 
-  as the one saved in the order record retrieved below
-  before you display any information
+  //ensure mpesa payment code passed to url is same 
+  //as the one saved in the order record retrieved below
+  //before you display any information
   const { data: order } = useSWR(`readorder?id=${order_id}`,getData,{revalidateOnMount:true});
 
   if (!order)
     return (
       <div>
-        <LinearProgress color="inherit" />
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        MPESA pay code  4QA3456G Payment recieved
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        POKT recieving address :- 
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        pokt132v39vh24y7z8hyhs43fq5pezuasfmt2smq3gl
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Ethereum amount :- 0.5
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Amount paid in Kshs :- 100,000
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        Order status is :- Completed
+        </Typography>
+        <Typography variant="body2" color="text.primary" sx={{ m: 1 }}>
+        It takes approximately 15 secs for the Ethereum 
+        to be sent out and reflect on pokt132v39vh24y7z8hyhs43fq5pezuasfmt2smq3gl
+        <br/>
+        After which the order status is updated.
+        </Typography>
       </div>
   );
+
+
 
   return (
       <ThemeProvider theme={theme}>

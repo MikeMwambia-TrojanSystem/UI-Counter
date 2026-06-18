@@ -17,7 +17,12 @@ import { getData } from "./api/get/getData.js";
 import { getPrice } from "./api/get/getPrice.js";
 import { priceInKshs } from "../utils/ui_utills.js";
 
-
+/*
+@TODO 
+Think of putting this components after the page that
+saves the data as preview of the data saved
+instead of one long page with all information
+*/
 const theme = createTheme();
 
 export default function Dashboard() {
@@ -188,7 +193,6 @@ export default function Dashboard() {
     };
 
   };
-
 
 
   const setDashboardInfo = async (event) => {
