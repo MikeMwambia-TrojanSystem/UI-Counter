@@ -99,7 +99,7 @@ exports.getBalInEth_ = async function(_address,_tag) {
 Consumed only by dashboard page
 Gets balance form couchdb not blockchain
 Not used ATM
-*/
+
 
 exports.getBalTInEth_ = async function(_address) {
 
@@ -138,8 +138,7 @@ exports.getBalTInEth_ = async function(_address) {
     return _response
 
 };
-
-
+*/
 
 exports.isAddressValid = async function(_address) {
 

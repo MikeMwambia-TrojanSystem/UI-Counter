@@ -87,7 +87,7 @@ default : return false;
       let _response = false;
 
           await axios({
-            method:'post',
+            method:'PUT',
             url:`${baseURL}/${_url}`,
             data :_data
           })
@@ -103,34 +103,3 @@ default : return false;
     }
 
 }
-
-exports.verifyCode = async function(_url,data) {
-
-  const valid = await codeCheck(data);
-
-  if(valid === true){
-
-  const baseURL="http://34.172.249.132/atthemoment/v1/counter";
-
-  let _response = false;
-
-  await axios({
-    method:'post',
-    url:`${baseURL}/${_url}`,
-    data :data
-  })
-  .then((response)=>{
-    _response = response.data;
-  })
-  .catch((err)=>{
-    _response = false;
-  });
-
-  return _response
-
-  }
-
-  return false;
-
-};
-

@@ -16,6 +16,7 @@ import { createProfile }   from "./api/post/profile.js";
   Restructure this code to allow the user to choose 
   the asset so the minimum amount 
   is set based on asset.
+  Start with ETH and keep it @ Kshs 150
 */
 
 const theme = createTheme();
@@ -26,7 +27,7 @@ export default function Profile(props) {
 
   const [ isDisabled , setDisabled ] = useState(false);
 
-  const [ _min_buy , setMinimumBuyKshs ] = useState(149);
+  const [ _min_buy , setMinimumBuyKshs ] = useState(150);
 
   const timestamp = Date.now().toString();
 
