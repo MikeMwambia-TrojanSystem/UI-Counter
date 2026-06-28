@@ -1,9 +1,15 @@
-# Dependencies (will be installed inside the container)
-node_modules
+# Yarn PnP generated files
+.pnp.cjs
+.pnp.loader.mjs
 .yarn/cache
 .yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 
-# Next.js build output (will be generated during build)
+# Dependencies (will be installed inside the container)
+node_modules
+
+# Next.js build output (generated during build)
 .next
 out
 
@@ -12,10 +18,10 @@ out
 .gitignore
 .gitattributes
 
-# Environment files (use build args or runtime ENV instead)
+# Environment files
 .env
 .env.*
-!.env.example   # optionally keep a template
+!.env.example
 
 # IDE and OS junk
 .idea
@@ -58,14 +64,14 @@ playwright/
 *.development
 *.production
 
-# Documentation, readme, etc. (optional, but not needed for build)
+# Documentation
 README.md
 LICENSE
 CHANGELOG.md
 CONTRIBUTING.md
 
-# Other large or unnecessary folders
-public/static/fonts   # if large and not needed during build (but can be kept)
+# Other large folders
+public/static/fonts
 assets
 videos
 audio
