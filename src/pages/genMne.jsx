@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
@@ -17,7 +16,6 @@ is allowed to input the mnemonic phrase
 ATM go out with this on ETH
 TODO:- Break this page into two parts
 */
-const theme = createTheme();
 
 export default function GenMnemonic(props) {
 
@@ -125,8 +123,7 @@ export default function GenMnemonic(props) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
@@ -197,7 +194,6 @@ export default function GenMnemonic(props) {
 
       </Paper>
       </Container>
-    </ThemeProvider> 
   );
 }
 

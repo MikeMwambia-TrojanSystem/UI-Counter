@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import LinearProgress from "@mui/material/LinearProgress";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
@@ -16,7 +15,6 @@ import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 import Link from 'next/link';
 
-const theme = createTheme();
 
 function getSingleDashboard (_id) {
 
@@ -149,10 +147,9 @@ function DashboardForm({dashboard}){
 
   };
 
+
     return (
-    <>
-     <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
@@ -349,7 +346,5 @@ function DashboardForm({dashboard}){
       </Box>
         </Paper>
       </Container>
-    </ThemeProvider>
-  </>
   );
 }

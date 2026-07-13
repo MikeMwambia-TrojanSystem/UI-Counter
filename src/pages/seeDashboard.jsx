@@ -7,9 +7,7 @@ import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import LinearProgress from "@mui/material/LinearProgress";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { createDashboard } from "./api/post/dashboard.js";
@@ -23,7 +21,6 @@ Think of putting this components after the page that
 saves the data as preview of the data saved
 instead of one long page with all information
 */
-const theme = createTheme();
 
 export default function Dashboard() {
 
@@ -234,8 +231,7 @@ export default function Dashboard() {
 
 
   return (
-     <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -396,7 +392,6 @@ export default function Dashboard() {
 
       </Paper>
       </Container>
-    </ThemeProvider>
   );
 };
 

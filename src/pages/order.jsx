@@ -5,13 +5,10 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import { priceInKshs } from "../utils/ui_utills.js";
-
-const theme = createTheme();
 
 export default function Order(props) {
 
@@ -66,8 +63,7 @@ export default function Order(props) {
   };
 
   return (
-      <ThemeProvider theme={theme}>
-      <CssBaseline/>
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
@@ -105,7 +101,7 @@ export default function Order(props) {
       </Box>
       </Paper>
       </Container>
-    </ThemeProvider>
+
       );
 }
 

@@ -23,7 +23,6 @@ Also Arrange dashboard by creation date
 */
 
 import React, { useEffect,useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Link from 'next/link';
@@ -39,7 +38,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Avatar from "@mui/material/Avatar";
 import treasuryQR from "../utils/treasuryQR.js";
@@ -62,8 +60,6 @@ function getAllDashboards () {
   }
 
 }
-
-const theme = createTheme();
 
 export default function listDashboard(){
 
@@ -100,9 +96,6 @@ function List({profile,dashboards,isError}){
   */
 
   return (
-    <>
-    <ThemeProvider theme={theme}>
-       <CssBaseline/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Suspense fallback={<LinearProgress/>}>
       <Paper variant="outlined" 
@@ -121,8 +114,6 @@ function List({profile,dashboards,isError}){
       </Paper>
       </Suspense>
       </Container>
-     </ThemeProvider>
-  </>
   );
 };
 
@@ -429,8 +420,6 @@ function ErrorComponent({message=null}){
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-       <CssBaseline />
         <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
         <Paper variant="outlined" 
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
@@ -441,7 +430,6 @@ function ErrorComponent({message=null}){
         </div>
         </Paper>
         </Container>
-     </ThemeProvider>
     </>
     )
 }
