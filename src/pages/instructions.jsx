@@ -6,8 +6,6 @@ import Paper from '@mui/material/Paper';
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 
-const theme = createTheme();
-
 export default function Instructions() {
 
   return (

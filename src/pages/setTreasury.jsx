@@ -12,8 +12,6 @@ import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import { createTreasury,isContract }  from "./api/post/treasury.js";
 
-const theme = createTheme();
-
 export default function Treasury(props) {
 
   const router = useRouter();
