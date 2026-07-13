@@ -61,8 +61,9 @@ export default function GenMnemonic(props) {
 
     if(subStatus && phrase) {
 
-    const response = await genAddress('getAddress',{phrase:phrase});
-
+    const response = await genAddress('generateAddress',{phrase:phrase,chainID:'11155111'});
+    console.log(response);
+    console.log(99999999);
     if(false === response) return alert("Error occured refresh page and retry");
 
     let addType = typeof response;

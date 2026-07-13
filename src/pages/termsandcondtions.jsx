@@ -91,7 +91,7 @@ const status = ()=>{
           replace={true}
           size="small"
           disabled={status()}>
-          Yeah Wherever
+          I AGREE
         </Button>
         </form>
       </div>

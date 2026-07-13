@@ -19,6 +19,7 @@ TODO :-
 After deposit you should wait 15 minutes before
 before trading is activated.
 But on this page balance reflects automatically
+Also Arrange dashboard by creation date
 */
 
 import React, { useEffect,useState } from "react";
@@ -47,11 +48,12 @@ import useSWR from "swr";
 import { deleteDashboard,withdrawDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
 import { _Time }  from "../utils/ui_utills.js";
-import { getBalInEth_ } from "./api/post/treasury.js";
+import { getBalInEth_ } from "./api/get/getBalInEth.js";
 
 function getAllDashboards () {
 
-  const { data, error , isLoading} = useSWR('getdashboards',getData,{revalidateOnMount:true});
+  const { data, error , isLoading} = useSWR('dashboard/getdashboards'
+    ,getData,{revalidateOnMount:true});
 
    return {
     dashboards : data,
@@ -207,7 +209,7 @@ useEffect(()=>{
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
       setbalBttn(true);
 
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
   };
 
@@ -357,7 +359,7 @@ function DrawDashboard({data}) {
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
       setbalBttn(true);
 
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
       if(Number(treasuryBal)>Number("0.0005")){
         setwithdrwB(false);

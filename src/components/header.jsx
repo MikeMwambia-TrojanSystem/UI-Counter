@@ -4,51 +4,40 @@ import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 
-export default function HeaderComponent({offers,price}) {
+export default function HeaderComponent({ offers, price }) {
   return (
-    <>
-      <AppBar color="primary">
-        <Toolbar>
-          <Box
-            sx={{
-              display:"grid",
-              width:"100%",
-              gridTemplateColumns:'repeat(3, 1fr)'
-            }}>
-          <Box sx={{
-              display: 'flex',
-              justifyContent: 'flex-start',
-              flexWrap: 'wrap'
-            }}>
-          <Typography
-            variant="body2"
-            component="p"
-            sx={{
-              mt: 0.5,
-              color: 'inherit'
-            }}>
-          Ethereum marketplace<br/>{offers} open offers.
-          </Typography>
+    <AppBar position="sticky" elevation={0}>
+      <Toolbar sx={{ py: 1.5 }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 800, letterSpacing: "-0.01em" }}>
+              Ethereum marketplace
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {offers} open offers
+            </Typography>
           </Box>
-
-
-
-          <Box sx={{ display: 'flex',justifyContent: 'flex-end',flexWrap: 'wrap'}}>
-          <Typography
-            variant="body2"
-            component="p"
+          <Chip
+            label={"$" + price + " · Binance"}
             sx={{
-              mt: 0.5,
-              color: 'inherit'
-            }}>
-          Price in dollars ($){price}<br/>Price source :- Binance.
-          </Typography>
-          </Box>
-
-          </Box>
-        </Toolbar>
-      </AppBar>
-    </>
+              fontWeight: 700,
+              background: "linear-gradient(135deg, rgba(34,197,94,0.18), rgba(59,130,246,0.18))",
+              border: "1px solid rgba(255,255,255,0.1)",
+            }}
+          />
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }

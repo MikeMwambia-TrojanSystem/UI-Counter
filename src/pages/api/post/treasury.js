@@ -3,7 +3,8 @@ const { validCreate } = require("./schema/treasurySchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+const baseURL="http://apicontainer:3200/api/treasury";
+
 
 exports.createTreasury = async function(_url,_data) {
 
@@ -54,47 +55,6 @@ exports.createTreasury = async function(_url,_data) {
 
 }
 
-
-exports.getBalInEth_ = async function(_address,_tag) {
-
-    let _response = false;
-
-    await axios({
-      method:'post',
-      url:`${baseURL}/checkAddressBal`,
-      headers: {
-          'content-type': 'application/json'
-      },
-      params :{
-        address:_address,
-        tag:_tag
-      },
-      transformRequest: [
-        function(data, headers) {
-          const serializedData = []
-
-          for (const k in data) {
-            if (data[k]) {
-              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
-            }
-          }
-
-          return serializedData;
-        }
-      ]
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });//Update error
-
-    return _response
-
-};
-
-
 /*
 Consumed only by dashboard page
 Gets balance form couchdb not blockchain
@@ -140,40 +100,21 @@ exports.getBalTInEth_ = async function(_address) {
 };
 */
 
-exports.isAddressValid = async function(_address) {
 
-    let _response = false;
+exports.isContract = async function(_address) {
+    try {
+        const response = await axios.get('http://heartbeat.test/heartbeat/getCode', {
+            params: { address: _address }
+        });
+        
+        // If the response has a '_code' field, check if it's not '0x'
+        const code = response.data?._code;
 
-    await axios({
-      method:'post',
-      url:`${baseURL}/checkAddrss`,
-      headers: {
-          'content-type': 'application/json'
-      },
-      params :{
-        address:_address
-      },
-      transformRequest: [
-        function(data, headers) {
-          const serializedData = []
+        // Return true if code exists, is a string, and is '0x'
+        return typeof code === 'string' && code === '0x';
+    } catch (err) {
 
-          for (const k in data) {
-            if (data[k]) {
-              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
-            }
-          }
-
-          return serializedData;
-        }
-      ]
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });//Update error
-
-    return _response
-
+        // On any error, treat as false
+        return false;
+    }
 };

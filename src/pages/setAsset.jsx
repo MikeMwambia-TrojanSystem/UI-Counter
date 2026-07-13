@@ -59,7 +59,7 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETHEREUM' //Completely remove this
+      name:'ETHEREUM' //Completely remove this 4 now keep it
     };
 
     const response = await createAsset('createasset',data);

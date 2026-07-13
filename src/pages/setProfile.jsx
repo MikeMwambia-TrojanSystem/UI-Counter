@@ -249,9 +249,9 @@ export default function Profile(props) {
 
 export async function getStaticProps() {
 
-  const paybill = process.env.PAYBILL || null;
+  const paybill = 4107329; //process.env.PAYBILL || null;
 
-  const unique_link = process.env.UNIQUE_URL || null; 
+  const unique_link = "mzynga.eth";//process.env.UNIQUE_URL || null; 
 
   const maximum_buy_kshs = "150000";
 

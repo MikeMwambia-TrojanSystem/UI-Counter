@@ -11,7 +11,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
 import {updateDashboard} from "./api/post/dashboard.js";
-import { isAddressValid }  from "./api/post/treasury.js";
+import { isContract }  from "./api/post/treasury.js";
 import useSWR from "swr";
 import { getData } from "./api/get/getData.js";
 import Link from 'next/link';
@@ -20,7 +20,7 @@ const theme = createTheme();
 
 function getSingleDashboard (_id) {
 
-  const { data, error , isLoading } = useSWR(`getsingledashboard?id=${_id}`,getData);
+  const { data, error , isLoading } = useSWR(`dashboard/getsingledashboard?id=${_id}`,getData);
 
    return {
     dashboard : data,
@@ -53,10 +53,8 @@ export default function EditDashboard() {
 
   if(dashboard === false) return <div>Dashboard unavailable...</div>;
 
-  if( (undefined === dashboard) ||(dashboard.length === 0) ) return null;
 
-
-  return <DashboardForm dashboard={dashboard[0]}/>;
+  return <DashboardForm dashboard={dashboard}/>;
 
 };
  
@@ -89,16 +87,18 @@ function DashboardForm({dashboard}){
 
       try{
 
-      const _isaddressT = await isAddressValid(asset_treasury);
+      const _isaddressT = await isContract(asset_treasury);
       
-      const _isaddressW = await isAddressValid(origin_Address);
+      const _isaddressW = await isContract(origin_Address);
 
       if((_isaddressT===true) && (_isaddressW===true)){
         if(asset_treasury.toString() != origin_Address.toString()){
           return true;
         };
+        
         return false;
       }else{
+        
         return false;
       }
 

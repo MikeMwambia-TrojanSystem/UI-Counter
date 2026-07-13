@@ -75,19 +75,19 @@ export default function Dashboard() {
           return;
         };
 
-        const treasuryInfo  = await getData(`gettreasury?id=${id}`);
+        const treasuryInfo  = await getData(`treasury/gettreasury?id=${id}`);
 
-        let infoTreasury = treasuryInfo[0]?.value || false;
+        let treasuryTru = (Object.keys(treasuryInfo).length === 0);
 
-        if(false===infoTreasury) return alert('Error generating treasury data');
+        if(treasuryTru) return alert('Error generating treasury data');
 
         setassetId('ETHEREUM');
         setNetwork('Ethereum Sepolia Testnet');
-        settreasuryA(infoTreasury?.treasury);
-        setwithdrawalA(infoTreasury?.origin_Address);
-        setbalanceT(infoTreasury?.asset_balance);
+        settreasuryA(treasuryInfo?.treasury);
+        setwithdrawalA(treasuryInfo?.origin_Address);
+        setbalanceT(treasuryInfo?.asset_balance);
 
-        if(false != infoTreasury){
+        if(false != treasuryInfo){
 
         //Disable treasury button
         settreasurySt(true);
@@ -115,26 +115,26 @@ export default function Dashboard() {
         return;
       };
 
-      const profileData = await getData(`getprofile?id=${profileId}`);
+      const profileData = await getData(`profile/getprofile?id=${profileId}`);
 
-      let dataProfile = profileData[0]?.value || false;
+      let dataTru = (Object.keys(profileData).length === 0);
 
-      if(false===dataProfile) return alert('Error generating profile data');
+      if(dataTru) return alert('Error generating profile data');
 
-      let dollarRate = dataProfile?.dollar_rate || 'Error';
-      let name = dataProfile?.name || 'Error';
-      let paybill = dataProfile?.paybill || 'Error';
+      let dollarRate = profileData?.dollar_rate || 'Error';
+      let name = profileData?.name || 'Error';
+      let paybill = profileData?.paybill || 'Error';
       setdollar_rate(dollarRate);
       setname(name);
       setpaybill(paybill);
 
-      let creationT = dataProfile?.r_t
+      let creationT = profileData?.r_t
       const creationDate = new Date(Number(creationT)).toLocaleDateString() || null;
       setr_t(creationT);
       setDisplayTime(creationDate);
 
-      let minBuy = dataProfile?.minimum_buy_kshs || 'Error';
-      let maxBuy = dataProfile?.maximum_buy_kshs || 'Error';
+      let minBuy = profileData?.minimum_buy_kshs || 'Error';
+      let maxBuy = profileData?.maximum_buy_kshs || 'Error';
       setminimum_buy_kshs(minBuy);
       setmaximum_buy_kshs(maxBuy); 
 
@@ -216,7 +216,7 @@ export default function Dashboard() {
         orders:0
       };
 
-      const response = await createDashboard('createdashboard',dashboard);
+      const response = await createDashboard('/createdashboard',dashboard);
       
       if(response === false){
         setdashboardSt(false);

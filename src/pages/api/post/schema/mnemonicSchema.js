@@ -4,6 +4,7 @@ const v = new Validator({haltOnFirstError: true});
 
 const schemaCreate = {
   phrase:{type:"string"},
+  chainID:{type:"string"},
   $$strict: true 
 };
 

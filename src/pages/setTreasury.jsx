@@ -11,7 +11,7 @@ import useSWR from "swr";
 import { useRouter } from 'next/navigation'
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
-import { createTreasury,isAddressValid }  from "./api/post/treasury.js";
+import { createTreasury,isContract }  from "./api/post/treasury.js";
 
 const theme = createTheme();
 
@@ -60,14 +60,19 @@ export default function Treasury(props) {
    
       try{
 
-      const _isaddressW = await isAddressValid(addressW);
-
+      const _isaddressW = await isContract(addressW);
+      console.log(_isaddressW);
+      
       if(_isaddressW===true){
+
         if(addressT.toString() != addressW.toString()){
           return true;
         };
+
         return false;
+        
       }else{
+
         return false;
       };
 
