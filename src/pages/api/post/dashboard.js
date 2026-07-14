@@ -2,7 +2,7 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-const baseURL="http://apicontainer:3200/api/dashboard";
+const baseURL= "/api/dashboard";//"http://api.test/api/dashboard";
 
 
 exports.createDashboard = async function(_url,_data) {

@@ -3,8 +3,7 @@ const { validCreate } = require("./schema/profileSchema.js");
 
 const axios =require('axios');
 
-//const baseURL="http://apicontainer:3200/api/profile";
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || '/api';
+const API_BASE = '/api/profile';
 
 exports.createProfile = async function(_url,_data) {
 
@@ -14,7 +13,7 @@ exports.createProfile = async function(_url,_data) {
 
     let _response = false;
 
-    const url = `${API_BASE}/profile/${_url}`;
+    const url = `${API_BASE}/${_url}`;
 
     await axios({
       method:'post',

@@ -58,7 +58,6 @@ export default function Treasury(props) {
       try{
 
       const _isaddressW = await isContract(addressW);
-      console.log(_isaddressW);
       
       if(_isaddressW===true){
 

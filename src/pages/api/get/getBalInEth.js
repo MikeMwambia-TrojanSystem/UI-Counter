@@ -6,7 +6,7 @@ exports.getBalInEth_ = async function(_address) {
 
     await axios({
       method:'get',
-      url:`http://heartbeat:4500/heartbeat/getBalance?address=${_address}`
+      url:`http://heartbeat.test/heartbeat/getBalance?address=${_address}`
     })
     .then((response)=>{
       let eth5 = response.data?._balance?.eth;

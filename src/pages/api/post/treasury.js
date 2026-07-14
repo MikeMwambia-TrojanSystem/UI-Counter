@@ -3,7 +3,8 @@ const { validCreate } = require("./schema/treasurySchema.js");
 
 const axios =require('axios');
 
-const baseURL="http://apicontainer:3200/api/treasury";
+const baseURL= "/api/treasury";
+//"http://api.test/api/treasury";
 
 
 exports.createTreasury = async function(_url,_data) {

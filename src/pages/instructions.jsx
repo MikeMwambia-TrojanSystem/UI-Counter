@@ -21,6 +21,9 @@ export default function Instructions() {
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Dashboards contain 3 vital pieces of information :- 
         </Typography>
+        <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          ----------------------------------------------------------
+        </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Your dollar rate,this is the Kshs to Dollar rate used on a dashboard to value your dollar denominated digital assets.
           It is also the rate used to close orders for your buyers.
@@ -33,8 +36,14 @@ export default function Instructions() {
           A lower dollar rate means the asset is cheaper to the buyer.
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Your paybill,this is the paybill number that will recieve payment from the buyer.
+          ----------------------------------------------------------
+        </Typography>
+         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          A paybill,this is the account that will recieve KSHs payment from the buyer.
           One dashboard can support one single paybill at a time.
+        </Typography>
+         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
+          ----------------------------------------------------------
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           Assets supported for sale on that specific dashboard.

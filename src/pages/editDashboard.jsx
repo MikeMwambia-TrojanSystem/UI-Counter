@@ -52,13 +52,10 @@ export default function EditDashboard() {
   if(dashboard === false) return <div>Dashboard unavailable...</div>;
 
 
-  return <DashboardForm dashboard={dashboard}/>;
+  return <DashboardForm dashboard={dashboard[0]}/>;
 
 };
  
-
-
-
 function DashboardForm({dashboard}){
 
     const searchParams = useSearchParams();

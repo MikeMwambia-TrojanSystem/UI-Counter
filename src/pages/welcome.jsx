@@ -12,7 +12,7 @@ Every step leaves a footprint no matter how small.
 
 export default function _Intro(props) {
 
-  const unique_link = 'Confirm URL is https://'+props.unique_link+'.counter.co.ke';
+  const unique_link = 'Confirm URL is https://mzynga.counter.co.ke';
   const _assets = props._assets;
 
 //Add foundation layout
@@ -23,10 +23,10 @@ export default function _Intro(props) {
       <Box sx={{ m: 1,textAlign:"center" }}>
       <div>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          Welcome to Kang'ethe OTC desk Test 1
+          Welcome to Mzynga Technology Trading Desks
         </Typography>
         <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
-          { unique_link }.
+          mzynga.eth
         </Typography>
          <Typography variant="body2" sx={{ justifyContent: "center", m: 1 }}>
           The assets supported are :-

@@ -160,8 +160,7 @@ export default function GenMnemonic(props) {
           <label>
           <input type="checkbox" name="subStatus"
           checked={subStatus} onChange={handleChange}/>
-            I understand that {props.unique_link}.counter.co.ke or it's developer
-            cannot recover this phrase
+            I understand that the developer cannot recover this phrase
           </label>
         </form>
         <Button
