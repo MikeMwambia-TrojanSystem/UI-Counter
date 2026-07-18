@@ -9,11 +9,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import useSWR from "swr";
 import { useRouter } from 'next/navigation'
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useSearchParams } from 'next/navigation'
-import { createTreasury,isAddressValid }  from "./api/post/treasury.js";
-
-const theme = createTheme();
+import { createTreasury,isContract }  from "./api/post/treasury.js";
 
 export default function Treasury(props) {
 
@@ -60,14 +57,18 @@ export default function Treasury(props) {
    
       try{
 
-      const _isaddressW = await isAddressValid(addressW);
-
+      const _isaddressW = await isContract(addressW);
+      
       if(_isaddressW===true){
+
         if(addressT.toString() != addressW.toString()){
           return true;
         };
+
         return false;
+        
       }else{
+
         return false;
       };
 
@@ -80,8 +81,7 @@ export default function Treasury(props) {
 
 
   return (
-     <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
@@ -128,7 +128,6 @@ export default function Treasury(props) {
       </Box>
         </Paper>
       </Container>
-    </ThemeProvider>
   );
 }
 

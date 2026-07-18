@@ -6,7 +6,7 @@ const schemaCreate = {
   _id:{type:"string"},
   dashboardname:{type:"string",min:3,max:50},
   paybill:{type:"number",positive:true,min:0,integer:true},
-  dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},
+  dollar_rate:{type:"number",positive:true,min:0,integer:true,max:1500},
   r_t:{type:"string"},
   loaded:{type:"boolean",default:false},
   asset_id:{type:"string",min:1,max:30},
@@ -27,9 +27,9 @@ exports.validCreate = async function(data){
 
 
 const schemaUpdate = {
-  id:{type:"string",min:3,max:300},
-  dashboardname:{type:"string",min:3,max:50},
-  dollar_rate:{type:"number",positive:true,min:0,integer:true,max:150000},
+  id:{type:"string"},
+  dashboardname:{type:"string"},
+  dollar_rate:{type:"number",positive:true,min:0,integer:true,max:1500},
   origin_Address:{type:"string"},
   minimum_buy_kshs:{type:"number",positive:true,min:0,integer: true,max: 150000},
   $$strict: true 

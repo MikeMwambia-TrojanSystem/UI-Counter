@@ -2,7 +2,7 @@ const axios =require('axios').default;
 
 exports.getReciept = async function(_url=null) {
 
-    const baseURL="https://payreceipt.counter.co.ke";
+    const baseURL="http://confirmation.test/payReciept";
 
     let _response = false;
 

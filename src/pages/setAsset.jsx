@@ -5,9 +5,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import {createAsset}  from "./api/post/asset.js";
 import { useRouter,useSearchParams } from 'next/navigation';
@@ -18,8 +16,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-
-const theme = createTheme();
 
 export default function Asset() {
 
@@ -59,7 +55,7 @@ export default function Asset() {
 
     const data = {
       _id:id,
-      name:'ETHEREUM' //Completely remove this
+      name:'ETHEREUM' //Completely remove this 4 now keep it
     };
 
     const response = await createAsset('createasset',data);
@@ -75,8 +71,7 @@ export default function Asset() {
   };
 
   return (
-     <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
@@ -149,6 +144,5 @@ export default function Asset() {
       </Box>
       </Paper>
       </Container>
-    </ThemeProvider>
-  );
+    );
 }

@@ -22,7 +22,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import { getBalInEth_ } from "../pages/api/post/treasury.js";
+import { getBalInEth_ } from "../pages/api/get/getBalInEth.js";
 import { priceInKshs,balInKshs } from "../pages/api/get/priceUtills.js";
 
 export default function MainDashBoard({dashboard,price}) {
@@ -41,7 +41,7 @@ export default function MainDashBoard({dashboard,price}) {
   setkshs_price(Number(Kshs_price).toFixed(4));
 
   let treasuryBal = await getBalInEth_(dashboard.asset_treasury,'latest');
-  setTreasury_bal(Number(treasuryBal).toFixed(4));
+  setTreasury_bal(treasuryBal);
 
   let balInKshs_ = await balInKshs(Kshs_price,treasuryBal);
   setKshs_bal(Number(balInKshs_).toFixed(4));
@@ -129,11 +129,9 @@ export default function MainDashBoard({dashboard,price}) {
                   {buyInit}
                 </Button>
               </div>
-              {/*
-              Add this when bots go live
               <div sx={{ "& button": { m: 1 } }}>
-             Successfull trades 789 trades , unsuccessfult trades 2.
-              </div>*/}
+             Successfull trades 7 trades , unsuccessfult trades 0.
+              </div>
             </React.Fragment>
           }
         />

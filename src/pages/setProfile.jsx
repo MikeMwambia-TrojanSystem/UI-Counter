@@ -5,7 +5,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from 'next/navigation'
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -19,7 +18,6 @@ import { createProfile }   from "./api/post/profile.js";
   Start with ETH and keep it @ Kshs 150
 */
 
-const theme = createTheme();
 
 export default function Profile(props) {
 
@@ -71,8 +69,6 @@ export default function Profile(props) {
   }
 
   return (
-     <ThemeProvider theme={theme}>
-      <CssBaseline/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>   
 
@@ -235,23 +231,19 @@ export default function Profile(props) {
             Submit
           </Button>
         </div>
-
         </form>
-
       </Box>
-
         </Paper>
       </Container>
-    </ThemeProvider>
   );
 }
 
 
 export async function getStaticProps() {
 
-  const paybill = process.env.PAYBILL || null;
+  const paybill = 4107329; //process.env.PAYBILL || null;
 
-  const unique_link = process.env.UNIQUE_URL || null; 
+  const unique_link = "mzynga.eth";//process.env.UNIQUE_URL || null; 
 
   const maximum_buy_kshs = "150000";
 

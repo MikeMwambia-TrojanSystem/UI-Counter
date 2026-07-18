@@ -2,7 +2,7 @@ const { validCreate,updateCheck } = require("./schema/dashboardSchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+const baseURL= "/api/dashboard";//"http://api.test/api/dashboard";
 
 
 exports.createDashboard = async function(_url,_data) {
@@ -58,7 +58,6 @@ exports.createDashboard = async function(_url,_data) {
     
   };
 
-
   return false;
 
 };
@@ -70,17 +69,19 @@ exports.updateDashboard = async function(_url,_data){
 
   if(valid === true){
 
-    let _response = false;
+  let _response = false;
 
-    await axios({
+  let _Ddata = JSON.parse(JSON.stringify(_data));
+
+  await axios({
       method:'PUT',
       url:`${baseURL}/${_url}`,
       data :{
-        id:_data.id,
-        dashboardname:_data.dashboardname,
-        dollar_rate:Number(_data.dollar_rate),
-        origin_Address:_data.origin_Address,
-        minimum_buy_kshs:Number(_data.minimum_buy_kshs)
+        id:_Ddata.id,
+        dashboardname:_Ddata.dashboardname,
+        dollar_rate:_Ddata.dollar_rate,
+        origin_Address:_Ddata.origin_Address,
+        minimum_buy_kshs:_Ddata.minimum_buy_kshs
       }
     })
     .then((response)=>{
@@ -122,23 +123,22 @@ exports.withdrawDashboard = async function(_url,_id){
 
 exports.deleteDashboard = async function(_url,_id){
 
-    let _response = false;
+  let _response = false;
 
-    await axios({
-      method:'post',
-      url:`${baseURL}/${_url}`,
-      data :{
-        id:_id
-      }
-    })
-    .then((response)=>{
+  await axios({
+      method: 'delete',
+      url: `${baseURL}/${_url}`,
+      params: { id: _id }   // Axios automatically appends ?id=...
+  })
+  .then((response) => {
       _response = response.data;
-    })
-    .catch((err)=>{
+  })
+  .catch((err) => {
       _response = false;
-    });//Update error
+  });
 
-    return _response;
+  return _response;
+  
 };
 
 

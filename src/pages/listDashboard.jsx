@@ -19,10 +19,10 @@ TODO :-
 After deposit you should wait 15 minutes before
 before trading is activated.
 But on this page balance reflects automatically
+Also Arrange dashboard by creation date
 */
 
 import React, { useEffect,useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Link from 'next/link';
@@ -38,7 +38,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Container from "@mui/material/Container";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Avatar from "@mui/material/Avatar";
 import treasuryQR from "../utils/treasuryQR.js";
@@ -47,11 +46,12 @@ import useSWR from "swr";
 import { deleteDashboard,withdrawDashboard } from "./api/post/dashboard.js";
 import { getData } from "./api/get/getData.js";
 import { _Time }  from "../utils/ui_utills.js";
-import { getBalInEth_ } from "./api/post/treasury.js";
+import { getBalInEth_ } from "./api/get/getBalInEth.js";
 
 function getAllDashboards () {
 
-  const { data, error , isLoading} = useSWR('getdashboards',getData,{revalidateOnMount:true});
+  const { data, error , isLoading} = useSWR('dashboard/getdashboards'
+    ,getData,{revalidateOnMount:true});
 
    return {
     dashboards : data,
@@ -60,8 +60,6 @@ function getAllDashboards () {
   }
 
 }
-
-const theme = createTheme();
 
 export default function listDashboard(){
 
@@ -98,9 +96,6 @@ function List({profile,dashboards,isError}){
   */
 
   return (
-    <>
-    <ThemeProvider theme={theme}>
-       <CssBaseline/>
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Suspense fallback={<LinearProgress/>}>
       <Paper variant="outlined" 
@@ -119,8 +114,6 @@ function List({profile,dashboards,isError}){
       </Paper>
       </Suspense>
       </Container>
-     </ThemeProvider>
-  </>
   );
 };
 
@@ -207,7 +200,7 @@ useEffect(()=>{
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
       setbalBttn(true);
 
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
   };
 
@@ -357,7 +350,7 @@ function DrawDashboard({data}) {
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
       setbalBttn(true);
 
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal.toFixed(4));
+      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
       if(Number(treasuryBal)>Number("0.0005")){
         setwithdrwB(false);
@@ -427,8 +420,6 @@ function ErrorComponent({message=null}){
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-       <CssBaseline />
         <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
         <Paper variant="outlined" 
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
@@ -439,7 +430,6 @@ function ErrorComponent({message=null}){
         </div>
         </Paper>
         </Container>
-     </ThemeProvider>
     </>
     )
 }

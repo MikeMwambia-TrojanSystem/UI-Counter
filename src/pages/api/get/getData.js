@@ -2,7 +2,7 @@ const axios =require('axios');
 
 exports.getData = async function(_url=null) {
 
-    const baseURL="https://api.counter.co.ke";
+    const baseURL= "http://api.test/api/";
 
     let _response = false;
 
@@ -10,7 +10,7 @@ exports.getData = async function(_url=null) {
       method:'get',
       url:`${baseURL}/${_url}`
     })
-    .then((response)=>{;
+    .then((response)=>{
       _response = response.data;
     })
     .catch((err)=>{

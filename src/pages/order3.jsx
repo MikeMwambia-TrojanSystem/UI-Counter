@@ -2,9 +2,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LinearProgress from "@mui/material/LinearProgress";
-import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import useSWR from "swr";
@@ -12,8 +10,6 @@ import { useRouter,useSearchParams } from 'next/navigation';
 import TextField from "@mui/material/TextField";
 import { getData } from "./api/get/getData.js";
 import { updateOrder }  from "./api/post/order.js";
-
-const theme = createTheme();
 
 function getSingleOrder (_id) {
 
@@ -78,8 +74,7 @@ export default function Order3() {
   
 
   return (
-      <ThemeProvider theme={theme}>
-      <CssBaseline/>
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>      
       <Box sx={{ m: 1,textAlign:"center" }}>
@@ -116,7 +111,6 @@ export default function Order3() {
       </Box>
       </Paper>
       </Container>
-    </ThemeProvider>
     );
 };
 

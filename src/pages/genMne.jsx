@@ -1,5 +1,4 @@
 import Paper from '@mui/material/Paper';
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
@@ -17,7 +16,6 @@ is allowed to input the mnemonic phrase
 ATM go out with this on ETH
 TODO:- Break this page into two parts
 */
-const theme = createTheme();
 
 export default function GenMnemonic(props) {
 
@@ -61,7 +59,7 @@ export default function GenMnemonic(props) {
 
     if(subStatus && phrase) {
 
-    const response = await genAddress('getAddress',{phrase:phrase});
+    const response = await genAddress('generateAddress',{phrase:phrase,chainID:'11155111'});
 
     if(false === response) return alert("Error occured refresh page and retry");
 
@@ -124,8 +122,7 @@ export default function GenMnemonic(props) {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+
       <Container component="main" maxWidth="sm" sx={{ mb: 2 }}>
       <Paper variant="outlined" 
       sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> 
@@ -163,8 +160,7 @@ export default function GenMnemonic(props) {
           <label>
           <input type="checkbox" name="subStatus"
           checked={subStatus} onChange={handleChange}/>
-            I understand that {props.unique_link}.counter.co.ke or it's developer
-            cannot recover this phrase
+            I understand that the developer cannot recover this phrase
           </label>
         </form>
         <Button
@@ -196,7 +192,6 @@ export default function GenMnemonic(props) {
 
       </Paper>
       </Container>
-    </ThemeProvider> 
   );
 }
 

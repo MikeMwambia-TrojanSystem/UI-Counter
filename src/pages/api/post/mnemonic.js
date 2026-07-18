@@ -3,7 +3,7 @@ const { validCreate } = require("./schema/mnemonicSchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://ethereum.counter.co.ke";
+const baseURL= "/wallet"; //"http://generator.test/wallet";
 
 exports.genAddress = async function(_url,_data) {
 

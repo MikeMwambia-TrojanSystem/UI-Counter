@@ -3,7 +3,7 @@ const { validCreate } = require("./schema/profileSchema.js");
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+const API_BASE = '/api/profile';
 
 exports.createProfile = async function(_url,_data) {
 
@@ -13,9 +13,11 @@ exports.createProfile = async function(_url,_data) {
 
     let _response = false;
 
+    const url = `${API_BASE}/${_url}`;
+
     await axios({
       method:'post',
-      url:`${baseURL}/${_url}`,
+      url:url,
       headers: {
           'content-type': 'application/json'
       },
@@ -44,7 +46,6 @@ exports.createProfile = async function(_url,_data) {
       ]
     })
     .then((response)=>{
-
       if(true===response.data.creation){
          _response = response.data;
       }else{
