@@ -8,7 +8,7 @@ import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { updateOrder }  from "./api/post/order.js";
-import { balInEth,valInEth } from "../utils/addressUtills.js";
+//import { balInEth,valInEth } from "../utils/addressUtills.js";
 import { balInKshs,cryptoAmnt } from "../utils/ui_utills.js";
 import TextField from "@mui/material/TextField";
 import useSWR from "swr";
