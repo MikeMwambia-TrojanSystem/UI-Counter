@@ -3,7 +3,8 @@ const { validCreate } = require("./schema/mnemonicSchema.js");
 
 const axios =require('axios');
 
-const baseURL= "/wallet"; //"http://generator.test/wallet";
+//const baseURL= "/wallet"; 
+const baseURL= "http://generator.test/wallet";
 
 exports.genAddress = async function(_url,_data) {
 
@@ -35,11 +36,11 @@ exports.genAddress = async function(_url,_data) {
       ]
     })
     .then((response)=>{
+      console.log(response);
       _response = response.data;
     })
     .catch((err)=>{
       console.log(err);
-
       _response = false;
     });//Update error
 

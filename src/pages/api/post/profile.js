@@ -3,8 +3,8 @@ const { validCreate } = require("./schema/profileSchema.js");
 
 const axios =require('axios');
 
-const API_BASE = '/api/profile';
-
+//const API_BASE = '/api/profile';
+const API_BASE = 'http://api.test/api/profile';
 exports.createProfile = async function(_url,_data) {
 
   const valid = await validCreate(_data);

@@ -2,6 +2,7 @@ const axios =require('axios');
 
 exports.getData = async function(_url=null) {
 
+    //const baseURL= "/api";
     const baseURL= "http://api.test/api/";
 
     let _response = false;

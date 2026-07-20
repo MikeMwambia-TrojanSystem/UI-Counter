@@ -3,8 +3,8 @@ const { validCreate } = require("./schema/treasurySchema.js");
 
 const axios =require('axios');
 
-const baseURL= "/api/treasury";
-//"http://api.test/api/treasury";
+//const baseURL= "/api/treasury";
+const baseURL= "http://api.test/api/treasury";
 
 
 exports.createTreasury = async function(_url,_data) {
@@ -104,7 +104,7 @@ exports.getBalTInEth_ = async function(_address) {
 
 exports.isContract = async function(_address) {
     try {
-        const response = await axios.get('http://heartbeat.test/heartbeat/getCode', {
+        const response = await axios.get('/heartbeat/getCode', {
             params: { address: _address }
         });
         

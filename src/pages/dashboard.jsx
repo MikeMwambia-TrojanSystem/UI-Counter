@@ -14,7 +14,7 @@ export default function Dashboard() {
   const { data: price } = useSWR("api/v3/ticker/price?symbol=ETHUSDT", getPrice, {
     refreshInterval: 10000,
   });
-  const { data: dashboards } = useSWR(`getactivedashboard`, getData);
+  const { data: dashboards } = useSWR(`dashboard/getactivedashboard`, getData);
 
   if (!dashboards || !price) {
     return (
