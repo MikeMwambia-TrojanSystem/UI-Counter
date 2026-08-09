@@ -43,10 +43,8 @@ import Avatar from "@mui/material/Avatar";
 import treasuryQR from "../utils/treasuryQR.js";
 import copy from "../utils/copy.js";
 import useSWR from "swr";
-import { deleteDashboard,withdrawDashboard } from "./api/post/dashboard.js";
-import { getData } from "./api/get/getData.js";
-import { _Time }  from "../utils/ui_utills.js";
-import { getBalInEth_ } from "./api/get/getBalInEth.js";
+import { deleteDashboard, withdrawDashboard, getData, getBalInEth_ } from "../lib/apiClient.js";
+import { _Time } from "../utils/ui_utills.js";
 
 function getAllDashboards () {
 
@@ -171,7 +169,7 @@ const edit = (id) => router.replace({pathname:"/editDashboard",query:{x:id}},"/e
 
 const _remove = async (id) =>{
 
-  const response = await deleteDashboard('deleteDashboard',id);
+  const response = await deleteDashboard(id);
 
   if(response === false){
 
@@ -305,7 +303,7 @@ function DrawDashboard({data}) {
 
   const auth = async (id) => {
 
-    const response = await withdrawDashboard('withdrawT',id);
+    const response = await withdrawDashboard(id);
 
     /*
     TODO
@@ -333,7 +331,7 @@ function DrawDashboard({data}) {
 
   const _remove = async (id) =>{
 
-    const response = await deleteDashboard('deleteDashboard',id);
+    const response = await deleteDashboard(id);
 
     if(response === false){
 
@@ -455,7 +453,7 @@ async function utills(name=null,id=null){
 
   case '/removeDashboard' :
 
-    const response = await deleteDashboard('deleteDashboard',id);
+    const response = await deleteDashboard(id);
 
     if(response === false){
 

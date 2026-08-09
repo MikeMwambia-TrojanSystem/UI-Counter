@@ -9,10 +9,8 @@ import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
-import {updateDashboard} from "./api/post/dashboard.js";
-import { isContract }  from "./api/post/treasury.js";
+import { updateDashboard, isContract, getData } from "../lib/apiClient.js";
 import useSWR from "swr";
-import { getData } from "./api/get/getData.js";
 import Link from 'next/link';
 
 
@@ -128,7 +126,7 @@ function DashboardForm({dashboard}){
 
     dashboard_.origin_Address = origin_Address;
 
-    const response = await updateDashboard('updatedashboard',dashboard_);
+    const response = await updateDashboard(dashboard_);
 
     if(response === false){
 

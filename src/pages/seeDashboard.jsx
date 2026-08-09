@@ -10,9 +10,7 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Container from "@mui/material/Container";
 import AppHeader from "../components/header";
 import { useRouter,useSearchParams } from 'next/navigation';
-import { createDashboard } from "./api/post/dashboard.js";
-import { getData } from "./api/get/getData.js";
-import { getPrice } from "./api/get/getPrice.js";
+import { createDashboard, getData, getPrice } from "../lib/apiClient.js";
 import { priceInKshs } from "../utils/ui_utills.js";
 
 /*
@@ -213,7 +211,7 @@ export default function Dashboard() {
         orders:0
       };
 
-      const response = await createDashboard('/createdashboard',dashboard);
+      const response = await createDashboard(dashboard);
       
       if(response === false){
         setdashboardSt(false);

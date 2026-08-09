@@ -7,9 +7,9 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Container from "@mui/material/Container";
 import AppHeader from "../components/header";
-import {createAsset}  from "./api/post/asset.js";
+import { createAsset } from "../lib/apiClient.js";
 import { useRouter,useSearchParams } from 'next/navigation';
-import { getPrice } from "./api/get/getPrice.js";
+import { getPrice } from "../lib/apiClient.js";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -58,7 +58,7 @@ export default function Asset() {
       name:'ETHEREUM' //Completely remove this 4 now keep it
     };
 
-    const response = await createAsset('createasset',data);
+    const response = await createAsset(data);
 
     if(false===response){
       setDisabled(false);

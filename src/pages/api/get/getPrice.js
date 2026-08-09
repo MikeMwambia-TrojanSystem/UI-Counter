@@ -1,22 +1,12 @@
-const axios =require('axios');
+import { getPrice } from "../../../server/services/price.js";
 
-exports.getPrice = async function(_url=null) {
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return res.status(405).json(false);
+  }
 
-    const baseURL="https://data-api.binance.vision";
-
-    let _response = false;
-
-    await axios({
-      method:'get',
-      url:`${baseURL}/${_url}`
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });
-
-    return _response;
-
-};
+  const { path } = req.query;
+  const result = await getPrice(path);
+  return res.status(200).json(result);
+}

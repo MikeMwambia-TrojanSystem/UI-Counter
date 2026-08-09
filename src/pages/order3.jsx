@@ -8,8 +8,7 @@ import Container from "@mui/material/Container";
 import useSWR from "swr";
 import { useRouter,useSearchParams } from 'next/navigation';
 import TextField from "@mui/material/TextField";
-import { getData } from "./api/get/getData.js";
-import { updateOrder }  from "./api/post/order.js";
+import { getData, updateOrder } from "../lib/apiClient.js";
 
 function getSingleOrder (_id) {
 

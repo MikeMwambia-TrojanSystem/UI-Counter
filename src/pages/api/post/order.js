@@ -1,105 +1,17 @@
-//Create asset API
-const { validCreate,order_1Check,order_2Check } = require("./schema/orderSchema.js");
+import { createOrder, updateOrder } from "../../../server/services/order.js";
 
-const axios =require('axios');
-
-const baseURL="https://api.counter.co.ke";
-
-exports.createOrder = async function(_url,_data) {
-
-  const valid = await validCreate(_data);
-
-  if(valid === true){
-
-    let _response = false;
-
-    await axios({
-      method:'post',
-      headers: {
-          'content-type': 'application/json'
-      },
-      url:`${baseURL}/${_url}`,
-      params :_data,
-      transformRequest: [
-        function(data, headers) {
-          const serializedData = []
-
-          for (const k in data) {
-            if (data[k]) {
-              serializedData.push(`${k}=${encodeURIComponent(data[k])}`)
-            }
-          }
-
-          return serializedData.join('&')
-        }
-      ]
-    })
-    .then((response)=>{
-      _response = response?.data?.id;
-    })
-    .catch((err)=>{
-      _response = false;
-    });
-
-    return _response
-    
+export default async function handler(req, res) {
+  switch (req.method) {
+    case "POST": {
+      const result = await createOrder("createorder", req.body);
+      return res.status(200).json(result);
+    }
+    case "PUT": {
+      const result = await updateOrder("updateorder", req.body);
+      return res.status(200).json(result);
+    }
+    default:
+      res.setHeader("Allow", "POST, PUT");
+      return res.status(405).json(false);
   }
-
-  return false;
-
-}
-
-
-exports.updateOrder = async function(_url,_data) {
-
-const form = _data.form;
-
-switch(form){
-
-case 'order_1':
-
-    const order1Update = order_1Check(_data);
-    if(order1Update){
-      let response = await updateData(_url,_data);
-      return response;
-    }
-    return false;
-
-  break;
-
-case 'order_2':
-
-    const order2Update = order_2Check(_data);
-    if(order2Update){
-      let response = await updateData(_url,_data);
-      return response;
-    }
-    return false;
-
-  break;
-
-default : return false;
-  break;
-
-}
-
-    async function updateData(_url,data){
-      let _response = false;
-
-          await axios({
-            method:'PUT',
-            url:`${baseURL}/${_url}`,
-            data :_data
-          })
-          .then((response)=>{
-            _response = response.data;
-          })
-          .catch((err)=>{
-            console.log(err);
-            _response = false;
-          });
-
-          return _response
-    }
-
 }

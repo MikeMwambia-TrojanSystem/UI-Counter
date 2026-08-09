@@ -1,89 +1,21 @@
-const axios =require('axios');
-const bip39 = require('bip39');
-const Moralis = require('moralis');
+// Kept for parity with the pre-restructure module -- not currently called
+// from any page (see audit notes). Wired up as a real route in case it's
+// needed; safe to delete if it stays unused.
+import { isAddress, getWalletHistory } from "../../../server/services/address.js";
 
-const baseURL="https://ethereum.counter.co.ke";
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return res.status(405).json(false);
+  }
 
-exports.isAddress = async function(_url=null) {
+  const { path, walletHistoryFor } = req.query;
 
-    let _response = false;
+  if (walletHistoryFor) {
+    const history = await getWalletHistory(walletHistoryFor);
+    return res.status(200).json(history);
+  }
 
-    //@ToDo 
-    //customize headers across the entire stack 4 prod
-    await axios({
-      method:'get',
-      url:`${baseURL}/${_url}`,
-      headers:{'Access-Control-Allow-Origin': '*'}//Remove this pre production
-    })
-    .then((response)=>{
-      _response = response;
-    })
-    .catch((err)=>{
-      _response = false;
-    });
-
-    return _response;
-
-};
-
-exports.getMnemonic = async function(){
-
-  return bip39.generateMnemonic();
-
-};
-
-
-exports.getBalInEth = async function(_url=null,_data=null) {
-
-
-    let _response = false;
-
-    await axios({
-      method:'post',
-      url:`${baseURL}/${_url}`,
-      data :_data
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });//Update error
-
-    return _response
-
-};
-
-
-
-exports.getWalletHistory = async function(_address){
-
-
-  const timeNowInSeconds = Math.round(Date.now()/1000);
-  const oneWeekAgo = Math.round(timeNowInSeconds - 604800);
-
-try {
-
-  await Moralis.start({
-    apiKey: process.env.moralis_api_key
-  });
-
-  const response = await Moralis.EvmApi.wallets.getWalletHistory({
-    "chain": "0x1",
-    "order": "DESC",
-    "limit": 10,
-    "fromDate": `${oneWeekAgo}`,
-    "toDate": `${timeNowInSeconds}`,
-    "address": `${_address}`
-  });
-
-  return response;
-
-} catch (e) {
-
-  return false;
-
-};
-
-};
-
+  const result = await isAddress(path);
+  return res.status(200).json(result);
+}

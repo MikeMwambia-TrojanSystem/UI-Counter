@@ -10,7 +10,7 @@ import AppHeader from "../components/header";
 import useSWR from "swr";
 import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
-import { createTreasury,isContract }  from "./api/post/treasury.js";
+import { createTreasury, isContract } from "../lib/apiClient.js";
 
 export default function Treasury(props) {
 
@@ -36,7 +36,7 @@ export default function Treasury(props) {
 
     if(!isValid) return alert('Address error');
 
-    const response = await createTreasury('createtreasury',data);
+    const response = await createTreasury(data);
 
     if(response === false){
 

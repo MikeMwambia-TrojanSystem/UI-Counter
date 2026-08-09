@@ -9,7 +9,7 @@ import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import {useRouter,useSearchParams} from 'next/navigation';
 import TextField from "@mui/material/TextField";
-import { getReciept }  from "./api/get/getReciept.js";
+import { getReciept } from "../lib/apiClient.js";
 
 export default function Order4() {
 

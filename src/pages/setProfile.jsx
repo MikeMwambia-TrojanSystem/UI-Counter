@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import Container from "@mui/material/Container";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
-import { createProfile }   from "./api/post/profile.js";
+import { createProfile } from "../lib/apiClient.js";
 
 /* TODO :- 
   Restructure this code to allow the user to choose 
@@ -48,7 +48,7 @@ export default function Profile(props) {
       r_t : timestamp
     };
 
-    const response = await createProfile('createprofile',data);
+    const response = await createProfile(data);
 
     if(response === false){
       setDisabled(false);

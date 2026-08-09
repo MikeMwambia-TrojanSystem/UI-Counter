@@ -22,8 +22,8 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import Button from '@mui/material/Button';
-import { getBalInEth_ } from "../pages/api/get/getBalInEth.js";
-import { priceInKshs,balInKshs } from "../pages/api/get/priceUtills.js";
+import { getBalInEth_ } from "../lib/apiClient.js";
+import { priceInKshs, balInKshs } from "../utils/priceUtills.js";
 
 export default function MainDashBoard({dashboard,price}) {
 

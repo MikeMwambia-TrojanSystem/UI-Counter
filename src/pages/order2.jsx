@@ -5,16 +5,29 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter, useSearchParams } from "next/navigation";
-import { updateOrder } from "./api/post/order.js";
-import { isAddressValid } from "./api/post/treasury.js";
-import { getBalInEth_ } from "../pages/api/post/treasury.js";
+import { updateOrder, getBalInEth_ } from "../lib/apiClient.js";
+import { isAddress } from "../utils/addressUtills.js";
 import GradientCard from "../components/GradientCard";
 import CardNavButton from "../components/CardNavButton";
 
-// NOTE: this is a styling-only pass. The "treasury balance covers this
-// order" check below is still client-side only -- that's a functional/
-// security fix tracked separately (see Suggested_Code_Fixes.pdf, item 11),
-// not something this theme script changes.
+// FIXED (see audit notes): this previously imported `isAddressValid` from
+// "./api/post/treasury.js" and `getBalInEth_` from
+// "../pages/api/post/treasury.js" -- neither export existed (treasury.js
+// never exported `isAddressValid` at all, and its `getBalInEth_` was
+// commented out under the *different* name `getBalTInEth_`). Both calls
+// threw/no-opped at runtime, which is why the address field's submit
+// button could never actually enable. Now points at the real, working
+// implementations: `isAddress` is the pure client-side format check in
+// utils/addressUtills.js, and `getBalInEth_` is the apiClient wrapper
+// around the real /api/get/getBalInEth route.
+//
+// NOTE: this is still a styling-adjacent bug fix, not a security fix. The
+// "treasury balance covers this order" check below still runs entirely in
+// the browser and is trivially bypassable (anyone can edit `cryptoValue`
+// in devtools or skip this page and call the API route directly) -- moving
+// that check to be server-authoritative is a real product/API change that
+// needs its own review, flagged separately in the audit write-up, not
+// something this restructure attempts to fix unilaterally.
 export default function Order2() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -28,7 +41,7 @@ export default function Order2() {
   const _isAddress = async () => {
     try {
       const crypto_address = document.getElementById("crypto_address").value || null;
-      const valid = await isAddressValid(crypto_address);
+      const valid = await isAddress(crypto_address);
       setStatus(!valid);
     } catch (err) {
       return false;
@@ -38,13 +51,13 @@ export default function Order2() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const crypto_address = document.getElementById("crypto_address").value || null;
-    const isAddressS = await isAddressValid(crypto_address);
+    const isAddressS = await isAddress(crypto_address);
     const treasuryAmnt = await getBalInEth_(asset_treasury, "safe");
 
     if (treasuryAmnt > cryptoValue) {
       if (isAddressS) {
         const data = { _id: order_id, crypto_address: crypto_address, form: "order_2" };
-        const response = await updateOrder("updateorder", data);
+        const response = await updateOrder(data);
         if (response === false) {
           alert("Error refresh page and try again");
         } else {

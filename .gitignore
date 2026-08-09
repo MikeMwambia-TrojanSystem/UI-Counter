@@ -37,8 +37,16 @@ jspm_packages
 .node_repl_history
 .next
 
-# Env
+# Env -- was just `.env`, which does NOT match Next.js's own
+# .env.local / .env.development.local / .env.production.local
+# convention. A dev following Next's own docs for local secrets
+# would not have been protected by the old pattern.
 .env
+.env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # Yarn 
 .yarn/*

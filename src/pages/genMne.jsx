@@ -6,8 +6,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import { useState } from "react";
-import { getMnemonic } from "../pages/api/get/addressUtils.js";
-import { genAddress }  from "../pages/api/post/mnemonic.js";
+import { getMnemonic } from "../utils/mnemonic.js";
+import { genAddress } from "../lib/apiClient.js";
 import { useRouter,useSearchParams } from 'next/navigation';
 
 /*
@@ -59,7 +59,7 @@ export default function GenMnemonic(props) {
 
     if(subStatus && phrase) {
 
-    const response = await genAddress('generateAddress',{phrase:phrase,chainID:'11155111'});
+    const response = await genAddress({phrase:phrase,chainID:'11155111'});
 
     if(false === response) return alert("Error occured refresh page and retry");
 

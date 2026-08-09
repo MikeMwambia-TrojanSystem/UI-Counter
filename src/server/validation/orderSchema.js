@@ -27,8 +27,18 @@ const order_1Update = {
   $$strict: true 
 };
 
+// Was `return v.compile(order_1Update);` -- that recompiles the schema and
+// hands back the compiled *validator function itself* without ever running
+// it against `data`. A function reference is always truthy, so every
+// caller's `if (order_1Check(...))` passed unconditionally no matter what
+// was submitted -- order_1 updates were effectively unvalidated. Compiling
+// once at module load and invoking the compiled check against `data` is
+// what every other export in this file already does (see
+// validCreate/updateCheck/codeCheck).
+const _order1Check = v.compile(order_1Update);
+
 exports.order_1Check = async function(data){
-  return v.compile(order_1Update);
+  return _order1Check(data);
 };
 
 
@@ -40,8 +50,11 @@ const order_2Update = {
   $$strict: true 
 };
 
+// Same bug as order_1Check above, same fix.
+const _order2Check = v.compile(order_2Update);
+
 exports.order_2Check = async function(data){
-  return v.compile(order_2Update);
+  return _order2Check(data);
 };
 
 

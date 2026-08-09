@@ -1,5 +1,5 @@
 import { useRouter,useSearchParams } from 'next/navigation';
-import { createOrder }  from "./api/post/order.js";
+import { createOrder } from "../lib/apiClient.js";
 import Link from 'next/link';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -47,7 +47,7 @@ export default function Order(props) {
       asset_treasury:asset_treasury
     };
     
-    const response = await createOrder('createorder',data);
+    const response = await createOrder(data);
 
     if(response === false){
       alert('Error refresh page and try again');

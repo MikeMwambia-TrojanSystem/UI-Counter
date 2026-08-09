@@ -1,28 +1,12 @@
-const axios =require('axios').default;
+import { getReciept } from "../../../server/services/receipt.js";
 
-exports.getReciept = async function(_url=null) {
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return res.status(405).json(false);
+  }
 
-    //const baseURL= `/payReciept`; 
-    const baseURL= "http://confirmation.test/";
-
-    let _response = false;
-
-    await axios({
-      method:'get',
-      url:`${baseURL}/${_url}`,
-      headers:{
-        'Access-Control-Allow-Origin': '*',
-        'content-type': 'application/json',
-        'Accept': 'application/json'
-      }//Remove this pre production
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });//Update error
-
-    return _response;
-
-};
+  const { path } = req.query;
+  const result = await getReciept(path);
+  return res.status(200).json(result);
+}

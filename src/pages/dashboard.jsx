@@ -7,8 +7,7 @@ import StickyFooter from "../components/footer";
 import MainDashboard from "../components/maindashboard";
 import GradientCard from "../components/GradientCard";
 import useSWR from "swr";
-import { getData } from "./api/get/getData.js";
-import { getPrice } from "./api/get/getPrice.js";
+import { getData, getPrice } from "../lib/apiClient.js";
 
 export default function Dashboard() {
   const { data: price } = useSWR("api/v3/ticker/price?symbol=ETHUSDT", getPrice, {

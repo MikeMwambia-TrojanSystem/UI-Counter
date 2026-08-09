@@ -7,7 +7,7 @@ import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import { useSearchParams } from 'next/navigation';
 import LinearProgress from "@mui/material/LinearProgress";
-import { getData } from "./api/get/getData.js";
+import { getData } from "../lib/apiClient.js";
 import IconButton from '@mui/material/IconButton';
 import Link from 'next/link';
 import AddIcon from '@mui/icons-material/Add';

@@ -1,24 +1,12 @@
-const axios =require('axios');
+import { getData } from "../../../server/services/data.js";
 
-exports.getData = async function(_url=null) {
+export default async function handler(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    return res.status(405).json(false);
+  }
 
-    //const baseURL= "/api";
-    const baseURL= "http://api.test/api/";
-
-    let _response = false;
-
-    await axios({
-      method:'get',
-      url:`${baseURL}/${_url}`
-    })
-    .then((response)=>{
-      _response = response.data;
-    })
-    .catch((err)=>{
-      _response = false;
-    });//Update error
-
-    return _response;
-
-};
-
+  const { path } = req.query;
+  const result = await getData(path);
+  return res.status(200).json(result);
+}

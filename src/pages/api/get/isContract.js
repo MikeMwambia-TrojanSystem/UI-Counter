@@ -1,4 +1,4 @@
-import { getBalInEth_ } from "../../../server/services/balance.js";
+import { isContract } from "../../../server/services/treasury.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -7,6 +7,6 @@ export default async function handler(req, res) {
   }
 
   const { address } = req.query;
-  const result = await getBalInEth_(address);
+  const result = await isContract(address);
   return res.status(200).json(result);
 }

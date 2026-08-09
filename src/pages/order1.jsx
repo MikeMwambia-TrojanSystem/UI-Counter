@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import AppHeader from "../components/header";
 import Container from "@mui/material/Container";
 import { useRouter,useSearchParams } from 'next/navigation';
-import { updateOrder }  from "./api/post/order.js";
+import { updateOrder } from "../lib/apiClient.js";
 //import { balInEth,valInEth } from "../utils/addressUtills.js";
 import { balInKshs,cryptoAmnt } from "../utils/ui_utills.js";
 import TextField from "@mui/material/TextField";
@@ -103,7 +103,7 @@ const _cryptoAmnt = async (event) => {
           form:'order_1'
         };
 
-        const response = await updateOrder('updateorder',data);
+        const response = await updateOrder(data);
 
         if(response === false){
           alert('Error refresh page and try again');
