@@ -105,8 +105,8 @@ exports.withdrawDashboard = async function(_url,_id){
     let _response = false;
 
     await axios({
-      method:'post',
-      url:`${baseURL}/${_url}`,
+      method:'put',
+      url:`http://api.test/api/utill/${_url}`,
       data :{
         id:_id
       }

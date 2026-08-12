@@ -55,7 +55,7 @@ exports.getBalInEth = async function(_url=null,_data=null) {
 };
 
 
-
+/*
 exports.getWalletHistory = async function(_address){
 
 
@@ -86,4 +86,4 @@ try {
 };
 
 };
-
+*/

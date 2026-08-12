@@ -55,10 +55,6 @@ export default function Dashboard() {
             A platform that gives you the freedom to price your crypto. You are running on
             Ethereum Sepolia TESTNET.
           </Typography>
-          <Typography variant="body1" color="text.secondary">
-            For up to Kshs 13 a day on a pay-per-use basis, you can have access to a configured
-            account and trade over 50 currencies.
-          </Typography>
         </GradientCard>
 
         <Box sx={{ display: "grid", gap: 3, gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" } }}>

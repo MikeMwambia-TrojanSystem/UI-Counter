@@ -104,7 +104,11 @@ exports.getBalTInEth_ = async function(_address) {
 
 exports.isContract = async function(_address) {
     try {
-        const response = await axios.get('/heartbeat/getCode', {
+        /*const response = await axios.get('/heartbeat/getCode', {
+            params: { address: _address }
+        });*/
+        //Local env test
+        const response = await axios.get('http://heartbeat.test/heartbeat/getCode', {
             params: { address: _address }
         });
         

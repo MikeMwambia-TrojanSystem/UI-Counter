@@ -54,9 +54,6 @@ COPY --from=builder --chown=front-user:front-group /front/.yarn ./.yarn
 COPY --from=builder --chown=front-user:front-group /front/.pnp.cjs ./.pnp.cjs
 COPY --from=builder --chown=front-user:front-group /front/.pnp.loader.mjs ./.pnp.loader.mjs
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 USER front-user
 
 EXPOSE 3000
@@ -64,5 +61,4 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/welcome || exit 1
   
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["corepack", "yarn", "start"]

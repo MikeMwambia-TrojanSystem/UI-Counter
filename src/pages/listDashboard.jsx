@@ -198,10 +198,8 @@ useEffect(()=>{
   const _updateTreasuryBal = async (asset_treasury) =>{
 
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
-      console.log(treasuryBal)
       setbalBttn(true);
-
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
+      (false===treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
   };
 
@@ -349,9 +347,9 @@ function DrawDashboard({data}) {
   const _updateTreasuryBal = async (asset_treasury) =>{
 
       let treasuryBal = await getBalInEth_(asset_treasury,'latest');
-      setbalBttn(true);
 
-      (!treasuryBal)?setBal('0.0'):setBal(treasuryBal);
+      setbalBttn(true);
+      (false===treasuryBal)?setBal('0.0'):setBal(treasuryBal);
 
       if(Number(treasuryBal)>Number("0.0005")){
         setwithdrwB(false);
