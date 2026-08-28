@@ -3,7 +3,7 @@ const { validCreate,order_1Check,order_2Check } = require("./schema/orderSchema.
 
 const axios =require('axios');
 
-const baseURL="https://api.counter.co.ke";
+const baseURL="http://api.test/api/order";
 
 exports.createOrder = async function(_url,_data) {
 
@@ -83,7 +83,7 @@ default : return false;
 
 }
 
-    async function updateData(_url,data){
+    async function updateData(_url,_data){
       let _response = false;
 
           await axios({

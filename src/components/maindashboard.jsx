@@ -130,7 +130,7 @@ export default function MainDashBoard({dashboard,price}) {
                 </Button>
               </div>
               <div sx={{ "& button": { m: 1 } }}>
-             Successfull trades 7 trades , unsuccessfult trades 0.
+             Successfull trades 0 trades , unsuccessfult trades 0.
               </div>
             </React.Fragment>
           }

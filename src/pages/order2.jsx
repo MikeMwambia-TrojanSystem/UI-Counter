@@ -6,8 +6,8 @@ import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import { useRouter, useSearchParams } from "next/navigation";
 import { updateOrder } from "./api/post/order.js";
-import { isAddressValid } from "./api/post/treasury.js";
-import { getBalInEth_ } from "../pages/api/post/treasury.js";
+import { isContract } from "./api/post/treasury.js";
+import { getBalInEth_ } from "../pages/api/get/getBalInEth.js";
 import GradientCard from "../components/GradientCard";
 import CardNavButton from "../components/CardNavButton";
 
@@ -28,7 +28,7 @@ export default function Order2() {
   const _isAddress = async () => {
     try {
       const crypto_address = document.getElementById("crypto_address").value || null;
-      const valid = await isAddressValid(crypto_address);
+      const valid = await isContract(crypto_address);
       setStatus(!valid);
     } catch (err) {
       return false;
@@ -38,8 +38,8 @@ export default function Order2() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const crypto_address = document.getElementById("crypto_address").value || null;
-    const isAddressS = await isAddressValid(crypto_address);
-    const treasuryAmnt = await getBalInEth_(asset_treasury, "safe");
+    const isAddressS = await isContract(crypto_address);
+    const treasuryAmnt = await getBalInEth_(asset_treasury);
 
     if (treasuryAmnt > cryptoValue) {
       if (isAddressS) {
